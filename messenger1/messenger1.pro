@@ -1,4 +1,4 @@
-QT       += core gui network
+QT       += core gui network uitools
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -18,6 +18,7 @@ HEADERS += \
     mainwindow.h
 
 FORMS += \
+    Login.ui \
     mainwindow.ui
 
 # Default rules for deployment.

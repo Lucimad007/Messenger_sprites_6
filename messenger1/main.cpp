@@ -1,4 +1,5 @@
 #include "mainwindow.h"
+#include "ui_Login.h"
 
 #include <QApplication>
 #include "apimanager.h"
