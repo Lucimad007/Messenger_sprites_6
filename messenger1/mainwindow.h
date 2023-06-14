@@ -13,7 +13,18 @@ class MainWindow : public QMainWindow
 
 public:
     MainWindow(QWidget *parent = nullptr);
+    void setLoginUI();
+    void setRegisterUI();
     ~MainWindow();
+
+private slots:
+    void on_loginBtn_clicked();
+
+    void on_signUpBtn_clicked();
+
+    void on_registerBtn_clicked();
+
+    void on_backBtn_clicked();
 
 private:
     Ui::MainWindow *ui;

@@ -1,4 +1,4 @@
-QT       += core gui network
+QT       += core gui network uitools
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -20,7 +20,9 @@ HEADERS += \
     user.h
 
 FORMS += \
-    mainwindow.ui
+    Login.ui \
+    mainwindow.ui \
+    register.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
