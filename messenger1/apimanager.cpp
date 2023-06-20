@@ -103,6 +103,39 @@ void APIManager::getChannelList(const QString &token){
     QNetworkRequest request(url);
     m_networkManager.get(request);
 }
+void APIManager::getUsersChat(const QString &token, QString &dst){
+    QString apiURL = "http://api.barafardayebehtar.ml:8080/getuserchats";
+    QUrl url(apiURL);
+    QUrlQuery query;
+    query.addQueryItem("token",token);
+    query.addQueryItem("dst",dst);
+    url.setQuery(query);
+
+    QNetworkRequest request(url);
+    m_networkManager.get(request);
+}
+void APIManager::getGroupChat(const QString &token, QString &dst){
+    QString apiURL = "http://api.barafardayebehtar.ml:8080/getgroupchats";
+    QUrl url(apiURL);
+    QUrlQuery query;
+    query.addQueryItem("token",token);
+    query.addQueryItem("dst",dst);
+    url.setQuery(query);
+
+    QNetworkRequest request(url);
+    m_networkManager.get(request);
+}
+void APIManager::getChannelChat(const QString &token, const QString &dst){
+    QString apiURL = "http://api.barafardayebehtar.ml:8080/getchannelchats";
+    QUrl url(apiURL);
+    QUrlQuery query;
+    query.addQueryItem("token",token);
+    query.addQueryItem("dst",dst);
+    url.setQuery(query);
+
+    QNetworkRequest request(url);
+    m_networkManager.get(request);
+}
 void APIManager::onReplyFinished(QNetworkReply *reply){
     if(reply->error() == QNetworkReply::NoError){
         QByteArray responseData = reply->readAll();

@@ -27,5 +27,15 @@ int main(int argc, char *argv[])
     //getUsersList test ?????
     //getGroupList test ????
     //get ChannelList test???
+
+
+    //Remmeber to overload this funcs with data !!!
+    //getUsers Chat test?
+    //apiManager.getUsersChat();
+
+    //getGroup Chat test?
+    //apiManager.getUsersChat();
+
+
     return a.exec();
 }
