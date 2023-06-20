@@ -25,6 +25,7 @@ int main(int argc, char *argv[])
     //apiManager.creatChannel("107beb12166aa8961be46848a7bc19c3","First_matin_channel","Math");
 
     //getUsersList test ?????
+    //getGroupList test ????
 
     return a.exec();
 }
