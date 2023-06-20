@@ -161,6 +161,42 @@ void APIManager::joinChannel(const QString &token, const QString &channel_name){
     QNetworkRequest request(url);
     m_networkManager.get(request);
 }
+void APIManager::sendMessageUser(const QString &token, const QString &dst, const QString &body){
+    QString apiURL = "http://api.barafardayebehtar.ml:8080/sendmessageuser";
+    QUrl url(apiURL);
+    QUrlQuery query;
+    query.addQueryItem("token",token);
+    query.addQueryItem("dst",dst);
+    query.addQueryItem("body",body);
+    url.setQuery(query);
+    //sending api
+    QNetworkRequest request(url);
+    m_networkManager.get(request);
+}
+void APIManager::sendMessageGroup(const QString &token, const QString &dst, const QString &body){
+    QString apiURL = "http://api.barafardayebehtar.ml:8080/sendmessagegroup";
+    QUrl url(apiURL);
+    QUrlQuery query;
+    query.addQueryItem("token",token);
+    query.addQueryItem("dst",dst);
+    query.addQueryItem("body",body);
+    url.setQuery(query);
+    //sending api
+    QNetworkRequest request(url);
+    m_networkManager.get(request);
+}
+void APIManager::sendMessageChannel(const QString &token, const QString &dst, const QString &body){
+    QString apiURL = "http://api.barafardayebehtar.ml:8080/sendmessagechannel";
+    QUrl url(apiURL);
+    QUrlQuery query;
+    query.addQueryItem("token",token);
+    query.addQueryItem("dst",dst);
+    query.addQueryItem("body",body);
+    url.setQuery(query);
+    //sending api
+    QNetworkRequest request(url);
+    m_networkManager.get(request);
+}
 void APIManager::onReplyFinished(QNetworkReply *reply){
     if(reply->error() == QNetworkReply::NoError){
         QByteArray responseData = reply->readAll();

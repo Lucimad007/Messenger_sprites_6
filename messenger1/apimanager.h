@@ -32,6 +32,9 @@ public slots:
     //void getChannelChat(const QString &token ,const QString &dst,const QString &date); //it will overload soon
     void joinGroup(const QString &token , const QString &group_name);
     void joinChannel(const QString &token , const QString &channel_name);
+    void sendMessageUser(const QString &token,const QString &dst ,const QString &body);
+    void sendMessageGroup(const QString &token,const QString &dst ,const QString &body);
+    void sendMessageChannel(const QString &token,const QString &dst ,const QString &body);
 private slots:
     void onReplyFinished(QNetworkReply *reply);
 

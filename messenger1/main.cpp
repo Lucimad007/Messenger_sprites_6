@@ -9,7 +9,7 @@ int main(int argc, char *argv[])
     w.show();
     APIManager apiManager;
     //sign up test
-//    apiManager.signUp("matiiiiiiinTEST", "1234");
+    //apiManager.signUp("matiiiiiiinTEST", "1234");
 
     //login test
     //apiManager.logIn("matiiiiiiinTEST","1234");
@@ -40,5 +40,10 @@ int main(int argc, char *argv[])
     //join tests
     //apiManager.joinGroup();
     //apiManager.joinChannel();
+
+    //sending message test
+    //apiManager.sendMessageUser();
+    //apiManager.sendMessageGroup();
+    //apiManager.sendMessageChannel();
     return a.exec();
 }
