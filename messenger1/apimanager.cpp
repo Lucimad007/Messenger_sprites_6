@@ -70,6 +70,17 @@ void APIManager::creatChannel(const QString &token, const QString &channel_name,
     QNetworkRequest request(url);
     m_networkManager.get(request);
 }
+void APIManager::getUsersList(const QString &token){
+    QString apiURL = "http://api.barafardayebehtar.ml:8080/getuserlist";
+    QUrl url(apiURL);
+    QUrlQuery query;
+    query.setQueryItems("token",token);
+    url.setQuery(query);
+
+    //send
+    QNetworkRequest request(url);
+    m_networkManager.get(request);
+}
 void APIManager::onReplyFinished(QNetworkReply *reply){
     if(reply->error() == QNetworkReply::NoError){
         QByteArray responseData = reply->readAll();

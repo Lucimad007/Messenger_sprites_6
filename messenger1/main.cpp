@@ -22,6 +22,9 @@ int main(int argc, char *argv[])
     //apiManager.creatGroup("107beb12166aa8961be46848a7bc19c3","First_Matin_Group","Chess");
 
     //Creat_Channel test
-    apiManager.creatChannel("107beb12166aa8961be46848a7bc19c3","First_matin_channel","Math");
+    //apiManager.creatChannel("107beb12166aa8961be46848a7bc19c3","First_matin_channel","Math");
+
+    //getUsersList test ?????
+
     return a.exec();
 }

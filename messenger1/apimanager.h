@@ -21,6 +21,7 @@ public slots:
     void logOut(const QString &username, const QString &password);
     void creatGroup(const QString &token, const QString &group_name,const QString &group_title);
     void creatChannel(const QString &token, const QString &channel_name , const QString &channel_title);
+    void getUsersList(const QString &token);
 private slots:
     void onReplyFinished(QNetworkReply *reply);
 
