@@ -1,5 +1,5 @@
 #include "mainwindow.h"
-
+#include "user.h"
 #include <QApplication>
 #include "apimanager.h"
 int main(int argc, char *argv[])
@@ -8,6 +8,7 @@ int main(int argc, char *argv[])
     MainWindow w;
     w.show();
     APIManager apiManager;
+    User farhad = User("ASGHAR","9876","asgharFarhadi@gmail.com");
     //sign up test
     //apiManager.signUp("matiiiiiiinTEST", "1234");
 
@@ -45,5 +46,6 @@ int main(int argc, char *argv[])
     //apiManager.sendMessageUser();
     //apiManager.sendMessageGroup();
     //apiManager.sendMessageChannel();
+
     return a.exec();
 }

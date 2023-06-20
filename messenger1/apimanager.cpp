@@ -1,6 +1,6 @@
 #include "apimanager.h"
 #include<QUrlQuery>
-
+extern User farhad;
 APIManager::APIManager(QObject *parent) : QObject(parent)
 {
     connect(&m_networkManager,&QNetworkAccessManager::finished,this,&APIManager::onReplyFinished);

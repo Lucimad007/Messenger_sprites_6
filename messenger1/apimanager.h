@@ -7,6 +7,8 @@
 #include <QNetworkReply>
 #include <QString>
 
+#include "user.h"
+
 class APIManager : public QObject
 {
 
