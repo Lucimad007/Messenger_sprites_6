@@ -34,3 +34,9 @@ void User::setEmail( QString& email)
 {
     this->Email = email;
 }
+QString User::getToken(){
+    return this->token;
+}
+void User::setToken(QString &token){
+    this->token = token;
+}
