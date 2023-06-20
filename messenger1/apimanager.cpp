@@ -57,6 +57,19 @@ void APIManager::creatGroup(const QString &token, const QString &group_name, con
     QNetworkRequest request(url);
     m_networkManager.get(request);
 }
+void APIManager::creatChannel(const QString &token, const QString &channel_name, const QString &channel_title){
+    QString apiURL = "http://api.barafardayebehtar.ml:8080/createchannel";
+    QUrl url(apiURL);
+    QUrlQuery query;
+    query.addQueryItem("token",token);
+    query.addQueryItem("channel_name",channel_name);
+    query.addQueryItem("channel_title",channel_title);
+    url.setQuery(query);
+
+    //send
+    QNetworkRequest request(url);
+    m_networkManager.get(request);
+}
 void APIManager::onReplyFinished(QNetworkReply *reply){
     if(reply->error() == QNetworkReply::NoError){
         QByteArray responseData = reply->readAll();
