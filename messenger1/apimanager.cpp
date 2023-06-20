@@ -74,7 +74,7 @@ void APIManager::getUsersList(const QString &token){
     QString apiURL = "http://api.barafardayebehtar.ml:8080/getuserlist";
     QUrl url(apiURL);
     QUrlQuery query;
-    query.setQueryItems("token",token);
+    query.addQueryItem("token",token);
     url.setQuery(query);
 
     //send
@@ -85,7 +85,7 @@ void APIManager::getGroupList(const QString &token){
     QString apiURL = "http://api.barafardayebehtar.ml:8080/getgrouplist";
     QUrl url(apiURL);
     QUrlQuery query;
-    query.setQueryItems("token",token);
+    query.addQueryItem("token",token);
     url.setQuery(query);
 
     //send
@@ -93,6 +93,16 @@ void APIManager::getGroupList(const QString &token){
     m_networkManager.get(request);
 }
 
+void APIManager::getChannelList(const QString &token){
+    QString apiURL = "http://api.barafardayebehtar.ml:8080/getchannellist";
+    QUrl url(apiURL);
+    QUrlQuery query;
+    query.addQueryItem("token",token);
+    url.setQuery(query);
+
+    QNetworkRequest request(url);
+    m_networkManager.get(request);
+}
 void APIManager::onReplyFinished(QNetworkReply *reply){
     if(reply->error() == QNetworkReply::NoError){
         QByteArray responseData = reply->readAll();

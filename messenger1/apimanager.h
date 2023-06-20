@@ -23,6 +23,7 @@ public slots:
     void creatChannel(const QString &token, const QString &channel_name , const QString &channel_title);
     void getUsersList(const QString &token);
     void getGroupList(const QString &token);
+    void getChannelList(const QString &token);
 private slots:
     void onReplyFinished(QNetworkReply *reply);
 

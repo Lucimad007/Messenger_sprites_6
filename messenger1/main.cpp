@@ -26,6 +26,6 @@ int main(int argc, char *argv[])
 
     //getUsersList test ?????
     //getGroupList test ????
-
+    //get ChannelList test???
     return a.exec();
 }
