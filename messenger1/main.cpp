@@ -8,6 +8,11 @@ int main(int argc, char *argv[])
     MainWindow w;
     w.show();
     APIManager apiManager;
-    apiManager.signUp("matiiiiiiinTEST", "1234");
+    //sign up test
+//    apiManager.signUp("matiiiiiiinTEST", "1234");
+
+    //login test
+    apiManager.logIn("matiiiiiiinTEST","1234");
+
     return a.exec();
 }
