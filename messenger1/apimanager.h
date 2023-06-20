@@ -17,7 +17,8 @@ public:
 
 public slots:
     void signUp(const QString &username, const QString &password);
-    void logIn(const QString &username , const QString &password);
+        void logIn(const QString &username, const QString &password);
+            void logOut(const QString &username, const QString &password);
 
 private slots:
     void onReplyFinished(QNetworkReply *reply);
