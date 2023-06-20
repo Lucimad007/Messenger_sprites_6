@@ -24,12 +24,14 @@ public slots:
     void getUsersList(const QString &token);
     void getGroupList(const QString &token);
     void getChannelList(const QString &token);
-    void getUsersChat(const QString &token ,const QString &dst);
+    void getUsersChat(const QString &token , QString &dst);
     //void getUsersChat(const QString &token ,const QString &dst,const QString &date); //it will overload soon
-    void getGroupChat(const QString &token ,const QString &dst);
+    void getGroupChat(const QString &token , QString &dst);
     //void getGroupChat(const QString &token ,const QString &dst,const QString &date); //it will overload soon
     void getChannelChat(const QString &token ,const QString &dst);
     //void getChannelChat(const QString &token ,const QString &dst,const QString &date); //it will overload soon
+    void joinGroup(const QString &token , const QString &group_name);
+    void joinChannel(const QString &token , const QString &channel_name);
 private slots:
     void onReplyFinished(QNetworkReply *reply);
 

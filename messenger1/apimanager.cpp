@@ -136,6 +136,31 @@ void APIManager::getChannelChat(const QString &token, const QString &dst){
     QNetworkRequest request(url);
     m_networkManager.get(request);
 }
+void APIManager::joinGroup(const QString &token, const QString &group_name){
+    QString apiURL = "http://api.barafardayebehtar.ml:8080/joingroup";
+    QUrl url(apiURL);
+    QUrlQuery query;
+    query.addQueryItem("token",token);
+    query.addQueryItem("group_name",group_name);
+    url.setQuery(query);
+
+    //sending
+    QNetworkRequest request(url);
+    m_networkManager.get(request);
+
+}
+void APIManager::joinChannel(const QString &token, const QString &channel_name){
+    QString apiURL = "http://api.barafardayebehtar.ml:8080/joinchannel";
+    QUrl url(apiURL);
+    QUrlQuery query;
+    query.addQueryItem("token",token);
+    query.addQueryItem("channel_name",channel_name);
+    url.setQuery(query);
+
+    //sending
+    QNetworkRequest request(url);
+    m_networkManager.get(request);
+}
 void APIManager::onReplyFinished(QNetworkReply *reply){
     if(reply->error() == QNetworkReply::NoError){
         QByteArray responseData = reply->readAll();

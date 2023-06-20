@@ -35,7 +35,10 @@ int main(int argc, char *argv[])
 
     //getGroup Chat test?
     //apiManager.getUsersChat();
+    //apiManager.getChannelChat();
 
-
+    //join tests
+    //apiManager.joinGroup();
+    //apiManager.joinChannel();
     return a.exec();
 }
