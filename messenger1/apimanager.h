@@ -17,15 +17,14 @@ public:
 
 public slots:
     void signUp(const QString &username, const QString &password);
-        void logIn(const QString &username, const QString &password);
-            void logOut(const QString &username, const QString &password);
-
+    void logIn(const QString &username, const QString &password);
+    void logOut(const QString &username, const QString &password);
+    void creatGroup(const QString &token, const QString &group_name,const QString &group_title);
 private slots:
     void onReplyFinished(QNetworkReply *reply);
 
 private:
     QNetworkAccessManager m_networkManager;
-
 };
 
 #endif // APIMANAGER_H

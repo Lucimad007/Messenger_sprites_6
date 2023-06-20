@@ -44,6 +44,19 @@ void APIManager::logOut(const QString &username, const QString &password){
     QNetworkRequest request(url);
     m_networkManager.get(request);
 }
+void APIManager::creatGroup(const QString &token, const QString &group_name, const QString &group_title){
+    QString apiURL="http://api.barafardayebehtar.ml:8080/creategroup";
+    QUrl url(apiURL);
+    QUrlQuery query;
+    query.addQueryItem("token",token);
+    query.addQueryItem("group_name",group_name);
+    query.addQueryItem("group_title",group_title);
+    url.setQuery(query);
+
+    //send get
+    QNetworkRequest request(url);
+    m_networkManager.get(request);
+}
 void APIManager::onReplyFinished(QNetworkReply *reply){
     if(reply->error() == QNetworkReply::NoError){
         QByteArray responseData = reply->readAll();
