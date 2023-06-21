@@ -13,15 +13,16 @@ int main(int argc, char *argv[])
     User matin = User("matiiiiiiinTEST","1234");
     //sign up test
 
-//    apiManager.signUp(farhad);
-//    apiManager.signUp(salar);
+    //apiManager.signUp(farhad);
+    //apiManager.signUp(salar);
 
     //login test
-    //apiManager.logIn("matiiiiiiinTEST","1234");
-
+//    apiManager.logIn(matin);
+//    apiManager.logIn(farhad);
+//    apiManager.logIn(salar);
 
     //Logout test
-    //apiManager.logOut("matiiiiiiinTEST","1234");
+//    apiManager.logOut(matin);
 
     //Creat_group test
     //apiManager.creatGroup("107beb12166aa8961be46848a7bc19c3","First_Matin_Group","Chess");
