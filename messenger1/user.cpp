@@ -37,6 +37,7 @@ void User::setEmail( QString& email)
 QString User::getToken(){
     return this->token;
 }
-void User::setToken(QString &token){
-    this->token = token;
+void User::setToken(QString &given_token){
+    //After Logout we should set token NULL
+    this->token = given_token;
 }
