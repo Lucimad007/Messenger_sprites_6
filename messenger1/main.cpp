@@ -7,7 +7,7 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
     MainWindow w;
-    App app;    app.show();
+    //App app;    app.show();   //testing App class
     w.show();
     APIManager apiManager;
     User farhad = User("ASGHAR","9876","asgharFarhadi@gmail.com");

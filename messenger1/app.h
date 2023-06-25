@@ -2,6 +2,9 @@
 #define APP_H
 
 #include <QMainWindow>
+#include <QSplitter>
+#include <QVBoxLayout>
+#include "user.h"
 
 namespace Ui {
 class App;
@@ -13,10 +16,13 @@ class App : public QMainWindow
 
 public:
     explicit App(QWidget *parent = nullptr);
+    void addChatPrototype(User& user);
     ~App();
 
 private:
     Ui::App *ui;
+    QSplitter* splitter;
+    QVBoxLayout* layout;
 };
 
 #endif // APP_H
