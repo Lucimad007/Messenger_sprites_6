@@ -10,17 +10,20 @@ CONFIG += c++17
 
 SOURCES += \
     apimanager.cpp \
+    app.cpp \
     main.cpp \
     mainwindow.cpp \
     user.cpp
 
 HEADERS += \
     apimanager.h \
+    app.h \
     mainwindow.h \
     user.h
 
 FORMS += \
     Login.ui \
+    app.ui \
     mainwindow.ui \
     register.ui
 

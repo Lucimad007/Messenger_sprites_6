@@ -2,15 +2,17 @@
 #include "user.h"
 #include <QApplication>
 #include "apimanager.h"
+#include "app.h"
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
     MainWindow w;
+    App app;    app.show();
     w.show();
     APIManager apiManager;
     User farhad = User("ASGHAR","9876","asgharFarhadi@gmail.com");
     User salar = User("Salar","3221","salarmanam@gmail.com");
-    User matin = User("matiiiiiiinTEST","1234");
+    User matin = User("matiiiiiiinTEST","1234","matin@gmail.com");
     //sign up test
 
     //apiManager.signUp(farhad);
