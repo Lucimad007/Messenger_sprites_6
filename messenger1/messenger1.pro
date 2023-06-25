@@ -24,6 +24,7 @@ HEADERS += \
 FORMS += \
     Login.ui \
     app.ui \
+    chatprototype.ui \
     mainwindow.ui \
     register.ui
 
