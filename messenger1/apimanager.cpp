@@ -200,18 +200,6 @@ void APIManager::sendMessageChannel(User &given_user, QString &dst, QString &bod
     QNetworkRequest request(url);
     m_networkManager.get(request);
 }
-//void APIManager::onReplyFinished(QNetworkReply *reply){
-//    if(reply->error() == QNetworkReply::NoError){
-//        QByteArray responseData = reply->readAll();
-//        QString responseString = QString::fromUtf8(responseData);
-//        qDebug()<<"Response is : "<<responseString;
-//    }else{
-//        qDebug() <<"Error : "<<reply->errorString();
-//    }
-//       reply->deleteLater(); //for safely release the memory
-
-//}
-
 void APIManager::saveTokenToFile(const QString& token) {
     QFile file("token.txt");
     if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
