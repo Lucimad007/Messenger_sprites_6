@@ -13,6 +13,15 @@ int main(int argc, char *argv[])
     User farhad = User("ASGHAR","9876","asgharFarhadi@gmail.com");
     User salar = User("Salar","3221","salarmanam@gmail.com");
     User matin = User("matiiiiiiinTEST","1234","matin@gmail.com");
+
+
+
+/*apiManager.logOut(farhad)*/;
+  //  apiManager.logIn(farhad);
+     QString title = "farhadg";
+     QString topic = "chess";
+apiManager.creatGroup(farhad,title,topic);
+
     //sign up test
 
     //apiManager.signUp(farhad);

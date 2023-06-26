@@ -7,6 +7,13 @@
 #include <QNetworkReply>
 #include <QString>
 
+#include <QJsonDocument>
+#include <QJsonObject>
+
+#include <QFile>
+#include <QTextStream>
+
+
 #include "user.h"
 
 class APIManager : public QObject
@@ -37,12 +44,14 @@ public slots:
     //    //void getUsersChat(const QString &token ,const QString &dst,const QString &date); //it will overload soon
     //    //void getGroupChat(const QString &token ,const QString &dst,const QString &date); //it will overload soon
     //    //void getChannelChat(const QString &token ,const QString &dst,const QString &date); //it will overload soon
-
+    void saveTokenToFile(const QString &token);
+    QString readTokenFromFile();
 private slots:
     void onReplyFinished(QNetworkReply *reply);
 
 private:
     QNetworkAccessManager m_networkManager;
+    QString our_token;
 };
 
 #endif // APIMANAGER_H
