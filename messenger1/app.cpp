@@ -16,12 +16,9 @@ App::App(QWidget *parent) :
 {
     ui->setupUi(this);
     this->setWindowTitle("Sprites");
-
-    splitter = new QSplitter(Qt::Vertical, this);
-    layout = new QVBoxLayout(this);
-    layout->setAlignment(Qt::AlignTop);
-    layout->addWidget(splitter);
-    splitter->scroll(splitter->width(),splitter->height());
+    ui->chatPrototypeScroll->setWidgetResizable(true);
+    splitter = new QSplitter(Qt::Vertical);;
+    ui->chatPrototypeScroll->setWidget(splitter);
 
     //setting icon of the app
     try{
@@ -39,14 +36,14 @@ App::App(QWidget *parent) :
     }
 
      //testing add function
-    User test1("Ali","","");
-    User test2("Mohammad","","");
-    User test3("Zahra","","");
-    addChatPrototype(test1);
-    addChatPrototype(test2);
-    addChatPrototype(test3);
-    for(int i=0;i<10;i++)
-        addChatPrototype(test3);
+//    User test1("Ali","","");
+//    User test2("Mohammad","","");
+//    User test3("Zahra","","");
+//    addChatPrototype(test1);
+//    addChatPrototype(test2);
+//    addChatPrototype(test3);
+//    for(int i=0;i<22;i++)
+//        addChatPrototype(test3);
 }
 
 void App::addChatPrototype(User& user){
@@ -74,7 +71,6 @@ void App::addChatPrototype(User& user){
             return;
 
         splitter->addWidget(myWidget);
-        ui->centralwidget->setLayout(layout);
     }catch(QString error){
         qDebug() << error;
     }

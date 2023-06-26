@@ -22,7 +22,6 @@ public:
 private:
     Ui::App *ui;
     QSplitter* splitter;
-    QVBoxLayout* layout;
 };
 
 #endif // APP_H
