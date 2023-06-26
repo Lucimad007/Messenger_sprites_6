@@ -64,7 +64,8 @@ void APIManager::creatChannel( User &given_user, QString &channel_name,  QString
     QString apiURL = "http://api.barafardayebehtar.ml:8080/createchannel";
     QUrl url(apiURL);
     QUrlQuery query;
-    query.addQueryItem("token",given_user.getToken());
+    QString main_token = readTokenFromFile();
+    query.addQueryItem("token",main_token);
     query.addQueryItem("channel_name",channel_name);
     query.addQueryItem("channel_title",channel_title);
     url.setQuery(query);
@@ -77,7 +78,8 @@ void APIManager::getUsersList( User &given_user){
     QString apiURL = "http://api.barafardayebehtar.ml:8080/getuserlist";
     QUrl url(apiURL);
     QUrlQuery query;
-    query.addQueryItem("token",given_user.getToken());
+    QString main_token = readTokenFromFile();
+    query.addQueryItem("token",main_token);
     url.setQuery(query);
 
     //send
@@ -88,7 +90,8 @@ void APIManager::getGroupList( User &given_user){
     QString apiURL = "http://api.barafardayebehtar.ml:8080/getgrouplist";
     QUrl url(apiURL);
     QUrlQuery query;
-    query.addQueryItem("token",given_user.getToken());
+    QString main_token = readTokenFromFile();
+    query.addQueryItem("token",main_token);
     url.setQuery(query);
 
     //send
@@ -100,9 +103,12 @@ void APIManager::getChannelList( User &given_user){
     QString apiURL = "http://api.barafardayebehtar.ml:8080/getchannellist";
     QUrl url(apiURL);
     QUrlQuery query;
-    query.addQueryItem("token",given_user.getToken());
+
+    QString main_token = readTokenFromFile();
+    query.addQueryItem("token",main_token);
     url.setQuery(query);
 
+    //send
     QNetworkRequest request(url);
     m_networkManager.get(request);
 }
@@ -110,7 +116,8 @@ void APIManager::getUsersChat( User &given_user,QString &dst){
     QString apiURL = "http://api.barafardayebehtar.ml:8080/getuserchats";
     QUrl url(apiURL);
     QUrlQuery query;
-    query.addQueryItem("token",given_user.getToken());
+    QString main_token = readTokenFromFile();
+    query.addQueryItem("token",main_token);
     query.addQueryItem("dst",dst);
     url.setQuery(query);
 
@@ -121,7 +128,8 @@ void APIManager::getGroupChat( User &given_user,QString &dst){
     QString apiURL = "http://api.barafardayebehtar.ml:8080/getgroupchats";
     QUrl url(apiURL);
     QUrlQuery query;
-    query.addQueryItem("token",given_user.getToken());
+    QString main_token = readTokenFromFile();
+    query.addQueryItem("token",main_token);
     query.addQueryItem("dst",dst);
     url.setQuery(query);
 
@@ -132,7 +140,8 @@ void APIManager::getChannelChat( User &given_user, QString &dst){
     QString apiURL = "http://api.barafardayebehtar.ml:8080/getchannelchats";
     QUrl url(apiURL);
     QUrlQuery query;
-    query.addQueryItem("token",given_user.getToken());
+    QString main_token = readTokenFromFile();
+    query.addQueryItem("token",main_token);
     query.addQueryItem("dst",dst);
     url.setQuery(query);
 
@@ -143,7 +152,8 @@ void APIManager::joinGroup(User &given_user, QString &group_name){
     QString apiURL = "http://api.barafardayebehtar.ml:8080/joingroup";
     QUrl url(apiURL);
     QUrlQuery query;
-    query.addQueryItem("token",given_user.getToken());
+    QString main_token = readTokenFromFile();
+    query.addQueryItem("token",main_token);
     query.addQueryItem("group_name",group_name);
     url.setQuery(query);
 
@@ -156,7 +166,8 @@ void APIManager::joinChannel(User &given_user, QString &channel_name){
     QString apiURL = "http://api.barafardayebehtar.ml:8080/joinchannel";
     QUrl url(apiURL);
     QUrlQuery query;
-    query.addQueryItem("token",given_user.getToken());
+    QString main_token = readTokenFromFile();
+    query.addQueryItem("token",main_token);
     query.addQueryItem("channel_name",channel_name);
     url.setQuery(query);
 
@@ -168,7 +179,8 @@ void APIManager::sendMessageUser(User &given_user, QString &dst, QString &body){
     QString apiURL = "http://api.barafardayebehtar.ml:8080/sendmessageuser";
     QUrl url(apiURL);
     QUrlQuery query;
-    query.addQueryItem("token",given_user.getToken());
+    QString main_token = readTokenFromFile();
+    query.addQueryItem("token",main_token);
     query.addQueryItem("dst",dst);
     query.addQueryItem("body",body);
     url.setQuery(query);
@@ -180,7 +192,8 @@ void APIManager::sendMessageGroup(User &given_user, QString &dst, QString &body)
     QString apiURL = "http://api.barafardayebehtar.ml:8080/sendmessagegroup";
     QUrl url(apiURL);
     QUrlQuery query;
-    query.addQueryItem("token",given_user.getToken());
+    QString main_token = readTokenFromFile();
+    query.addQueryItem("token",main_token);
     query.addQueryItem("dst",dst);
     query.addQueryItem("body",body);
     url.setQuery(query);
@@ -192,7 +205,8 @@ void APIManager::sendMessageChannel(User &given_user, QString &dst, QString &bod
     QString apiURL = "http://api.barafardayebehtar.ml:8080/sendmessagechannel";
     QUrl url(apiURL);
     QUrlQuery query;
-    query.addQueryItem("token",given_user.getToken());
+    QString main_token = readTokenFromFile();
+    query.addQueryItem("token",main_token);
     query.addQueryItem("dst",dst);
     query.addQueryItem("body",body);
     url.setQuery(query);
@@ -200,18 +214,6 @@ void APIManager::sendMessageChannel(User &given_user, QString &dst, QString &bod
     QNetworkRequest request(url);
     m_networkManager.get(request);
 }
-//void APIManager::onReplyFinished(QNetworkReply *reply){
-//    if(reply->error() == QNetworkReply::NoError){
-//        QByteArray responseData = reply->readAll();
-//        QString responseString = QString::fromUtf8(responseData);
-//        qDebug()<<"Response is : "<<responseString;
-//    }else{
-//        qDebug() <<"Error : "<<reply->errorString();
-//    }
-//       reply->deleteLater(); //for safely release the memory
-
-//}
-
 void APIManager::saveTokenToFile(const QString& token) {
     QFile file("token.txt");
     if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
@@ -251,6 +253,8 @@ void APIManager::onReplyFinished(QNetworkReply* reply)
             // Extract the token value
             QString extractedToken = jsonObject["token"].toString();
             saveTokenToFile(extractedToken);
+            qDebug() << "Response is: " << responseString;
+
         } else {
             // Handle the case where the response does not contain a token field
             // qDebug() << "Response does not contain a token.";

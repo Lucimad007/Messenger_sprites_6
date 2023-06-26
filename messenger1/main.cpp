@@ -15,12 +15,36 @@ int main(int argc, char *argv[])
     User matin = User("matiiiiiiinTEST","1234","matin@gmail.com");
 
 
+ //--------------------------------------------------
 
-/*apiManager.logOut(farhad)*/;
-  //  apiManager.logIn(farhad);
-     QString title = "farhadg";
-     QString topic = "chess";
-apiManager.creatGroup(farhad,title,topic);
+    //I have to note that every time we want to creat group or channel or ... we have to pass the const
+    //so I declared the //      QString title = "farhadg"; as an example
+
+
+//      apiManager.logOut(farhad);
+//      apiManager.logIn(farhad);
+//      QString title = "farhadg";
+//      QString topic = "chess";
+//      apiManager.creatGroup(farhad,title,topic);
+
+
+//         QString title = "farhadg2";
+//         QString topic = "chess2";
+//         apiManager.creatGroup(farhad,title,topic);
+
+//         QString title2 = "farhadg22";
+//         QString topic2 = "chess22";
+//         apiManager.creatGroup(farhad,title2,topic2);
+
+             QString title_chan = "farhadchan";
+             QString topic_chan = "math";
+             apiManager.creatChannel(farhad,title_chan,topic_chan);
+
+             QString title_group = "farhadgr";
+             QString topic_group = "Fun";
+            apiManager.creatGroup(farhad,title_group,topic_group);
+
+ //--------------------------------------------------
 
     //sign up test
 
