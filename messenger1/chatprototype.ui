@@ -45,9 +45,9 @@
   <widget class="QLabel" name="lastMessageLabel">
    <property name="geometry">
     <rect>
-     <x>120</x>
-     <y>15</y>
-     <width>210</width>
+     <x>61</x>
+     <y>25</y>
+     <width>270</width>
      <height>20</height>
     </rect>
    </property>
@@ -59,8 +59,8 @@
    <property name="geometry">
     <rect>
      <x>60</x>
-     <y>15</y>
-     <width>50</width>
+     <y>5</y>
+     <width>271</width>
      <height>20</height>
     </rect>
    </property>

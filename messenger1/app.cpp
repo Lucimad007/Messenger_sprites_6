@@ -21,6 +21,7 @@ App::App(QWidget *parent) :
     layout = new QVBoxLayout(this);
     layout->setAlignment(Qt::AlignTop);
     layout->addWidget(splitter);
+    splitter->scroll(splitter->width(),splitter->height());
 
     //setting icon of the app
     try{
