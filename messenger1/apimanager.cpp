@@ -5,6 +5,7 @@ APIManager::APIManager(QObject *parent) : QObject(parent)
 {
     connect(&m_networkManager,&QNetworkAccessManager::finished,this,&APIManager::onReplyFinished);
 }
+
 void APIManager::signUp(User &given_user){
     QString apiURL = "http://api.barafardayebehtar.ml:8080/signup";
     //  ruct the request URL with query parameters
@@ -31,6 +32,7 @@ void APIManager::logIn(User &given_user){
     QNetworkRequest request(url);
     m_networkManager.get(request);
 }
+
 void APIManager::logOut(User &given_user){
     //work with main api
     QString apiURL = "http://api.barafardayebehtar.ml:8080/logout";
@@ -48,7 +50,8 @@ void APIManager::creatGroup(User &given_user, QString &group_name, QString &grou
     QString apiURL="http://api.barafardayebehtar.ml:8080/creategroup";
     QUrl url(apiURL);
     QUrlQuery query;
-    query.addQueryItem("token",given_user.getToken());
+    QString main_token = readTokenFromFile();
+    query.addQueryItem("token",main_token);
     query.addQueryItem("group_name",group_name);
     query.addQueryItem("group_title",group_title);
     url.setQuery(query);
@@ -197,14 +200,64 @@ void APIManager::sendMessageChannel(User &given_user, QString &dst, QString &bod
     QNetworkRequest request(url);
     m_networkManager.get(request);
 }
-void APIManager::onReplyFinished(QNetworkReply *reply){
-    if(reply->error() == QNetworkReply::NoError){
+//void APIManager::onReplyFinished(QNetworkReply *reply){
+//    if(reply->error() == QNetworkReply::NoError){
+//        QByteArray responseData = reply->readAll();
+//        QString responseString = QString::fromUtf8(responseData);
+//        qDebug()<<"Response is : "<<responseString;
+//    }else{
+//        qDebug() <<"Error : "<<reply->errorString();
+//    }
+//       reply->deleteLater(); //for safely release the memory
+
+//}
+
+void APIManager::saveTokenToFile(const QString& token) {
+    QFile file("token.txt");
+    if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+        QTextStream out(&file);
+        out << token;
+        file.close();
+    } else {
+        qDebug() << "Failed to open the token file for writing.";
+    }
+}
+QString APIManager::readTokenFromFile() {
+    QFile file("token.txt");
+    if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        QTextStream in(&file);
+        QString token = in.readAll();
+        file.close();
+        return token;
+    } else {
+        qDebug() << "Failed to open the token file for reading.";
+        return QString(); // Return an empty token if reading fails
+    }
+}
+
+void APIManager::onReplyFinished(QNetworkReply* reply)
+{
+    if (reply->error() == QNetworkReply::NoError) {
         QByteArray responseData = reply->readAll();
         QString responseString = QString::fromUtf8(responseData);
-        qDebug()<<"Response is : "<<responseString;
-    }else{
-        qDebug() <<"Error : "<<reply->errorString();
-    }
-       reply->deleteLater(); //for safely release the memory
+        qDebug() << "Response is: " << responseString;
 
+        // Parse the JSON response
+        QJsonDocument jsonResponse = QJsonDocument::fromJson(responseData);
+        QJsonObject jsonObject = jsonResponse.object();
+
+        // Check if the response contains a "token" field
+        if (jsonObject.contains("token")) {
+            // Extract the token value
+            QString extractedToken = jsonObject["token"].toString();
+            saveTokenToFile(extractedToken);
+        } else {
+            // Handle the case where the response does not contain a token field
+            // qDebug() << "Response does not contain a token.";
+        }
+    } else {
+        qDebug() << "Error: " << reply->errorString();
+    }
+
+    reply->deleteLater(); // Safely release the memory
 }
