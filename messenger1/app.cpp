@@ -5,6 +5,8 @@
 #include <QSplitter>
 #include <QSizePolicy>
 #include <QLabel>
+#include <QGraphicsView>
+#include <QGraphicsPixmapItem>
 #include "app.h"
 #include "ui_app.h"
 
@@ -14,11 +16,9 @@ App::App(QWidget *parent) :
 {
     ui->setupUi(this);
     this->setWindowTitle("Sprites");
-
-    splitter = new QSplitter(Qt::Vertical, this);
-    layout = new QVBoxLayout(this);
-    layout->setAlignment(Qt::AlignTop);
-    layout->addWidget(splitter);
+    ui->chatPrototypeScroll->setWidgetResizable(true);
+    splitter = new QSplitter(Qt::Vertical);;
+    ui->chatPrototypeScroll->setWidget(splitter);
 
     //setting icon of the app
     try{
@@ -35,17 +35,10 @@ App::App(QWidget *parent) :
         qDebug() << error ;
     }
 
-      //testing add function
-//    User test1("Ali","","");
-//    User test2("Mohammad","","");
-//    User test3("Zahra","","");
-//    addChatPrototype(test1);
-//    addChatPrototype(test2);
-//    addChatPrototype(test3);
-
 }
 
 void App::addChatPrototype(User& user){
+    QGraphicsView* profilePicture;
     QUiLoader loader;
     QString filePath = QString::fromLocal8Bit(__FILE__);    //__FILE__ is a macro
     QFileInfo fileInfo(filePath);
@@ -62,15 +55,33 @@ void App::addChatPrototype(User& user){
         file.close();
 
         QLabel* nameLabel = myWidget->findChild<QLabel*>("nameLabel",Qt::FindChildOption::FindChildrenRecursively);
+        profilePicture = myWidget->findChild< QGraphicsView*>("profilePicture",Qt::FindChildOption::FindChildrenRecursively);
         if(nameLabel != nullptr)
             nameLabel->setText(user.getUsername());
         else
             return;
 
         splitter->addWidget(myWidget);
-        ui->centralwidget->setLayout(layout);
     }catch(QString error){
         qDebug() << error;
+    }
+
+    try{
+        QString iconPath = QString::fromLocal8Bit(__FILE__);
+        QFileInfo iconInfo(iconPath);
+        QString iconDirectory = iconInfo.absolutePath() + "/ICons/avatar.ico";
+        QFile temp(iconDirectory);
+        if(!temp.exists())
+            throw("Icon Not Found.");
+        QIcon *icon = new QIcon(iconDirectory);
+        QPixmap pixMap = icon->pixmap(profilePicture->width(),profilePicture->height());
+        QGraphicsPixmapItem* pixItem = new QGraphicsPixmapItem(pixMap);
+        QGraphicsScene* scene = new QGraphicsScene();
+        scene->addItem(pixItem);
+        profilePicture->setScene(scene);
+
+    } catch(char const* error){
+        qDebug() << error ;
     }
 }
 
