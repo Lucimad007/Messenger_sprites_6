@@ -8,6 +8,9 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
+APIManager apiManager;
+
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -121,10 +124,19 @@ void MainWindow::on_loginBtn_clicked()
     {
         usernameLineEdit = ui->centralwidget->findChild<QLineEdit*>("usernameLineEdit");
         passwordLineEdit = ui->centralwidget->findChild<QLineEdit*>("passwordLineEdit");
+        // connect to back
+        QString username = usernameLineEdit->text();
+        QString password = passwordLineEdit->text();
+        User ui_user = User (username,password,"Email@gmail.com");
+
+        apiManager.logIn(ui_user);
+
         if((passwordLineEdit == nullptr) || (usernameLineEdit == nullptr))
             throw("The Widget does not exist!");
         passwordLineEdit->setText("");
         usernameLineEdit->setText("");
+
+
 
     }
     catch(const char* error)
@@ -150,6 +162,15 @@ void MainWindow::on_registerBtn_clicked()
         r_usernameLineEdit = ui->centralwidget->findChild<QLineEdit*>("r_usernameLineEdit");
         r_passwordLineEdit = ui->centralwidget->findChild<QLineEdit*>("r_passwordLineEdit");
         r_gmailLineEdit = ui->centralwidget->findChild<QLineEdit*>("r_gmailLineEdit");
+
+        //connect to back
+        QString username = r_usernameLineEdit->text();
+        QString password = r_passwordLineEdit->text();
+        QString gmail = r_gmailLineEdit->text();
+        User ui_user = User(username,password,gmail);
+        apiManager.signUp(ui_user);
+
+
        if((r_passwordLineEdit == nullptr) || (r_gmailLineEdit == nullptr) || (r_usernameLineEdit == nullptr))
             throw("The Widget does not exist!");
         r_passwordLineEdit->setText("");
