@@ -26,6 +26,7 @@ FORMS += \
     app.ui \
     chatprototype.ui \
     mainwindow.ui \
+    options.ui \
     profile.ui \
     register.ui
 

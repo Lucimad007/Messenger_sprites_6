@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Form</class>
+ <widget class="QWidget" name="Form">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>400</width>
+    <height>560</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">background-color: qlineargradient(spread:pad, x1:0.564746, y1:0.159, x2:0.582, y2:1, stop:0.118644 rgba(0, 0, 0, 255), stop:1 rgba(50, 160, 255, 255));</string>
+  </property>
+  <widget class="QGraphicsView" name="logo">
+   <property name="geometry">
+    <rect>
+     <x>125</x>
+     <y>30</y>
+     <width>150</width>
+     <height>150</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background:transparent;</string>
+   </property>
+  </widget>
+  <widget class="QGroupBox" name="themeGroupBox">
+   <property name="geometry">
+    <rect>
+     <x>140</x>
+     <y>260</y>
+     <width>120</width>
+     <height>91</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: qconicalgradient(cx:0, cy:0, angle:135, stop:0 rgba(255, 255, 0, 69), stop:0.375 rgba(255, 255, 0, 69), stop:0.423533 rgba(251, 255, 0, 145), stop:0.45 rgba(247, 255, 0, 208), stop:0.477581 rgba(255, 244, 71, 130), stop:0.518717 rgba(255, 218, 71, 130), stop:0.55 rgba(255, 255, 0, 255), stop:0.57754 rgba(255, 203, 0, 130), stop:0.625 rgba(255, 255, 0, 69), stop:1 rgba(255, 255, 0, 69));
+</string>
+   </property>
+   <property name="title">
+    <string>Theme</string>
+   </property>
+   <widget class="QRadioButton" name="darkThemeButton">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>40</y>
+      <width>89</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(0, 85, 127);
+color: rgb(255, 255, 255);</string>
+    </property>
+    <property name="text">
+     <string>Dark</string>
+    </property>
+   </widget>
+   <widget class="QRadioButton" name="lightThemeButton">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>60</y>
+      <width>89</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(170, 255, 255);
+</string>
+    </property>
+    <property name="text">
+     <string>Light</string>
+    </property>
+   </widget>
+   <widget class="QRadioButton" name="defaultThemeButton">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>20</y>
+      <width>89</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: qlineargradient(spread:pad, x1:0.227, y1:0.477364, x2:0.989, y2:0.510909, stop:0 rgba(0, 0, 0, 255), stop:1 rgba(186, 139, 16, 255));
+color: rgb(255, 255, 255);</string>
+    </property>
+    <property name="text">
+     <string>Default</string>
+    </property>
+    <property name="checked">
+     <bool>true</bool>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QCommandLinkButton" name="changeProfilePictureButton">
+   <property name="geometry">
+    <rect>
+     <x>115</x>
+     <y>200</y>
+     <width>170</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: qradialgradient(spread:pad, cx:0.5, cy:0.5, radius:0.5, fx:0.5, fy:0.494, stop:0 rgba(0, 0, 0, 255), stop:1 rgba(29, 177, 31, 255));
+color: rgb(255, 255, 255);</string>
+   </property>
+   <property name="text">
+    <string>Chage Profile Picture</string>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>Icons/avatar.ico</normaloff>Icons/avatar.ico</iconset>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="clearLocalFilesButton">
+   <property name="geometry">
+    <rect>
+     <x>155</x>
+     <y>380</y>
+     <width>90</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: qradialgradient(spread:pad, cx:0.5, cy:0.5, radius:0.5, fx:0.5, fy:0.5, stop:0 rgba(0, 0, 0, 255), stop:0.784091 rgba(246, 0, 7, 255));
+color: rgb(255, 255, 255);</string>
+   </property>
+   <property name="text">
+    <string>Clear Local Files</string>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

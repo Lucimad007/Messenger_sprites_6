@@ -95,52 +95,6 @@ App::~App()
 
 void App::on_menuButton_clicked()
 {
-    QGraphicsView* profilePicture;
-    QUiLoader loader;
-    QString filePath = QString::fromLocal8Bit(__FILE__);    //__FILE__ is a macro
-    QFileInfo fileInfo(filePath);
-    QString sourceDirectory = fileInfo.absolutePath() + "/profile.ui";
 
-    QFile file(sourceDirectory);
-    try{
-        file.open(QFile::ReadOnly);
-        if(!file.isOpen())
-            throw(file.errorString());
-
-        //QWidget *myWidget = loader.load(&file,this);
-        QWidget* myWidget = new QWidget();
-        //myWidget->setFixedSize(myWidget->width(),myWidget->height());
-        file.close();
-
-        myWidget->setGeometry(100, 0, 100, 200);
-        myWidget->setParent(this);
-        QPropertyAnimation* animation = new QPropertyAnimation(myWidget, "geometry");
-        animation->setDuration(500);
-        animation->setStartValue(QRect(0, 0, 100, 100));
-        animation->setEndValue(QRect(200, 0, 400,100));
-        animation->start();
-
-
-    }catch(QString error){
-        qDebug() << error;
-    }
-
-    try{
-        QString iconPath = QString::fromLocal8Bit(__FILE__);
-        QFileInfo iconInfo(iconPath);
-        QString iconDirectory = iconInfo.absolutePath() + "/ICons/avatar.ico";
-        QFile temp(iconDirectory);
-        if(!temp.exists())
-            throw("Icon Not Found.");
-        QIcon *icon = new QIcon(iconDirectory);
-        QPixmap pixMap = icon->pixmap(profilePicture->width(),profilePicture->height());
-        QGraphicsPixmapItem* pixItem = new QGraphicsPixmapItem(pixMap);
-        QGraphicsScene* scene = new QGraphicsScene();
-        scene->addItem(pixItem);
-        profilePicture->setScene(scene);
-
-    } catch(char const* error){
-        qDebug() << error ;
-    }
 }
 
