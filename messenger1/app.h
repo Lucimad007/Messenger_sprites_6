@@ -19,6 +19,9 @@ public:
     void addChatPrototype(User& user);
     ~App();
 
+private slots:
+    void on_menuButton_clicked();
+
 private:
     Ui::App *ui;
     QSplitter* splitter;

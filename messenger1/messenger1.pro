@@ -26,6 +26,7 @@ FORMS += \
     app.ui \
     chatprototype.ui \
     mainwindow.ui \
+    profile.ui \
     register.ui
 
 # Default rules for deployment.

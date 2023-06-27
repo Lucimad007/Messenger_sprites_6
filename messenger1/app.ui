@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>960</width>
+    <width>1000</width>
     <height>600</height>
    </rect>
   </property>
@@ -20,7 +20,7 @@
    <widget class="Line" name="midLine">
     <property name="geometry">
      <rect>
-      <x>420</x>
+      <x>490</x>
       <y>0</y>
       <width>3</width>
       <height>600</height>
@@ -33,10 +33,10 @@
    <widget class="QScrollArea" name="chatPrototypeScroll">
     <property name="geometry">
      <rect>
-      <x>10</x>
+      <x>84</x>
       <y>10</y>
       <width>400</width>
-      <height>600</height>
+      <height>590</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -51,8 +51,61 @@
        <x>0</x>
        <y>0</y>
        <width>398</width>
-       <height>598</height>
+       <height>588</height>
       </rect>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QFrame" name="frame">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>10</y>
+      <width>84</width>
+      <height>590</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: qlineargradient(spread:pad, x1:0.564746, y1:0.159, x2:0.582, y2:1, stop:0.118644 rgba(0, 0, 0, 255), stop:1 rgba(50, 160, 255, 255));</string>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::StyledPanel</enum>
+    </property>
+    <property name="frameShadow">
+     <enum>QFrame::Raised</enum>
+    </property>
+    <widget class="QPushButton" name="menuButton">
+     <property name="geometry">
+      <rect>
+       <x>4</x>
+       <y>0</y>
+       <width>76</width>
+       <height>24</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: qradialgradient(spread:pad, cx:0.5, cy:0.5, radius:0.5, fx:0.5, fy:0.494, stop:0 rgba(0, 0, 0, 255), stop:1 rgba(29, 177, 31, 255));
+color: rgb(255, 255, 255);</string>
+     </property>
+     <property name="text">
+      <string>Profile</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="optionsButton">
+     <property name="geometry">
+      <rect>
+       <x>4</x>
+       <y>28</y>
+       <width>76</width>
+       <height>24</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: qradialgradient(spread:pad, cx:0.5, cy:0.5, radius:0.5, fx:0.5, fy:0.494, stop:0 rgba(0, 0, 0, 255), stop:1 rgba(29, 177, 31, 255));
+color: rgb(255, 255, 255);</string>
+     </property>
+     <property name="text">
+      <string>Options</string>
      </property>
     </widget>
    </widget>
@@ -62,7 +115,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>960</width>
+     <width>1000</width>
      <height>22</height>
     </rect>
    </property>

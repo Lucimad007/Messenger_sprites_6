@@ -20,6 +20,7 @@ void MainWindow::setLoginUI(){
 
     ui->setupUi(this);      //this line is very important due to the fact that it prevents our code from having bug
     this->setWindowTitle("Login - Register");
+    this->setWindowFlags(Qt::MSWindowsFixedSizeDialogHint);     //making window not resizeable
 
     //loading new UI
     QUiLoader loader;
