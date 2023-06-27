@@ -24,7 +24,6 @@ int main(int argc, char *argv[])
     User salar = User("Salar","3221","salarmanam@gmail.com");
     User matin = User("matiiiiiiinTEST","1234","matin@gmail.com");
 
-
  //--------------------------------------------------
 
     //I have to note that every time we want to creat group or channel or ... we have to pass the const
@@ -46,13 +45,13 @@ int main(int argc, char *argv[])
 //         QString topic2 = "chess22";
 //         apiManager.creatGroup(farhad,title2,topic2);
 
-             QString title_chan = "farhadchan";
-             QString topic_chan = "math";
-             apiManager.creatChannel(farhad,title_chan,topic_chan);
+//             QString title_chan = "farhadchan";
+//             QString topic_chan = "math";
+//             apiManager.creatChannel(farhad,title_chan,topic_chan);
 
-             QString title_group = "farhadgr";
-             QString topic_group = "Fun";
-            apiManager.creatGroup(farhad,title_group,topic_group);
+//             QString title_group = "farhadgr";
+//             QString topic_group = "Fun";
+//            apiManager.creatGroup(farhad,title_group,topic_group);
 
  //--------------------------------------------------
 

@@ -1,6 +1,9 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include <apimanager.h>
+#include <user.h>
+
 #include <QMainWindow>
 
 QT_BEGIN_NAMESPACE
