@@ -22,10 +22,13 @@ public:
 private slots:
     void on_profileButton_clicked();
 
+    void on_optionsButton_clicked();
+
 private:
     Ui::App *ui;
     QSplitter* splitter;
-    QWidget* profileWidget;
+    QWidget* profileWidget = nullptr;   //initializing it as nullptr prevents app from unexpected crashes
+    QWidget* optionsWidget = nullptr;   //initializing it as nullptr prevents app from unexpected crashes
 };
 
 #endif // APP_H

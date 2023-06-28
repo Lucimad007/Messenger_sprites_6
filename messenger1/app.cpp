@@ -95,6 +95,8 @@ App::~App()
 
 void App::on_profileButton_clicked()
 {
+    if(optionsWidget != nullptr)    //two menus should not be simultaneously
+        return;
 
     if(profileWidget == nullptr){
         ui->profileButton->setText("Close");
@@ -136,5 +138,52 @@ void App::on_profileButton_clicked()
         profileWidget = nullptr;
     }
 
+}
+
+
+void App::on_optionsButton_clicked()
+{
+    if(profileWidget != nullptr)    //two menus should not be simultaneously
+        return;
+
+    if(optionsWidget == nullptr){
+        ui->optionsButton->setText("Close");
+        QUiLoader loader;
+        QString filePath = QString::fromLocal8Bit(__FILE__);    //__FILE__ is a macro
+        QFileInfo fileInfo(filePath);
+        QString sourceDirectory = fileInfo.absolutePath() + "/options.ui";
+
+        QFile file(sourceDirectory);
+        try{
+            file.open(QFile::ReadOnly);
+            if(!file.isOpen())
+                throw(file.errorString());
+
+
+            optionsWidget = loader.load(&file,this);
+            file.close();
+            optionsWidget->setGeometry(this->width(), 0, optionsWidget->width(), optionsWidget->height());
+            optionsWidget->setParent(this);
+            optionsWidget->setVisible(true);    //it is necessary because default is not visible
+            QPropertyAnimation* animation = new QPropertyAnimation(optionsWidget, "geometry");
+            animation->setDuration(1000);   //duration in milliseconds
+            animation->setStartValue(QRect(-optionsWidget->width(), 80, 0, this->height()));
+            animation->setEndValue(QRect(0, 80, optionsWidget->width(), this->height()));
+            animation->start();
+        }catch(QString error){
+            qDebug() << error;
+        }
+    }  else if(optionsWidget != nullptr){
+        ui->optionsButton->setText("Options");
+        optionsWidget->setGeometry(this->width(), 0, optionsWidget->width(), optionsWidget->height());
+        optionsWidget->setParent(this);
+        optionsWidget->setVisible(true);    //it is necessary because default is not visible
+        QPropertyAnimation* animation = new QPropertyAnimation(optionsWidget, "geometry");
+        animation->setDuration(1000);   //duration in milliseconds
+        animation->setStartValue(QRect(0, 80, optionsWidget->width(), this->height()));
+        animation->setEndValue(QRect(-optionsWidget->width(), 80, 0, this->height()));
+        animation->start();
+        optionsWidget = nullptr;
+    }
 }
 
