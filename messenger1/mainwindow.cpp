@@ -137,7 +137,7 @@ void MainWindow::on_loginBtn_clicked()
 //        qDebug() << response_code;
 //        if(response_code == "200"){
 //            //successfuly login icon and line edit
-////            qDebug() <<"Welcome"; //for test
+//            qDebug() <<"Welcome"; //for test
 //        }else if(response_code == "401"){
 //            //wrong information
 //            //login faild show the RETRY icon
