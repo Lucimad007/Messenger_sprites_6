@@ -8,6 +8,7 @@
 #include <QGraphicsView>
 #include <QGraphicsPixmapItem>
 #include <QPropertyAnimation>
+#include <QPalette>
 #include "app.h"
 #include "ui_app.h"
 
@@ -16,6 +17,7 @@ App::App(QWidget *parent) :
     ui(new Ui::App)
 {
     ui->setupUi(this);
+    //ui->chatPrototypeWidget->setVisible(false);
     this->setWindowTitle("Sprites");
     this->setWindowFlags(Qt::MSWindowsFixedSizeDialogHint);     //making window not resizeable
     ui->chatPrototypeScroll->setWidgetResizable(true);
@@ -23,17 +25,41 @@ App::App(QWidget *parent) :
     ui->chatPrototypeScroll->setWidget(splitter);
 
 
-    //setting icon of the app
+    //setting primary icons
     try{
         QString iconPath = QString::fromLocal8Bit(__FILE__);
         QFileInfo iconInfo(iconPath);
         QString iconDirectory = iconInfo.absolutePath() + "/ICons/Logo/spritesLogo.jpeg";
-        QFile temp(iconDirectory);
-        if(!temp.exists())
+        QString profileDirectory = iconInfo.absolutePath() + "/ICons/avatar.ico";
+        QFile spritesIcon(iconDirectory);
+        QFile profileIcon(profileDirectory);
+        if(!spritesIcon.exists())
             throw("Icon Not Found.");
         QIcon *icon = new QIcon(iconDirectory);
         this->setWindowIcon(*icon);
+        if(!profileIcon.exists())
+            throw("Icon Not Found.");
+        QIcon *profile = new QIcon(profileDirectory);
+        QPixmap pixMap = profile->pixmap(ui->profilePicture->width(),ui->profilePicture->height());
+        QGraphicsPixmapItem* pixItem = new QGraphicsPixmapItem(pixMap);
+        QGraphicsScene* scene = new QGraphicsScene();
+        scene->addItem(pixItem);
+        ui->profilePicture->setScene(scene);
+    } catch(char const* error){
+        qDebug() << error ;
+    }
 
+    //setting primary backgrounds
+    try{
+        QString backgroundPath = QString::fromLocal8Bit(__FILE__);
+        QFileInfo backgroundInfo(backgroundPath);
+        QString backgroundDirectory = backgroundInfo.absolutePath() + "/ICons/backgrounds/bg4.jpeg";
+        QPixmap chatBackground(backgroundDirectory);
+        QPalette palette;
+        QBrush brush(chatBackground);
+        palette.setBrush(QPalette::Base,brush);
+        ui->chatScrollArea->viewport()->setAutoFillBackground(true);
+        ui->chatScrollArea->setPalette(palette);
     } catch(char const* error){
         qDebug() << error ;
     }
