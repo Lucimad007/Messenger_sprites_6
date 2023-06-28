@@ -49,7 +49,7 @@ public slots:
     void saveCodeToFile(const QString &code);
     QString readCodeFromFile();
     void RemoveCode();
-    void check_response_code(const QString &code);
+    void check_response_code(const QString &code ,const QString &server_message);
 private slots:
     void onReplyFinished(QNetworkReply *reply);
 

@@ -10,13 +10,13 @@ int main(int argc, char *argv[])
 
     w.show();
     APIManager apiManager;
-   User farhad = User("ASGHAR","9876","asgharFarhadi@gmail.com");
-//    User salar = User("Salar","3221","salarmanam@gmail.com");
-//    User matin = User("matiiiiiiinTEST","1234","matin@gmail.com");
+    //   User farhad = User("ASGHAR","9876","asgharFarhadi@gmail.com");
+    //    User salar = User("Salar","3221","salarmanam@gmail.com");
+    //    User matin = User("matiiiiiiinTEST","1234","matin@gmail.com");
 
-   User maxv = User("max","1111","Maxmaz");
-    apiManager.logIn(maxv);
-    apiManager.signUp(maxv);
+//       User maxv = User("max","1111","Maxmaz");
+//        apiManager.logIn(maxv);
+//        apiManager.signUp(maxv);
 
 
  //--------------------------------------------------

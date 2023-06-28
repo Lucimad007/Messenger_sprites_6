@@ -264,7 +264,7 @@ void APIManager::RemoveCode(){
         file.remove();
     }
 }
-void APIManager::check_response_code(const QString &response_code){
+void APIManager::check_response_code(const QString &response_code,const QString &server_message){
     if(response_code == "200"){
         //successfuly login icon and line edit
           qDebug() <<"Welcome code 200"; //for test
@@ -302,9 +302,10 @@ void APIManager::onReplyFinished(QNetworkReply* reply)
         if (jsonObject.contains("code")) {
             // Extract the token value
             QString extractedCode = jsonObject["code"].toString();
+            QString extractedMessage = jsonObject["message"].toString();
             saveCodeToFile(extractedCode);
             //checking code
-            check_response_code(extractedCode);
+            check_response_code(extractedCode,extractedMessage);
             RemoveCode();
 //            qDebug() << "ResponseCode is: " << extractedCode;
 
