@@ -133,18 +133,18 @@ void MainWindow::on_loginBtn_clicked()
         User ui_user = User (username,password,"Email@gmail.com");
 
         apiManager.logIn(ui_user);
-        QString response_code = apiManager.readCodeFromFile();
-        qDebug() << response_code;
-        if(response_code == "200"){
-            //successfuly login icon and line edit
-//            qDebug() <<"Welcome"; //for test
-        }else if(response_code == "401"){
-            //wrong information
-            //login faild show the RETRY icon
-        } else if(response_code == "404"){
-            //we dont have this user he should signUp first than using app
-            // show line edit "we dont have this user Signup first" and show signup icon
-        }
+//        QString response_code = apiManager.readCodeFromFile();
+//        qDebug() << response_code;
+//        if(response_code == "200"){
+//            //successfuly login icon and line edit
+////            qDebug() <<"Welcome"; //for test
+//        }else if(response_code == "401"){
+//            //wrong information
+//            //login faild show the RETRY icon
+//        } else if(response_code == "404"){
+//            //we dont have this user he should signUp first than using app
+//            // show line edit "we dont have this user Signup first" and show signup icon
+//        }
 
         if((passwordLineEdit == nullptr) || (usernameLineEdit == nullptr))
             throw("The Widget does not exist!");
@@ -185,18 +185,18 @@ void MainWindow::on_registerBtn_clicked()
         User ui_user = User(username,password,gmail);
         apiManager.signUp(ui_user);
 
-        QString response_code = apiManager.readCodeFromFile();
-        if(response_code == "200"){
-            //show the next dialog
-            //successfuly signup icon and line edit
-            //qDebug() <<"Welcome"; //for test
-        }else if(response_code == "204"){
-            //already we have this user no need to sign up just login
-            //show the login ui and login icon
-        } else if(response_code == "404"){
-            //we dont have this user he should signUp first than using app
+//        QString response_code = apiManager.readCodeFromFile();
+//        if(response_code == "200"){
+//            //show the next dialog
+//            //successfuly signup icon and line edit
+//            //qDebug() <<"Welcome"; //for test
+//        }else if(response_code == "204"){
+//            //already we have this user no need to sign up just login
+//            //show the login ui and login icon
+//        } else if(response_code == "404"){
+//            //we dont have this user he should signUp first than using app
 
-        }
+//        }
 
 
        if((r_passwordLineEdit == nullptr) || (r_gmailLineEdit == nullptr) || (r_usernameLineEdit == nullptr))

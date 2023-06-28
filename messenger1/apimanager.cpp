@@ -258,6 +258,27 @@ QString APIManager::readCodeFromFile(){
         return QString();
     }
 }
+void APIManager::RemoveCode(){
+    QFile file("ResponseCode.txt");
+    if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        file.remove();
+    }
+}
+void APIManager::check_response_code(const QString &response_code){
+    if(response_code == "200"){
+        //successfuly login icon and line edit
+          qDebug() <<"Welcome code 200"; //for test
+
+    }else if(response_code == "401"){
+        //wrong information
+        //login faild show the RETRY icon
+          qDebug() <<" code is 401 retry"; //for test
+    } else if(response_code == "404"){
+        //we dont have this user he should signUp first than using app
+        // show line edit "we dont have this user Signup first" and show signup icon
+          qDebug() <<" code is 404!!!"; //for test
+    }
+}
 void APIManager::onReplyFinished(QNetworkReply* reply)
 {
     if (reply->error() == QNetworkReply::NoError) {
@@ -282,6 +303,9 @@ void APIManager::onReplyFinished(QNetworkReply* reply)
             // Extract the token value
             QString extractedCode = jsonObject["code"].toString();
             saveCodeToFile(extractedCode);
+            //checking code
+            check_response_code(extractedCode);
+            RemoveCode();
 //            qDebug() << "ResponseCode is: " << extractedCode;
 
         }

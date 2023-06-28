@@ -48,6 +48,8 @@ public slots:
     QString readTokenFromFile();
     void saveCodeToFile(const QString &code);
     QString readCodeFromFile();
+    void RemoveCode();
+    void check_response_code(const QString &code);
 private slots:
     void onReplyFinished(QNetworkReply *reply);
 
