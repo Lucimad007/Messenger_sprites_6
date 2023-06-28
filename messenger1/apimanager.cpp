@@ -236,7 +236,28 @@ QString APIManager::readTokenFromFile() {
         return QString(); // Return an empty token if reading fails
     }
 }
-
+void APIManager::saveCodeToFile(const QString &code){
+    QFile file("ResponseCode.txt");
+    if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+        QTextStream out(&file);
+        out << code;
+        file.close();
+    } else {
+        qDebug() << "Failed to open the ResponseCode file for writing.";
+    }
+}
+QString APIManager::readCodeFromFile(){
+    QFile file("ResponseCode.txt");
+    if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        QTextStream in(&file);
+        QString code = in.readAll();
+        file.close();
+        return code;
+    } else {
+        qDebug() << "Failed to open the ResponseCode file for reading the code";
+        return QString();
+    }
+}
 void APIManager::onReplyFinished(QNetworkReply* reply)
 {
     if (reply->error() == QNetworkReply::NoError) {
@@ -253,11 +274,16 @@ void APIManager::onReplyFinished(QNetworkReply* reply)
             // Extract the token value
             QString extractedToken = jsonObject["token"].toString();
             saveTokenToFile(extractedToken);
-            qDebug() << "Response is: " << responseString;
+//            qDebug() << "Token is: " << extractedToken;
 
-        } else {
-            // Handle the case where the response does not contain a token field
-            // qDebug() << "Response does not contain a token.";
+        }
+        // Check if the response contains a "code"
+        if (jsonObject.contains("code")) {
+            // Extract the token value
+            QString extractedCode = jsonObject["code"].toString();
+            saveCodeToFile(extractedCode);
+//            qDebug() << "ResponseCode is: " << extractedCode;
+
         }
     } else {
         qDebug() << "Error: " << reply->errorString();
