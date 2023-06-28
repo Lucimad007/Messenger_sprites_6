@@ -20,11 +20,12 @@ public:
     ~App();
 
 private slots:
-    void on_menuButton_clicked();
+    void on_profileButton_clicked();
 
 private:
     Ui::App *ui;
     QSplitter* splitter;
+    QWidget* profileWidget;
 };
 
 #endif // APP_H

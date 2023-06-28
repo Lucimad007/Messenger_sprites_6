@@ -93,8 +93,48 @@ App::~App()
     delete ui;
 }
 
-void App::on_menuButton_clicked()
+void App::on_profileButton_clicked()
 {
+
+    if(profileWidget == nullptr){
+        ui->profileButton->setText("Close");
+        QUiLoader loader;
+        QString filePath = QString::fromLocal8Bit(__FILE__);    //__FILE__ is a macro
+        QFileInfo fileInfo(filePath);
+        QString sourceDirectory = fileInfo.absolutePath() + "/profile.ui";
+
+        QFile file(sourceDirectory);
+        try{
+            file.open(QFile::ReadOnly);
+            if(!file.isOpen())
+                throw(file.errorString());
+
+
+            profileWidget = loader.load(&file,this);
+            file.close();
+            profileWidget->setGeometry(this->width(), 0, profileWidget->width(), profileWidget->height());
+            profileWidget->setParent(this);
+            profileWidget->setVisible(true);    //it is necessary because default is not visible
+            QPropertyAnimation* animation = new QPropertyAnimation(profileWidget, "geometry");
+            animation->setDuration(1000);   //duration in milliseconds
+            animation->setStartValue(QRect(-profileWidget->width(), 80, 0, this->height()));
+            animation->setEndValue(QRect(0, 80, profileWidget->width(), this->height()));
+            animation->start();
+        }catch(QString error){
+            qDebug() << error;
+        }
+    }  else if(profileWidget != nullptr){
+        ui->profileButton->setText("Profile");
+        profileWidget->setGeometry(this->width(), 0, profileWidget->width(), profileWidget->height());
+        profileWidget->setParent(this);
+        profileWidget->setVisible(true);    //it is necessary because default is not visible
+        QPropertyAnimation* animation = new QPropertyAnimation(profileWidget, "geometry");
+        animation->setDuration(1000);   //duration in milliseconds
+        animation->setStartValue(QRect(0, 80, profileWidget->width(), this->height()));
+        animation->setEndValue(QRect(-profileWidget->width(), 80, 0, this->height()));
+        animation->start();
+        profileWidget = nullptr;
+    }
 
 }
 

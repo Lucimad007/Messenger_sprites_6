@@ -74,7 +74,7 @@
     <property name="frameShadow">
      <enum>QFrame::Raised</enum>
     </property>
-    <widget class="QPushButton" name="menuButton">
+    <widget class="QPushButton" name="profileButton">
      <property name="geometry">
       <rect>
        <x>4</x>
