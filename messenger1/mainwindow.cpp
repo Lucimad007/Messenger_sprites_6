@@ -17,10 +17,13 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     setLoginUI();
+    //testing
+    app = new App();
+    app->show();
+
 }
 
 void MainWindow::setLoginUI(){
-
     ui->setupUi(this);      //this line is very important due to the fact that it prevents our code from having bug
     this->setWindowTitle("Login - Register");
     this->setWindowFlags(Qt::MSWindowsFixedSizeDialogHint);     //making window not resizeable
@@ -131,8 +134,8 @@ void MainWindow::on_loginBtn_clicked()
 
         apiManager.logIn(ui_user);
         QString response_code = apiManager.readCodeFromFile();
+        qDebug() << response_code;
         if(response_code == "200"){
-            //show the next dialog
             //successfuly login icon and line edit
 //            qDebug() <<"Welcome"; //for test
         }else if(response_code == "401"){

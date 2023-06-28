@@ -7,22 +7,12 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
     MainWindow w;
-    App app;    app.show();   //testing App class
-    //testing add function
-   User test1("Ali","","");
-   User test2("Mohammad","","");
-   User test3("Zahra","","");
-   app.addChatPrototype(test1);
-   app.addChatPrototype(test2);
-   app.addChatPrototype(test3);
-   for(int i=0;i<22;i++)
-       app.addChatPrototype(test3);
 
     w.show();
     APIManager apiManager;
-    User farhad = User("ASGHAR","9876","asgharFarhadi@gmail.com");
-    User salar = User("Salar","3221","salarmanam@gmail.com");
-    User matin = User("matiiiiiiinTEST","1234","matin@gmail.com");
+//    User farhad = User("ASGHAR","9876","asgharFarhadi@gmail.com");
+//    User salar = User("Salar","3221","salarmanam@gmail.com");
+//    User matin = User("matiiiiiiinTEST","1234","matin@gmail.com");
 
  //--------------------------------------------------
 

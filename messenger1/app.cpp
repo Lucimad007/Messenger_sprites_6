@@ -27,7 +27,7 @@ App::App(QWidget *parent) :
     try{
         QString iconPath = QString::fromLocal8Bit(__FILE__);
         QFileInfo iconInfo(iconPath);
-        QString iconDirectory = iconInfo.absolutePath() + "/ICons/app.ico";
+        QString iconDirectory = iconInfo.absolutePath() + "/ICons/Logo/spritesLogo.jpeg";
         QFile temp(iconDirectory);
         if(!temp.exists())
             throw("Icon Not Found.");
@@ -114,6 +114,30 @@ void App::on_profileButton_clicked()
 
             profileWidget = loader.load(&file,this);
             file.close();
+
+            //loading profile picture
+            QGraphicsView* profilePicture = profileWidget->findChild<QGraphicsView*>("profilePicture",Qt::FindChildrenRecursively);
+            try{
+                if(!profilePicture->isWidgetType())
+                    throw("Error while finding widget");
+                QString iconPath = QString::fromLocal8Bit(__FILE__);
+                QFileInfo iconInfo(iconPath);
+                QString iconDirectory = iconInfo.absolutePath() + "/ICons/avatar.ico";
+                QFile temp(iconDirectory);
+                if(!temp.exists())
+                    throw("Icon Not Found.");
+                QIcon *icon = new QIcon(iconDirectory);
+                QPixmap pixMap = icon->pixmap(profilePicture->width(),profilePicture->height());
+                QGraphicsPixmapItem* pixItem = new QGraphicsPixmapItem(pixMap);
+                QGraphicsScene* scene = new QGraphicsScene();
+                scene->addItem(pixItem);
+                profilePicture->setScene(scene);
+
+            } catch(char const* error){
+                qDebug() << error ;
+            }
+
+            //animation
             profileWidget->setGeometry(this->width(), 0, profileWidget->width(), profileWidget->height());
             profileWidget->setParent(this);
             profileWidget->setVisible(true);    //it is necessary because default is not visible
@@ -162,6 +186,31 @@ void App::on_optionsButton_clicked()
 
             optionsWidget = loader.load(&file,this);
             file.close();
+
+            //loading Logo of sprites
+            QGraphicsView* logo = optionsWidget->findChild<QGraphicsView*>("logo",Qt::FindChildrenRecursively);
+            try{
+                if(!logo->isWidgetType())
+                    throw("Error while finding widget");
+                QString iconPath = QString::fromLocal8Bit(__FILE__);
+                QFileInfo iconInfo(iconPath);
+                QString iconDirectory = iconInfo.absolutePath() + "/ICons/Logo/spritesLogo.jpeg";
+                QFile temp(iconDirectory);
+                if(!temp.exists())
+                    throw("Icon Not Found.");
+                QIcon *icon = new QIcon(iconDirectory);
+                QPixmap pixMap = icon->pixmap(logo->width()/2,logo->height()/2);
+                QGraphicsPixmapItem* pixItem = new QGraphicsPixmapItem(pixMap);
+                QGraphicsScene* scene = new QGraphicsScene();
+                scene->addItem(pixItem);
+                logo->setScene(scene);
+
+            } catch(char const* error){
+                qDebug() << error ;
+            }
+
+
+            //animation
             optionsWidget->setGeometry(this->width(), 0, optionsWidget->width(), optionsWidget->height());
             optionsWidget->setParent(this);
             optionsWidget->setVisible(true);    //it is necessary because default is not visible

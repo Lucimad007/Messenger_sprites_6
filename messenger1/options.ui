@@ -33,7 +33,7 @@
    <property name="geometry">
     <rect>
      <x>140</x>
-     <y>260</y>
+     <y>280</y>
      <width>120</width>
      <height>91</height>
     </rect>
@@ -104,7 +104,7 @@ color: rgb(255, 255, 255);</string>
    <property name="geometry">
     <rect>
      <x>115</x>
-     <y>200</y>
+     <y>220</y>
      <width>170</width>
      <height>41</height>
     </rect>
@@ -125,7 +125,7 @@ color: rgb(255, 255, 255);</string>
    <property name="geometry">
     <rect>
      <x>155</x>
-     <y>380</y>
+     <y>400</y>
      <width>90</width>
      <height>24</height>
     </rect>
@@ -136,6 +136,27 @@ color: rgb(255, 255, 255);</string>
    </property>
    <property name="text">
     <string>Clear Local Files</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="spritesLabel">
+   <property name="geometry">
+    <rect>
+     <x>160</x>
+     <y>200</y>
+     <width>81</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background:transparent;
+color: rgb(255, 255, 255);
+font: 11pt &quot;Limelight&quot;;</string>
+   </property>
+   <property name="text">
+    <string>Sprites</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
    </property>
   </widget>
  </widget>

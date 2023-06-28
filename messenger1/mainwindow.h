@@ -3,8 +3,8 @@
 
 #include <apimanager.h>
 #include <user.h>
-
 #include <QMainWindow>
+#include "app.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -31,5 +31,6 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
+    App* app;
 };
 #endif // MAINWINDOW_H
