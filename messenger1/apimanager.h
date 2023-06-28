@@ -46,12 +46,13 @@ public slots:
     //    //void getChannelChat(const QString &token ,const QString &dst,const QString &date); //it will overload soon
     void saveTokenToFile(const QString &token);
     QString readTokenFromFile();
+    void saveCodeToFile(const QString &code);
+    QString readCodeFromFile();
 private slots:
     void onReplyFinished(QNetworkReply *reply);
 
 private:
     QNetworkAccessManager m_networkManager;
-    QString our_token;
 };
 
 #endif // APIMANAGER_H
