@@ -38,6 +38,12 @@ private slots:
 
     void on_lightThemeButton_clicked();
 
+    void on_internetCheckBox_checked();
+
+    void on_internetCheckBox_unchecked();
+
+    void on_logoutButton_clicked();
+
 private:
     Ui::App *ui;
     QSplitter* splitter;

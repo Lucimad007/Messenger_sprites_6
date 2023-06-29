@@ -12,6 +12,7 @@
 #include <QPlainTextEdit>
 #include <QScrollBar>
 #include <QRadioButton>
+#include <QCheckBox>
 #include "chatprototypeeventfilter.h"
 #include "app.h"
 #include "message.h"
@@ -199,6 +200,15 @@ void App::on_profileButton_clicked()
 
             //loading profile picture
             QGraphicsView* profilePicture = profileWidget->findChild<QGraphicsView*>("profilePicture",Qt::FindChildrenRecursively);
+            QCheckBox* internetCheckBox = profileWidget->findChild<QCheckBox*>("internetCheckBox",Qt::FindChildrenRecursively);
+            connect(internetCheckBox, &QCheckBox::stateChanged, [=](int state) {
+                if (state == Qt::Checked)
+                    on_internetCheckBox_checked();
+                 else
+                    on_internetCheckBox_unchecked();
+            });
+            QPushButton* logoutButton = profileWidget->findChild<QPushButton*>("logoutButton",Qt::FindChildrenRecursively);
+            connect(logoutButton,&QRadioButton::clicked,this,&App::on_logoutButton_clicked);
             try{
                 if(!profilePicture->isWidgetType())
                     throw("Error while finding widget");
@@ -243,6 +253,10 @@ void App::on_profileButton_clicked()
         animation->start();
         profileWidget = nullptr;
     }
+
+
+    //set User Information here...
+    // . . .
 
 }
 
@@ -350,6 +364,22 @@ void App::on_sendButton_clicked()
     addMessage(message);
     ui->messageLineEdit->setText("");
 }
+
+//////////////////////////////////////////////////////
+//slots for profile.
+
+void App::on_internetCheckBox_checked(){
+    //change connection here
+}
+
+void App::on_internetCheckBox_unchecked(){
+    //change connection here
+}
+
+void App::on_logoutButton_clicked(){
+    //log out the user
+}
+/// //////////////////////////////////////////////////
 
 //////////////////////////////////////////////////////
 //slots for options.ui
