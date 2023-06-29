@@ -52,10 +52,12 @@ public slots:
     void check_response_code(const QString &code ,const QString &server_message);
 
     //void history_Group(User &ui_given_user);
-    void history_Chat(User &ui_given_user);
+
     //void history_Channel(User &ui_given_user);
 
 private slots:
+    void history_Chat(QJsonObject &jsonObject);
+    void write_history_Chat(QJsonObject &jsonObject);
     void onReplyFinished(QNetworkReply *reply);
 
 private:
