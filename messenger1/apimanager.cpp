@@ -384,7 +384,6 @@ void APIManager::onReplyFinished(QNetworkReply* reply)
               // qDebug() << "ResponseCode is: " << extractedCode;
           }
 
-
     } else {
           qDebug() << "Error: " << reply->errorString();
     }
