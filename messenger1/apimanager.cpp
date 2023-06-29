@@ -282,36 +282,54 @@ void APIManager::check_response_code(const QString &response_code,const QString 
 void APIManager::onReplyFinished(QNetworkReply* reply)
 {
     if (reply->error() == QNetworkReply::NoError) {
-        QByteArray responseData = reply->readAll();
-        QString responseString = QString::fromUtf8(responseData);
-        qDebug() << "Response is: " << responseString;
+          QByteArray responseData = reply->readAll();
+          QString responseString = QString::fromUtf8(responseData);
+          qDebug() << "Response is: " << responseString;
 
-        // Parse the JSON response
-        QJsonDocument jsonResponse = QJsonDocument::fromJson(responseData);
-        QJsonObject jsonObject = jsonResponse.object();
+          // Parse the JSON response
+          QJsonDocument jsonResponse = QJsonDocument::fromJson(responseData);
+          QJsonObject jsonObject = jsonResponse.object();
 
-        // Check if the response contains a "token" field
-        if (jsonObject.contains("token")) {
-            // Extract the token value
-            QString extractedToken = jsonObject["token"].toString();
-            saveTokenToFile(extractedToken);
-//            qDebug() << "Token is: " << extractedToken;
+          // Check if the response contains a "token" field
+          if (jsonObject.contains("token")) {
+              // Extract the token value
+              QString extractedToken = jsonObject["token"].toString();
+              saveTokenToFile(extractedToken);
+              // qDebug() << "Token is: " << extractedToken;
+          }
 
-        }
-        // Check if the response contains a "code"
-        if (jsonObject.contains("code")) {
-            // Extract the token value
-            QString extractedCode = jsonObject["code"].toString();
-            QString extractedMessage = jsonObject["message"].toString();
-            saveCodeToFile(extractedCode);
-            //checking code
-            check_response_code(extractedCode,extractedMessage);
-            RemoveCode();
-//            qDebug() << "ResponseCode is: " << extractedCode;
+          // Check if the response contains a "code"
+          if (jsonObject.contains("code")) {
+              // Extract the code and message values
+              QString extractedCode = jsonObject["code"].toString();
+              QString extractedMessage = jsonObject["message"].toString();
+              saveCodeToFile(extractedCode);
+              // Checking code
+              check_response_code(extractedCode, extractedMessage);
+              RemoveCode();
+              // qDebug() << "ResponseCode is: " << extractedCode;
+          }
 
-        }
+          if (jsonObject.contains("block 4") || jsonObject.contains("src")) {
+              QFile file("UserChat.txt");
+              if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+                  QTextStream out(&file);
+
+                  for (const QString& key : jsonObject.keys()) {
+                      if (key.startsWith("block ")) {
+                          QJsonObject blockObject = jsonObject.value(key).toObject();
+                          QString src = blockObject.value("src").toString();
+                          QString dst = blockObject.value("dst").toString();
+                          QString body = blockObject.value("body").toString();
+
+                          // qDebug() << src << "->" << dst << ":::" << body;
+                          out << src << "->" << dst << " ::: " << body;
+                      }
+                  }
+              }
+          }
     } else {
-        qDebug() << "Error: " << reply->errorString();
+          qDebug() << "Error: " << reply->errorString();
     }
 
     reply->deleteLater(); // Safely release the memory

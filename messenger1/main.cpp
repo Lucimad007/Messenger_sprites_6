@@ -10,15 +10,32 @@ int main(int argc, char *argv[])
 
     w.show();
     APIManager apiManager;
-    //   User farhad = User("ASGHAR","9876","asgharFarhadi@gmail.com");
-    //    User salar = User("Salar","3221","salarmanam@gmail.com");
+      User farhad = User("ASGHAR","9876","asgharFarhadi@gmail.com");
+       User salar = User("Salar","3221","salarmanam@gmail.com");
     //    User matin = User("matiiiiiiinTEST","1234","matin@gmail.com");
 
 //       User maxv = User("max","1111","Maxmaz");
 //        apiManager.logIn(maxv);
 //        apiManager.signUp(maxv);
 
+    //apiManager.logOut(farhad);
+    //apiManager.logIn(farhad);
+       QString user = "Salar";
+       QString body = "Salam salar jan";
 
+//    apiManager.sendMessageUser(farhad,user,body);
+//           apiManager.sendMessageUser(farhad,user,body);
+//        apiManager.sendMessageUser(farhad,user,body);
+//               apiManager.sendMessageUser(farhad,user,body);
+//            apiManager.sendMessageUser(farhad,user,body);
+//                   apiManager.sendMessageUser(farhad,user,body);
+//                apiManager.sendMessageUser(farhad,user,body);
+//                       apiManager.sendMessageUser(farhad,user,body);\
+
+//apiManager.getUsersChat(farhad,user);
+//apiManager.logOut(farhad);
+// //     apiManager.logIn(farhad);
+//       //  apiManager.getUsersList(farhad);
  //--------------------------------------------------
 
     //I have to note that every time we want to creat group or channel or ... we have to pass the const
