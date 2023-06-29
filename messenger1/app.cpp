@@ -9,7 +9,8 @@
 #include <QGraphicsPixmapItem>
 #include <QPropertyAnimation>
 #include <QPalette>
-#include <QPlainTextEdit>>
+#include <QPlainTextEdit>
+#include "chatprototypeeventfilter.h"
 #include "app.h"
 #include "message.h"
 #include "ui_app.h"
@@ -96,6 +97,8 @@ void App::addChatPrototype(User& user){
             throw(file.errorString());
 
         QWidget *myWidget = loader.load(&file, this);
+        ChatPrototypeEventFilter* eventFilter = new ChatPrototypeEventFilter();
+        myWidget->installEventFilter(eventFilter);
         myWidget->setFixedSize(myWidget->width(),myWidget->height());
         file.close();
 
