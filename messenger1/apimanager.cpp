@@ -339,8 +339,31 @@ void APIManager::onReplyFinished(QNetworkReply* reply)
      QJsonObject replyJson = jsonDocument.object();
 
      if(replyJson["code"] == "200"){
-         //call functions
-     } else {
+         if(replyJson["message"] == "Signed Up Successfully"){
+
+         } else if(replyJson["message"] == "Logged in Successfully"){
+
+         }
+
+         } else if(replyJson["message"] == "Logged Out Successfully"){
+
+         } else if(replyJson["message"] == "Group Created Successfully"){
+
+         } else if(replyJson["message"] == "Channel Created Successfully"){
+
+         } else if(replyJson["message"] == "Successfully Joined"){  //for both channel and group
+
+         } else if(replyJson["message"].toString().contains("You Are in") && replyJson["message"].toString().contains("Group")){
+
+         } else if(replyJson["message"].toString().contains("You Are in") && replyJson["message"].toString().contains("Channel")){
+
+         } else if(replyJson["message"].toString().contains("You Chat With") && replyJson["message"].toString().contains("User")){
+
+         } else if(replyJson["message"] == "Message Sent Successfully"){    //for user/channel/group
+
+         } else if(replyJson["message"].toString().contains("There Are") && replyJson["message"].toString().contains("Message")){   //for user/channel/group
+
+         } else {
          dialog = new ErrorDialog(nullptr,replyJson["code"].toString(),replyJson["message"].toString());
          dialog->show();
      }
