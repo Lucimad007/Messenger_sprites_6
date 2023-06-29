@@ -11,6 +11,7 @@
 #include <QPalette>
 #include <QPlainTextEdit>
 #include <QScrollBar>
+#include <QRadioButton>
 #include "chatprototypeeventfilter.h"
 #include "app.h"
 #include "message.h"
@@ -270,14 +271,28 @@ void App::on_optionsButton_clicked()
 
             //loading Logo of sprites
             QGraphicsView* logo = optionsWidget->findChild<QGraphicsView*>("logo",Qt::FindChildrenRecursively);
+            QGraphicsView* profilePictureView = optionsWidget->findChild<QGraphicsView*>("profilePictureView",Qt::FindChildrenRecursively);
+            QPushButton* changeProfilePictureButton = optionsWidget->findChild<QPushButton*>("changeProfilePictureButton",Qt::FindChildrenRecursively);
+            connect(changeProfilePictureButton,&QPushButton::clicked,this,&App::on_changeProfilePictureButton_clicked);
+            QPushButton* clearLocalFilesButton = optionsWidget->findChild<QPushButton*>("clearLocalFilesButton",Qt::FindChildrenRecursively);
+            connect(clearLocalFilesButton,&QPushButton::clicked,this,&App::on_clearLocalFilesButton_clicked);
+            QRadioButton* defaultThemeButton = optionsWidget->findChild<QRadioButton*>("defaultThemeButton",Qt::FindChildrenRecursively);
+            connect(defaultThemeButton,&QRadioButton::clicked,this,&App::on_defaultThemeButton_clicked);
+            QRadioButton* darkThemeButton = optionsWidget->findChild<QRadioButton*>("darkThemeButton",Qt::FindChildrenRecursively);
+            connect(darkThemeButton,&QRadioButton::clicked,this,&App::on_darkThemeButton_clicked);
+            QRadioButton* lightThemeButton = optionsWidget->findChild<QRadioButton*>("lightThemeButton",Qt::FindChildrenRecursively);
+            connect(lightThemeButton,&QRadioButton::clicked,this,&App::on_lightThemeButton_clicked);
             try{
-                if(!logo->isWidgetType())
+                if(!(logo->isWidgetType()) || !(profilePictureView->isWidgetType()))
                     throw("Error while finding widget");
                 QString iconPath = QString::fromLocal8Bit(__FILE__);
                 QFileInfo iconInfo(iconPath);
                 QString iconDirectory = iconInfo.absolutePath() + "/ICons/Logo/spritesLogo.jpeg";
-                QFile temp(iconDirectory);
-                if(!temp.exists())
+                QString avatarDirectory = iconInfo.absolutePath() + "/ICons/avatar.ico";
+                QFile iconFile(iconDirectory);
+                QFile profileFile(avatarDirectory);
+
+                if(!iconFile.exists())
                     throw("Icon Not Found.");
                 QIcon *icon = new QIcon(iconDirectory);
                 QPixmap pixMap = icon->pixmap(logo->width()/2,logo->height()/2);
@@ -285,6 +300,15 @@ void App::on_optionsButton_clicked()
                 QGraphicsScene* scene = new QGraphicsScene();
                 scene->addItem(pixItem);
                 logo->setScene(scene);
+
+                if(!profileFile.exists())
+                    throw("Profile Not Found.");
+                QIcon *profile = new QIcon(avatarDirectory);
+                QPixmap pixMapProfile = profile->pixmap(profilePictureView->width(),profilePictureView->height());
+                QGraphicsPixmapItem* pixItemProfile = new QGraphicsPixmapItem(pixMapProfile);
+                QGraphicsScene* sceneProfile = new QGraphicsScene();
+                sceneProfile->addItem(pixItemProfile);
+                profilePictureView->setScene(sceneProfile);
 
             } catch(char const* error){
                 qDebug() << error ;
@@ -327,3 +351,26 @@ void App::on_sendButton_clicked()
     ui->messageLineEdit->setText("");
 }
 
+//////////////////////////////////////////////////////
+//slots for options.ui
+
+void App::on_changeProfilePictureButton_clicked(){
+    //change the profle here
+}
+
+void App::on_clearLocalFilesButton_clicked(){
+    //delete local files of user
+}
+
+void App::on_defaultThemeButton_clicked(){
+    //change theme to default
+}
+
+void App::on_darkThemeButton_clicked(){
+    //change theme to dark
+}
+
+void App::on_lightThemeButton_clicked(){
+    //change thene to light
+}
+//////////////////////////////////////////////////////

@@ -28,6 +28,16 @@ private slots:
 
     void on_sendButton_clicked();
 
+    void on_changeProfilePictureButton_clicked();
+
+    void on_clearLocalFilesButton_clicked();
+
+    void on_defaultThemeButton_clicked();
+
+    void on_darkThemeButton_clicked();
+
+    void on_lightThemeButton_clicked();
+
 private:
     Ui::App *ui;
     QSplitter* splitter;
