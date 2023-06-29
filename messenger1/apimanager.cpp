@@ -46,7 +46,7 @@ void APIManager::logOut(User &given_user){
     QNetworkRequest request(url);
     m_networkManager.get(request);
 }
-void APIManager::creatGroup(User &given_user, QString &group_name, QString &group_title){
+void APIManager::creatGroup(QString &group_name, QString &group_title){
     QString apiURL="http://api.barafardayebehtar.ml:8080/creategroup";
     QUrl url(apiURL);
     QUrlQuery query;
@@ -60,7 +60,7 @@ void APIManager::creatGroup(User &given_user, QString &group_name, QString &grou
     QNetworkRequest request(url);
     m_networkManager.get(request);
 }
-void APIManager::creatChannel( User &given_user, QString &channel_name,  QString &channel_title){
+void APIManager::creatChannel( QString &channel_name,  QString &channel_title){
     QString apiURL = "http://api.barafardayebehtar.ml:8080/createchannel";
     QUrl url(apiURL);
     QUrlQuery query;
@@ -74,7 +74,7 @@ void APIManager::creatChannel( User &given_user, QString &channel_name,  QString
     QNetworkRequest request(url);
     m_networkManager.get(request);
 }
-void APIManager::getUsersList( User &given_user){
+void APIManager::getUsersList(){
     QString apiURL = "http://api.barafardayebehtar.ml:8080/getuserlist";
     QUrl url(apiURL);
     QUrlQuery query;
@@ -86,7 +86,7 @@ void APIManager::getUsersList( User &given_user){
     QNetworkRequest request(url);
     m_networkManager.get(request);
 }
-void APIManager::getGroupList( User &given_user){
+void APIManager::getGroupList(){
     QString apiURL = "http://api.barafardayebehtar.ml:8080/getgrouplist";
     QUrl url(apiURL);
     QUrlQuery query;
@@ -99,7 +99,7 @@ void APIManager::getGroupList( User &given_user){
     m_networkManager.get(request);
 }
 
-void APIManager::getChannelList( User &given_user){
+void APIManager::getChannelList(){
     QString apiURL = "http://api.barafardayebehtar.ml:8080/getchannellist";
     QUrl url(apiURL);
     QUrlQuery query;
@@ -112,7 +112,7 @@ void APIManager::getChannelList( User &given_user){
     QNetworkRequest request(url);
     m_networkManager.get(request);
 }
-void APIManager::getUsersChat( User &given_user,QString &dst){
+void APIManager::getUsersChat(QString &dst){
     QString apiURL = "http://api.barafardayebehtar.ml:8080/getuserchats";
     QUrl url(apiURL);
     QUrlQuery query;
@@ -124,7 +124,7 @@ void APIManager::getUsersChat( User &given_user,QString &dst){
     QNetworkRequest request(url);
     m_networkManager.get(request);
 }
-void APIManager::getGroupChat( User &given_user,QString &dst){
+void APIManager::getGroupChat(QString &dst){
     QString apiURL = "http://api.barafardayebehtar.ml:8080/getgroupchats";
     QUrl url(apiURL);
     QUrlQuery query;
@@ -136,7 +136,7 @@ void APIManager::getGroupChat( User &given_user,QString &dst){
     QNetworkRequest request(url);
     m_networkManager.get(request);
 }
-void APIManager::getChannelChat( User &given_user, QString &dst){
+void APIManager::getChannelChat(QString &dst){
     QString apiURL = "http://api.barafardayebehtar.ml:8080/getchannelchats";
     QUrl url(apiURL);
     QUrlQuery query;
@@ -148,7 +148,7 @@ void APIManager::getChannelChat( User &given_user, QString &dst){
     QNetworkRequest request(url);
     m_networkManager.get(request);
 }
-void APIManager::joinGroup(User &given_user, QString &group_name){
+void APIManager::joinGroup(QString &group_name){
     QString apiURL = "http://api.barafardayebehtar.ml:8080/joingroup";
     QUrl url(apiURL);
     QUrlQuery query;
@@ -162,7 +162,7 @@ void APIManager::joinGroup(User &given_user, QString &group_name){
     m_networkManager.get(request);
 
 }
-void APIManager::joinChannel(User &given_user, QString &channel_name){
+void APIManager::joinChannel(QString &channel_name){
     QString apiURL = "http://api.barafardayebehtar.ml:8080/joinchannel";
     QUrl url(apiURL);
     QUrlQuery query;
@@ -175,7 +175,7 @@ void APIManager::joinChannel(User &given_user, QString &channel_name){
     QNetworkRequest request(url);
     m_networkManager.get(request);
 }
-void APIManager::sendMessageUser(User &given_user, QString &dst, QString &body){
+void APIManager::sendMessageUser(QString &dst, QString &body){
     QString apiURL = "http://api.barafardayebehtar.ml:8080/sendmessageuser";
     QUrl url(apiURL);
     QUrlQuery query;
@@ -188,7 +188,7 @@ void APIManager::sendMessageUser(User &given_user, QString &dst, QString &body){
     QNetworkRequest request(url);
     m_networkManager.get(request);
 }
-void APIManager::sendMessageGroup(User &given_user, QString &dst, QString &body){
+void APIManager::sendMessageGroup(QString &dst, QString &body){
     QString apiURL = "http://api.barafardayebehtar.ml:8080/sendmessagegroup";
     QUrl url(apiURL);
     QUrlQuery query;
@@ -201,7 +201,7 @@ void APIManager::sendMessageGroup(User &given_user, QString &dst, QString &body)
     QNetworkRequest request(url);
     m_networkManager.get(request);
 }
-void APIManager::sendMessageChannel(User &given_user, QString &dst, QString &body){
+void APIManager::sendMessageChannel(QString &dst, QString &body){
     QString apiURL = "http://api.barafardayebehtar.ml:8080/sendmessagechannel";
     QUrl url(apiURL);
     QUrlQuery query;
@@ -264,18 +264,20 @@ void APIManager::RemoveCode(){
         file.remove();
     }
 }
+void APIManager::history_Chat(User &ui_given_user){
+    getUsersList();
+}
 void APIManager::check_response_code(const QString &response_code,const QString &server_message){
     if(response_code == "200"){
-        //successfuly login icon and line edit
-          qDebug() <<"Welcome code 200"; //for test
+
+        qDebug() <<"Welcome code 200"; //for test
 
     }else if(response_code == "401"){
-        //wrong information
-        //login faild show the RETRY icon
+
           qDebug() <<" code is 401 retry"; //for test
+
     } else if(response_code == "404"){
-        //we dont have this user he should signUp first than using app
-        // show line edit "we dont have this user Signup first" and show signup icon
+
           qDebug() <<" code is 404!!!"; //for test
     }
 }

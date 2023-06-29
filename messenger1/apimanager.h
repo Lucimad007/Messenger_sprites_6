@@ -28,19 +28,19 @@ public slots:
     void logIn(User &given_user);
     void signUp( User &given_user);
     void logOut( User &given_user);
-    void creatGroup( User &given_user,  QString &group_name, QString &group_title);
-    void creatChannel( User &given_user , QString &channel_name ,  QString &channel_title);
-    void getUsersList( User &given_user);
-    void getGroupList( User &given_user);
-    void getChannelList( User &given_user);
-    void getUsersChat( User &given_user , QString &dst);
-    void getGroupChat( User &given_user , QString &dst);
-    void getChannelChat( User &given_user ,QString &dst);
-    void joinGroup( User &given_user ,QString &group_name);
-    void joinChannel( User &given_user ,QString &channel_name);
-    void sendMessageUser( User &given_user ,QString &dst , QString &body);
-    void sendMessageGroup( User &given_user ,QString &dst , QString &body);
-    void sendMessageChannel( User &given_user ,QString &dst , QString &body);
+    void creatGroup(QString &group_name, QString &group_title);
+    void creatChannel(QString &channel_name ,  QString &channel_title);
+    void getUsersList();
+    void getGroupList();
+    void getChannelList();
+    void getUsersChat( QString &dst);
+    void getGroupChat( QString &dst);
+    void getChannelChat(QString &dst);
+    void joinGroup(QString &group_name);
+    void joinChannel(QString &channel_name);
+    void sendMessageUser(QString &dst , QString &body);
+    void sendMessageGroup(QString &dst , QString &body);
+    void sendMessageChannel(QString &dst , QString &body);
     //    //void getUsersChat(const QString &token ,const QString &dst,const QString &date); //it will overload soon
     //    //void getGroupChat(const QString &token ,const QString &dst,const QString &date); //it will overload soon
     //    //void getChannelChat(const QString &token ,const QString &dst,const QString &date); //it will overload soon
@@ -50,6 +50,11 @@ public slots:
     QString readCodeFromFile();
     void RemoveCode();
     void check_response_code(const QString &code ,const QString &server_message);
+
+    //void history_Group(User &ui_given_user);
+    void history_Chat(User &ui_given_user);
+    //void history_Channel(User &ui_given_user);
+
 private slots:
     void onReplyFinished(QNetworkReply *reply);
 

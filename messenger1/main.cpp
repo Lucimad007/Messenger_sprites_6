@@ -34,8 +34,9 @@ int main(int argc, char *argv[])
 
 //apiManager.getUsersChat(farhad,user);
 //apiManager.logOut(farhad);
-// //     apiManager.logIn(farhad);
+    // apiManager.logIn(farhad);
 //       //  apiManager.getUsersList(farhad);
+
  //--------------------------------------------------
 
     //I have to note that every time we want to creat group or channel or ... we have to pass the const
