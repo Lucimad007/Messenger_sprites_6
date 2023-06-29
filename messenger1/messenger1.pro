@@ -11,7 +11,9 @@ CONFIG += c++17
 SOURCES += \
     apimanager.cpp \
     app.cpp \
+    channel.cpp \
     chatprototypeeventfilter.cpp \
+    group.cpp \
     main.cpp \
     mainwindow.cpp \
     message.cpp \
@@ -20,7 +22,9 @@ SOURCES += \
 HEADERS += \
     apimanager.h \
     app.h \
+    channel.h \
     chatprototypeeventfilter.h \
+    group.h \
     mainwindow.h \
     message.h \
     user.h

@@ -82,8 +82,16 @@ App::App(QWidget *parent) :
 
     //testing chatprototype widget
     User testUser("No one","5973","random@gmail.com");
-    for(int i=0;i<20;i++)
-        addChatPrototype(testUser);
+    Channel channel("warehouse");
+    Group group("groove");
+    for(int i=0;i<20;i++){
+        if(i%3==0)
+            addChatPrototype(testUser);
+        else if(i%3 == 1)
+            addChatPrototype(channel);
+        else if(i%3 == 2)
+            addChatPrototype(group);
+    }
 
     //testing message widget
     User user("Ali","1234","ali@gmail.com");
@@ -112,9 +120,124 @@ void App::addChatPrototype(User& user){
         file.close();
 
         QLabel* nameLabel = myWidget->findChild<QLabel*>("nameLabel",Qt::FindChildOption::FindChildrenRecursively);
+        QLabel* typeLabel = myWidget->findChild<QLabel*>("typeLabel",Qt::FindChildOption::FindChildrenRecursively);
         profilePicture = myWidget->findChild< QGraphicsView*>("profilePicture",Qt::FindChildOption::FindChildrenRecursively);
         if(nameLabel != nullptr)
             nameLabel->setText(user.getUsername());
+        else
+            return;
+        if(typeLabel != nullptr)
+            typeLabel->setText("user");
+        else
+            return;
+
+        splitter->addWidget(myWidget);
+    }catch(QString error){
+        qDebug() << error;
+    }
+
+    try{
+        QString iconPath = QString::fromLocal8Bit(__FILE__);
+        QFileInfo iconInfo(iconPath);
+        QString iconDirectory = iconInfo.absolutePath() + "/ICons/avatar.ico";
+        QFile temp(iconDirectory);
+        if(!temp.exists())
+            throw("Icon Not Found.");
+        QIcon *icon = new QIcon(iconDirectory);
+        QPixmap pixMap = icon->pixmap(profilePicture->width(),profilePicture->height());
+        QGraphicsPixmapItem* pixItem = new QGraphicsPixmapItem(pixMap);
+        QGraphicsScene* scene = new QGraphicsScene();
+        scene->addItem(pixItem);
+        profilePicture->setScene(scene);
+
+    } catch(char const* error){
+        qDebug() << error ;
+    }
+}
+
+void App::addChatPrototype(Channel& channel){
+    QGraphicsView* profilePicture;
+    QUiLoader loader;
+    QString filePath = QString::fromLocal8Bit(__FILE__);    //__FILE__ is a macro
+    QFileInfo fileInfo(filePath);
+    QString sourceDirectory = fileInfo.absolutePath() + "/chatprototype.ui";
+
+    QFile file(sourceDirectory);
+    try{
+        file.open(QFile::ReadOnly);
+        if(!file.isOpen())
+            throw(file.errorString());
+
+        QWidget *myWidget = loader.load(&file, this);
+        ChatPrototypeEventFilter* eventFilter = new ChatPrototypeEventFilter();
+        myWidget->installEventFilter(eventFilter);
+        myWidget->setFixedSize(myWidget->width(),myWidget->height());
+        file.close();
+
+        QLabel* nameLabel = myWidget->findChild<QLabel*>("nameLabel",Qt::FindChildOption::FindChildrenRecursively);
+        QLabel* typeLabel = myWidget->findChild<QLabel*>("typeLabel",Qt::FindChildOption::FindChildrenRecursively);
+        profilePicture = myWidget->findChild< QGraphicsView*>("profilePicture",Qt::FindChildOption::FindChildrenRecursively);
+        if(nameLabel != nullptr)
+            nameLabel->setText(channel.getName());
+        else
+            return;
+        if(typeLabel != nullptr)
+            typeLabel->setText("channel");
+        else
+            return;
+
+        splitter->addWidget(myWidget);
+    }catch(QString error){
+        qDebug() << error;
+    }
+
+    try{
+        QString iconPath = QString::fromLocal8Bit(__FILE__);
+        QFileInfo iconInfo(iconPath);
+        QString iconDirectory = iconInfo.absolutePath() + "/ICons/avatar.ico";
+        QFile temp(iconDirectory);
+        if(!temp.exists())
+            throw("Icon Not Found.");
+        QIcon *icon = new QIcon(iconDirectory);
+        QPixmap pixMap = icon->pixmap(profilePicture->width(),profilePicture->height());
+        QGraphicsPixmapItem* pixItem = new QGraphicsPixmapItem(pixMap);
+        QGraphicsScene* scene = new QGraphicsScene();
+        scene->addItem(pixItem);
+        profilePicture->setScene(scene);
+
+    } catch(char const* error){
+        qDebug() << error ;
+    }
+}
+
+void App::addChatPrototype(Group& group){
+    QGraphicsView* profilePicture;
+    QUiLoader loader;
+    QString filePath = QString::fromLocal8Bit(__FILE__);    //__FILE__ is a macro
+    QFileInfo fileInfo(filePath);
+    QString sourceDirectory = fileInfo.absolutePath() + "/chatprototype.ui";
+
+    QFile file(sourceDirectory);
+    try{
+        file.open(QFile::ReadOnly);
+        if(!file.isOpen())
+            throw(file.errorString());
+
+        QWidget *myWidget = loader.load(&file, this);
+        ChatPrototypeEventFilter* eventFilter = new ChatPrototypeEventFilter();
+        myWidget->installEventFilter(eventFilter);
+        myWidget->setFixedSize(myWidget->width(),myWidget->height());
+        file.close();
+
+        QLabel* nameLabel = myWidget->findChild<QLabel*>("nameLabel",Qt::FindChildOption::FindChildrenRecursively);
+        QLabel* typeLabel = myWidget->findChild<QLabel*>("typeLabel",Qt::FindChildOption::FindChildrenRecursively);
+        profilePicture = myWidget->findChild< QGraphicsView*>("profilePicture",Qt::FindChildOption::FindChildrenRecursively);
+        if(nameLabel != nullptr)
+            nameLabel->setText(group.getName());
+        else
+            return;
+        if(typeLabel != nullptr)
+            typeLabel->setText("group");
         else
             return;
 

@@ -137,7 +137,7 @@ border-color:rgb(170, 0, 0);</string>
       <string notr="true">background-color: rgb(98, 98, 98);</string>
      </property>
     </widget>
-    <widget class="QLabel" name="label">
+    <widget class="QLabel" name="nameLabel">
      <property name="geometry">
       <rect>
        <x>80</x>
@@ -158,6 +158,27 @@ color: rgb(255, 255, 255);</string>
      </property>
      <property name="text">
       <string> . . .</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="typeLabel">
+     <property name="geometry">
+      <rect>
+       <x>410</x>
+       <y>10</y>
+       <width>60</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background:transparent;
+color: rgb(255, 255, 255);
+border:transparent;</string>
+     </property>
+     <property name="text">
+      <string>none</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
      </property>
     </widget>
    </widget>

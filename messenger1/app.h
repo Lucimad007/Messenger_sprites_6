@@ -5,6 +5,8 @@
 #include <QSplitter>
 #include <QVBoxLayout>
 #include "user.h"
+#include "channel.h"
+#include "group.h"
 #include "message.h"
 
 namespace Ui {
@@ -18,6 +20,8 @@ class App : public QMainWindow
 public:
     explicit App(QWidget *parent = nullptr);
     void addChatPrototype(User& user);
+    void addChatPrototype(Channel& channel);
+    void addChatPrototype(Group& group);
     void addMessage(Message& message);
     ~App();
 

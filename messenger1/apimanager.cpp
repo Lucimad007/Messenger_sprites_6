@@ -330,7 +330,14 @@ void APIManager::onReplyFinished(QNetworkReply* reply)
           }
     } else {
           qDebug() << "Error: " << reply->errorString();
+          return;
     }
+
+    ///////////////////////////////////////////////////////////////
+    //graphical content
+
+
+    ///////////////////////////////////////////////////////////////
 
     reply->deleteLater(); // Safely release the memory
 }
