@@ -26,6 +26,8 @@ private slots:
 
     void on_optionsButton_clicked();
 
+    void on_sendButton_clicked();
+
 private:
     Ui::App *ui;
     QSplitter* splitter;

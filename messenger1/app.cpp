@@ -10,6 +10,7 @@
 #include <QPropertyAnimation>
 #include <QPalette>
 #include <QPlainTextEdit>
+#include <QScrollBar>
 #include "chatprototypeeventfilter.h"
 #include "app.h"
 #include "message.h"
@@ -29,6 +30,12 @@ App::App(QWidget *parent) :
     chatSplitter = new QSplitter(Qt::Vertical);
     ui->chatPrototypeScroll->setWidget(splitter);
     ui->chatScrollArea->setWidget(chatSplitter);
+
+    //setting scroll bar of chat area always bottom by default
+    QScrollBar* verticalScrollBar = ui->chatScrollArea->verticalScrollBar();
+    connect(verticalScrollBar, &QScrollBar::rangeChanged, [=](int min, int max) {
+        // Set the scrollbar value to the maximum
+        verticalScrollBar->setValue(max);});
 
 
     //setting primary icons
@@ -308,5 +315,15 @@ void App::on_optionsButton_clicked()
         animation->start();
         optionsWidget = nullptr;
     }
+}
+
+void App::on_sendButton_clicked()
+{
+    //replace it by correct current user later
+    User tempUser("Mohammad","12351","zone@gmail.com");
+    QString text = ui->messageLineEdit->text();
+    Message message(tempUser,text);
+    addMessage(message);
+    ui->messageLineEdit->setText("");
 }
 
