@@ -9,7 +9,9 @@
 #include <QGraphicsPixmapItem>
 #include <QPropertyAnimation>
 #include <QPalette>
+#include <QPlainTextEdit>>
 #include "app.h"
+#include "message.h"
 #include "ui_app.h"
 
 App::App(QWidget *parent) :
@@ -21,8 +23,11 @@ App::App(QWidget *parent) :
     this->setWindowTitle("Sprites");
     this->setWindowFlags(Qt::MSWindowsFixedSizeDialogHint);     //making window not resizeable
     ui->chatPrototypeScroll->setWidgetResizable(true);
-    splitter = new QSplitter(Qt::Vertical);;
+    ui->chatScrollArea->setWidgetResizable(true);
+    splitter = new QSplitter(Qt::Vertical);
+    chatSplitter = new QSplitter(Qt::Vertical);
     ui->chatPrototypeScroll->setWidget(splitter);
+    ui->chatScrollArea->setWidget(chatSplitter);
 
 
     //setting primary icons
@@ -64,6 +69,17 @@ App::App(QWidget *parent) :
         qDebug() << error ;
     }
 
+
+    //testing chatprototype widget
+    User testUser("No one","5973","random@gmail.com");
+    for(int i=0;i<20;i++)
+        addChatPrototype(testUser);
+
+    //testing message widget
+    User user("Ali","1234","ali@gmail.com");
+    Message test(user,"This is a test");
+    for(int i=0;i<20;i++)
+        addMessage(test);
 }
 
 void App::addChatPrototype(User& user){
@@ -112,6 +128,35 @@ void App::addChatPrototype(User& user){
     } catch(char const* error){
         qDebug() << error ;
     }
+}
+
+void App::addMessage(Message& message){
+    QUiLoader loader;
+    QString filePath = QString::fromLocal8Bit(__FILE__);    //__FILE__ is a macro
+    QFileInfo fileInfo(filePath);
+    QString sourceDirectory = fileInfo.absolutePath() + "/message.ui";
+
+    QFile file(sourceDirectory);
+    try{
+        file.open(QFile::ReadOnly);
+        if(!file.isOpen())
+            throw(file.errorString());
+
+        QWidget *myWidget = loader.load(&file, this);
+        myWidget->setFixedSize(myWidget->width(),myWidget->height());
+        file.close();
+
+        QLabel* nameLabel = myWidget->findChild<QLabel*>("nameLabel",Qt::FindChildOption::FindChildrenRecursively);
+        QPlainTextEdit* messageText = myWidget->findChild<QPlainTextEdit*>("messageText",Qt::FindChildOption::FindChildrenRecursively);
+        if((nameLabel == nullptr) || messageText == nullptr)
+            throw("Widgets not found.");
+        nameLabel->setText(message.getSenderName());
+        messageText->setPlainText(message.getMessage());
+        chatSplitter->addWidget(myWidget);
+    }catch(QString error){
+        qDebug() << error;
+    }
+
 }
 
 App::~App()

@@ -7,7 +7,7 @@
 class User
 {
 public:
-
+    User();
     User(const QString &username , const QString &password, const QString &email);
 
     //geters

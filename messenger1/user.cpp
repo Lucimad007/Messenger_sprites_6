@@ -1,5 +1,13 @@
 #include "user.h"
 
+
+User::User(){
+    this->Username = "";
+    this->Password = "";
+    this->Email = "";
+    this->token = "";
+}
+
 User::User(const QString& username, const QString& password, const QString& email)
     : Username(username), Password(password), Email(email)
 {

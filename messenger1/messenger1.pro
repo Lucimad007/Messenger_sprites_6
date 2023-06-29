@@ -13,12 +13,14 @@ SOURCES += \
     app.cpp \
     main.cpp \
     mainwindow.cpp \
+    message.cpp \
     user.cpp
 
 HEADERS += \
     apimanager.h \
     app.h \
     mainwindow.h \
+    message.h \
     user.h
 
 FORMS += \
@@ -26,6 +28,7 @@ FORMS += \
     app.ui \
     chatprototype.ui \
     mainwindow.ui \
+    message.ui \
     options.ui \
     profile.ui \
     register.ui

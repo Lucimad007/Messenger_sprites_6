@@ -18,9 +18,9 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
     setLoginUI();
     this->setWindowFlags(Qt::MSWindowsFixedSizeDialogHint);     //making window not resizeable
-//    //testing
-//    app = new App();
-//    app->show();
+    //testing
+    app = new App();
+    app->show();
 
 }
 

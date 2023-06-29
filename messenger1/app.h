@@ -5,6 +5,7 @@
 #include <QSplitter>
 #include <QVBoxLayout>
 #include "user.h"
+#include "message.h"
 
 namespace Ui {
 class App;
@@ -17,6 +18,7 @@ class App : public QMainWindow
 public:
     explicit App(QWidget *parent = nullptr);
     void addChatPrototype(User& user);
+    void addMessage(Message& message);
     ~App();
 
 private slots:
@@ -27,6 +29,7 @@ private slots:
 private:
     Ui::App *ui;
     QSplitter* splitter;
+    QSplitter* chatSplitter;
     QWidget* profileWidget = nullptr;   //initializing it as nullptr prevents app from unexpected crashes
     QWidget* optionsWidget = nullptr;   //initializing it as nullptr prevents app from unexpected crashes
 };
