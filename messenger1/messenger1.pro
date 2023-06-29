@@ -35,6 +35,7 @@ FORMS += \
     Login.ui \
     app.ui \
     chatprototype.ui \
+    createjoin.ui \
     errordialog.ui \
     mainwindow.ui \
     message.ui \

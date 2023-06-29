@@ -301,7 +301,7 @@ App::~App()
 
 void App::on_profileButton_clicked()
 {
-    if(optionsWidget != nullptr)    //two menus should not be simultaneously
+    if((optionsWidget != nullptr) || (createjoinWidget != nullptr))    //two menus should not be simultaneously available
         return;
 
     if(profileWidget == nullptr){
@@ -358,8 +358,8 @@ void App::on_profileButton_clicked()
             profileWidget->setVisible(true);    //it is necessary because default is not visible
             QPropertyAnimation* animation = new QPropertyAnimation(profileWidget, "geometry");
             animation->setDuration(1000);   //duration in milliseconds
-            animation->setStartValue(QRect(-profileWidget->width(), 80, 0, this->height()));
-            animation->setEndValue(QRect(0, 80, profileWidget->width(), this->height()));
+            animation->setStartValue(QRect(-profileWidget->width(), 110, 0, this->height()));
+            animation->setEndValue(QRect(0, 110, profileWidget->width(), this->height()));
             animation->start();
         }catch(QString error){
             qDebug() << error;
@@ -371,8 +371,8 @@ void App::on_profileButton_clicked()
         profileWidget->setVisible(true);    //it is necessary because default is not visible
         QPropertyAnimation* animation = new QPropertyAnimation(profileWidget, "geometry");
         animation->setDuration(1000);   //duration in milliseconds
-        animation->setStartValue(QRect(0, 80, profileWidget->width(), this->height()));
-        animation->setEndValue(QRect(-profileWidget->width(), 80, 0, this->height()));
+        animation->setStartValue(QRect(0, 110, profileWidget->width(), this->height()));
+        animation->setEndValue(QRect(-profileWidget->width(), 110, 0, this->height()));
         animation->start();
         profileWidget = nullptr;
     }
@@ -386,7 +386,7 @@ void App::on_profileButton_clicked()
 
 void App::on_optionsButton_clicked()
 {
-    if(profileWidget != nullptr)    //two menus should not be simultaneously
+    if((createjoinWidget != nullptr) || (profileWidget != nullptr))    //two menus should not be simultaneously available
         return;
 
     if(optionsWidget == nullptr){
@@ -458,8 +458,8 @@ void App::on_optionsButton_clicked()
             optionsWidget->setVisible(true);    //it is necessary because default is not visible
             QPropertyAnimation* animation = new QPropertyAnimation(optionsWidget, "geometry");
             animation->setDuration(1000);   //duration in milliseconds
-            animation->setStartValue(QRect(-optionsWidget->width(), 80, 0, this->height()));
-            animation->setEndValue(QRect(0, 80, optionsWidget->width(), this->height()));
+            animation->setStartValue(QRect(-optionsWidget->width(), 110, 0, this->height()));
+            animation->setEndValue(QRect(0, 110, optionsWidget->width(), this->height()));
             animation->start();
         }catch(QString error){
             qDebug() << error;
@@ -471,12 +471,70 @@ void App::on_optionsButton_clicked()
         optionsWidget->setVisible(true);    //it is necessary because default is not visible
         QPropertyAnimation* animation = new QPropertyAnimation(optionsWidget, "geometry");
         animation->setDuration(1000);   //duration in milliseconds
-        animation->setStartValue(QRect(0, 80, optionsWidget->width(), this->height()));
-        animation->setEndValue(QRect(-optionsWidget->width(), 80, 0, this->height()));
+        animation->setStartValue(QRect(0, 110, optionsWidget->width(), this->height()));
+        animation->setEndValue(QRect(-optionsWidget->width(), 110, 0, this->height()));
         animation->start();
         optionsWidget = nullptr;
     }
 }
+
+void App::on_createJoinButton_clicked()
+{
+    if((optionsWidget != nullptr) || (profileWidget != nullptr))    //two menus should not be simultaneously available
+        return;
+
+    if(createjoinWidget == nullptr){
+        ui->createJoinButton->setText("Close");
+        QUiLoader loader;
+        QString filePath = QString::fromLocal8Bit(__FILE__);    //__FILE__ is a macro
+        QFileInfo fileInfo(filePath);
+        QString sourceDirectory = fileInfo.absolutePath() + "/createjoin.ui";
+
+        QFile file(sourceDirectory);
+        try{
+            file.open(QFile::ReadOnly);
+            if(!file.isOpen())
+                throw(file.errorString());
+
+
+            createjoinWidget = loader.load(&file,this);
+            file.close();
+
+            QPushButton* createGroupButton = createjoinWidget->findChild<QPushButton*>("createGroupButton",Qt::FindChildrenRecursively);
+            connect(createGroupButton,&QPushButton::clicked,this,&App::on_createGroupButton_clicked);
+            QPushButton* createChannelButton = createjoinWidget->findChild<QPushButton*>("createChannelButton",Qt::FindChildrenRecursively);
+            connect(createChannelButton,&QPushButton::clicked,this,&App::on_createChannelButton_clicked);
+            QPushButton* joinGroupButton = createjoinWidget->findChild<QPushButton*>("joinGroupButton",Qt::FindChildrenRecursively);
+            connect(joinGroupButton,&QPushButton::clicked,this,&App::on_joinGroupButton_clicked);
+            QPushButton* joinChannelButton = createjoinWidget->findChild<QPushButton*>("joinChannelButton",Qt::FindChildrenRecursively);
+            connect(joinChannelButton,&QPushButton::clicked,this,&App::on_joinChannelButton_clicked);
+            //animation
+            createjoinWidget->setGeometry(this->width(), 0, createjoinWidget->width(), createjoinWidget->height());
+            createjoinWidget->setParent(this);
+            createjoinWidget->setVisible(true);    //it is necessary because default is not visible
+            QPropertyAnimation* animation = new QPropertyAnimation(createjoinWidget, "geometry");
+            animation->setDuration(1000);   //duration in milliseconds
+            animation->setStartValue(QRect(-createjoinWidget->width(), 110, 0, this->height()));
+            animation->setEndValue(QRect(0, 110, createjoinWidget->width(), this->height()));
+            animation->start();
+        }catch(QString error){
+            qDebug() << error;
+        }
+    }  else if(createjoinWidget != nullptr){
+        ui->createJoinButton->setText("Create / Join");
+        createjoinWidget->setGeometry(this->width(), 0, createjoinWidget->width(), createjoinWidget->height());
+        createjoinWidget->setParent(this);
+        createjoinWidget->setVisible(true);    //it is necessary because default is not visible
+        QPropertyAnimation* animation = new QPropertyAnimation(createjoinWidget, "geometry");
+        animation->setDuration(1000);   //duration in milliseconds
+        animation->setStartValue(QRect(0, 110, createjoinWidget->width(), this->height()));
+        animation->setEndValue(QRect(-createjoinWidget->width(), 110, 0, this->height()));
+        animation->start();
+        createjoinWidget = nullptr;
+    }
+}
+
+
 
 void App::on_sendButton_clicked()
 {
@@ -525,5 +583,23 @@ void App::on_darkThemeButton_clicked(){
 
 void App::on_lightThemeButton_clicked(){
     //change thene to light
+}
+//////////////////////////////////////////////////////
+//slots for createjoin.ui
+
+void App::on_createGroupButton_clicked(){
+    //create group here
+}
+
+void App::on_createChannelButton_clicked(){
+    //create channel here
+}
+
+void App::on_joinGroupButton_clicked(){
+    //join group here
+}
+
+void App::on_joinChannelButton_clicked(){
+    //join channel here
 }
 //////////////////////////////////////////////////////

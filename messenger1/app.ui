@@ -108,6 +108,23 @@ color: rgb(255, 255, 255);</string>
       <string>Options</string>
      </property>
     </widget>
+    <widget class="QPushButton" name="createJoinButton">
+     <property name="geometry">
+      <rect>
+       <x>3</x>
+       <y>56</y>
+       <width>76</width>
+       <height>24</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: qradialgradient(spread:pad, cx:0.5, cy:0.5, radius:0.5, fx:0.5, fy:0.494, stop:0 rgba(0, 0, 0, 255), stop:1 rgba(29, 177, 31, 255));
+color: rgb(255, 255, 255);</string>
+     </property>
+     <property name="text">
+      <string>Create / Join</string>
+     </property>
+    </widget>
    </widget>
    <widget class="QWidget" name="chatPrototypeWidget" native="true">
     <property name="geometry">

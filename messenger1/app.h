@@ -48,12 +48,23 @@ private slots:
 
     void on_logoutButton_clicked();
 
+    void on_createJoinButton_clicked();
+
+    void on_createGroupButton_clicked();
+
+    void on_createChannelButton_clicked();
+
+    void on_joinGroupButton_clicked();
+
+    void on_joinChannelButton_clicked();
+
 private:
     Ui::App *ui;
     QSplitter* splitter;
     QSplitter* chatSplitter;
     QWidget* profileWidget = nullptr;   //initializing it as nullptr prevents app from unexpected crashes
     QWidget* optionsWidget = nullptr;   //initializing it as nullptr prevents app from unexpected crashes
+    QWidget* createjoinWidget = nullptr;//initializing it as nullptr prevents app from unexpected crashes
 };
 
 #endif // APP_H
