@@ -1,5 +1,8 @@
 #include "apimanager.h"
 #include<QUrlQuery>
+#include "errordialog.h"
+
+ErrorDialog* dialog;
 
 APIManager::APIManager(QObject *parent) : QObject(parent)
 {
@@ -328,16 +331,30 @@ void APIManager::onReplyFinished(QNetworkReply* reply)
                   }
               }
           }
+
+
+     ///////////////////////////////////////////////////////////////
+     //graphical content
+     QJsonDocument jsonDocument = QJsonDocument::fromJson(responseData);
+     QJsonObject replyJson = jsonDocument.object();
+
+     if(replyJson["code"] == "200"){
+         //call functions
+     } else {
+         dialog = new ErrorDialog(nullptr,replyJson["code"].toString(),replyJson["message"].toString());
+         dialog->show();
+     }
+
+     //qDebug() << "test : " << replyJson["code"].toString();
+
+    ///////////////////////////////////////////////////////////////
+
+
+
     } else {
           qDebug() << "Error: " << reply->errorString();
           return;
     }
-
-    ///////////////////////////////////////////////////////////////
-    //graphical content
-
-
-    ///////////////////////////////////////////////////////////////
 
     reply->deleteLater(); // Safely release the memory
 }

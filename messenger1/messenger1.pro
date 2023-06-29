@@ -13,6 +13,7 @@ SOURCES += \
     app.cpp \
     channel.cpp \
     chatprototypeeventfilter.cpp \
+    errordialog.cpp \
     group.cpp \
     main.cpp \
     mainwindow.cpp \
@@ -24,6 +25,7 @@ HEADERS += \
     app.h \
     channel.h \
     chatprototypeeventfilter.h \
+    errordialog.h \
     group.h \
     mainwindow.h \
     message.h \
@@ -33,6 +35,7 @@ FORMS += \
     Login.ui \
     app.ui \
     chatprototype.ui \
+    errordialog.ui \
     mainwindow.ui \
     message.ui \
     options.ui \
