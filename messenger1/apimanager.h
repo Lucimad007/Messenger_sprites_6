@@ -61,6 +61,7 @@ private slots:
 
 private:
     QNetworkAccessManager m_networkManager;
+    User currentUser;
 };
 
 #endif // APIMANAGER_H

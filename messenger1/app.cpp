@@ -13,11 +13,16 @@
 #include <QScrollBar>
 #include <QRadioButton>
 #include <QCheckBox>
+#include "mainwindow.h"
+#include "apimanager.h"
 #include "chatprototypeeventfilter.h"
 #include "addcontacteventfilter.h"
 #include "app.h"
 #include "message.h"
 #include "ui_app.h"
+
+extern MainWindow* mainWindow;
+extern APIManager apiManager;
 
 App::App(QWidget *parent) :
     QMainWindow(parent),
@@ -111,6 +116,18 @@ App::App(QWidget *parent) :
     Message test(user,"This is a test");
     for(int i=0;i<20;i++)
         addMessage(test);
+}
+
+Group App::getPendingGroup(){
+    return pendingGroup;
+}
+
+Channel App::getPendingChannel(){
+    return pendingChannel;
+}
+
+CurrentPending App::getCurrentPending(){
+    return currentPending;
 }
 
 void App::addChatPrototype(User& user){
@@ -571,7 +588,10 @@ void App::on_internetCheckBox_unchecked(){
 }
 
 void App::on_logoutButton_clicked(){
-    //log out the user
+    User user = mainWindow->getCurrentUser();
+    apiManager.logOut(user);
+    this->close();
+    mainWindow->show();
 }
 /// //////////////////////////////////////////////////
 
@@ -601,18 +621,42 @@ void App::on_lightThemeButton_clicked(){
 //slots for createjoin.ui
 
 void App::on_createGroupButton_clicked(){
-    //create group here
+    currentPending = GROUP;
+    QLineEdit* nameLineEdit = createjoinWidget->findChild<QLineEdit*>("createGroupLineEdit",Qt::FindChildrenRecursively);
+    QString name = nameLineEdit->text();
+    Group group(name);
+    pendingGroup = group;
+    apiManager.creatGroup(name,name);
+    nameLineEdit->setText("");
 }
 
 void App::on_createChannelButton_clicked(){
-    //create channel here
+    currentPending = CHANNEL;
+    QLineEdit* nameLineEdit = createjoinWidget->findChild<QLineEdit*>("createChannelLineEdit",Qt::FindChildrenRecursively);
+    QString name = nameLineEdit->text();
+    Channel channel(name);
+    pendingChannel = channel;
+    apiManager.creatChannel(name,name);
+    nameLineEdit->setText("");
 }
 
 void App::on_joinGroupButton_clicked(){
-    //join group here
+    currentPending = GROUP;
+    QLineEdit* nameLineEdit = createjoinWidget->findChild<QLineEdit*>("joinGroupLineEdit",Qt::FindChildrenRecursively);
+    QString name = nameLineEdit->text();
+    Group group(name);
+    pendingGroup = group;
+    apiManager.joinGroup(name);
+    nameLineEdit->setText("");
 }
 
 void App::on_joinChannelButton_clicked(){
-    //join channel here
+    currentPending = CHANNEL;
+    QLineEdit* nameLineEdit = createjoinWidget->findChild<QLineEdit*>("joinChannelLineEdit",Qt::FindChildrenRecursively);
+    QString name = nameLineEdit->text();
+    Channel channel(name);
+    pendingChannel = channel;
+    apiManager.joinChannel(name);
+    nameLineEdit->setText("");
 }
 //////////////////////////////////////////////////////

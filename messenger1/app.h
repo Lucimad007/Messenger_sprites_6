@@ -9,6 +9,8 @@
 #include "group.h"
 #include "message.h"
 
+enum CurrentPending {GROUP, CHANNEL};
+
 namespace Ui {
 class App;
 }
@@ -19,6 +21,9 @@ class App : public QMainWindow
 
 public:
     explicit App(QWidget *parent = nullptr);
+    Group getPendingGroup();
+    Channel getPendingChannel();
+    CurrentPending getCurrentPending();
     void addChatPrototype(User& user);
     void addChatPrototype(Channel& channel);
     void addChatPrototype(Group& group);
@@ -65,6 +70,9 @@ private:
     QWidget* profileWidget = nullptr;   //initializing it as nullptr prevents app from unexpected crashes
     QWidget* optionsWidget = nullptr;   //initializing it as nullptr prevents app from unexpected crashes
     QWidget* createjoinWidget = nullptr;//initializing it as nullptr prevents app from unexpected crashes
+    CurrentPending currentPending;
+    Group pendingGroup;
+    Channel pendingChannel;
 };
 
 #endif // APP_H

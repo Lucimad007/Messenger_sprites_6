@@ -16,8 +16,12 @@ class MainWindow : public QMainWindow
 
 public:
     MainWindow(QWidget *parent = nullptr);
+    User getCurrentUser();
+    App* getApp();
     void setLoginUI();
     void setRegisterUI();
+    void startApp();
+    void closeApp();
     ~MainWindow();
 
 private slots:
@@ -32,5 +36,6 @@ private slots:
 private:
     Ui::MainWindow *ui;
     App* app;
+    User currentUser;
 };
 #endif // MAINWINDOW_H
