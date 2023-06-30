@@ -1,11 +1,12 @@
 #include "apimanager.h"
 #include<QUrlQuery>
-
+QJsonObject temp_json_object;
+QString main_user_chat;
 APIManager::APIManager(QObject *parent) : QObject(parent)
 {
     connect(&m_networkManager,&QNetworkAccessManager::finished,this,&APIManager::onReplyFinished);
 }
-
+QString chat_history_filename ="";
 void APIManager::signUp(User &given_user){
     QString apiURL = "http://api.barafardayebehtar.ml:8080/signup";
     //  ruct the request URL with query parameters
@@ -46,7 +47,7 @@ void APIManager::logOut(User &given_user){
     QNetworkRequest request(url);
     m_networkManager.get(request);
 }
-void APIManager::creatGroup(User &given_user, QString &group_name, QString &group_title){
+void APIManager::creatGroup(QString &group_name, QString &group_title){
     QString apiURL="http://api.barafardayebehtar.ml:8080/creategroup";
     QUrl url(apiURL);
     QUrlQuery query;
@@ -60,7 +61,7 @@ void APIManager::creatGroup(User &given_user, QString &group_name, QString &grou
     QNetworkRequest request(url);
     m_networkManager.get(request);
 }
-void APIManager::creatChannel( User &given_user, QString &channel_name,  QString &channel_title){
+void APIManager::creatChannel( QString &channel_name,  QString &channel_title){
     QString apiURL = "http://api.barafardayebehtar.ml:8080/createchannel";
     QUrl url(apiURL);
     QUrlQuery query;
@@ -74,7 +75,7 @@ void APIManager::creatChannel( User &given_user, QString &channel_name,  QString
     QNetworkRequest request(url);
     m_networkManager.get(request);
 }
-void APIManager::getUsersList( User &given_user){
+void APIManager::getUsersList(){
     QString apiURL = "http://api.barafardayebehtar.ml:8080/getuserlist";
     QUrl url(apiURL);
     QUrlQuery query;
@@ -86,7 +87,7 @@ void APIManager::getUsersList( User &given_user){
     QNetworkRequest request(url);
     m_networkManager.get(request);
 }
-void APIManager::getGroupList( User &given_user){
+void APIManager::getGroupList(){
     QString apiURL = "http://api.barafardayebehtar.ml:8080/getgrouplist";
     QUrl url(apiURL);
     QUrlQuery query;
@@ -99,7 +100,7 @@ void APIManager::getGroupList( User &given_user){
     m_networkManager.get(request);
 }
 
-void APIManager::getChannelList( User &given_user){
+void APIManager::getChannelList(){
     QString apiURL = "http://api.barafardayebehtar.ml:8080/getchannellist";
     QUrl url(apiURL);
     QUrlQuery query;
@@ -112,7 +113,8 @@ void APIManager::getChannelList( User &given_user){
     QNetworkRequest request(url);
     m_networkManager.get(request);
 }
-void APIManager::getUsersChat( User &given_user,QString &dst){
+void APIManager::getUsersChat(QString &dst){
+    main_user_chat = dst;
     QString apiURL = "http://api.barafardayebehtar.ml:8080/getuserchats";
     QUrl url(apiURL);
     QUrlQuery query;
@@ -121,10 +123,14 @@ void APIManager::getUsersChat( User &given_user,QString &dst){
     query.addQueryItem("dst",dst);
     url.setQuery(query);
 
+
+
     QNetworkRequest request(url);
     m_networkManager.get(request);
+
+
 }
-void APIManager::getGroupChat( User &given_user,QString &dst){
+void APIManager::getGroupChat(QString &dst){
     QString apiURL = "http://api.barafardayebehtar.ml:8080/getgroupchats";
     QUrl url(apiURL);
     QUrlQuery query;
@@ -136,7 +142,7 @@ void APIManager::getGroupChat( User &given_user,QString &dst){
     QNetworkRequest request(url);
     m_networkManager.get(request);
 }
-void APIManager::getChannelChat( User &given_user, QString &dst){
+void APIManager::getChannelChat(QString &dst){
     QString apiURL = "http://api.barafardayebehtar.ml:8080/getchannelchats";
     QUrl url(apiURL);
     QUrlQuery query;
@@ -148,7 +154,7 @@ void APIManager::getChannelChat( User &given_user, QString &dst){
     QNetworkRequest request(url);
     m_networkManager.get(request);
 }
-void APIManager::joinGroup(User &given_user, QString &group_name){
+void APIManager::joinGroup(QString &group_name){
     QString apiURL = "http://api.barafardayebehtar.ml:8080/joingroup";
     QUrl url(apiURL);
     QUrlQuery query;
@@ -162,7 +168,7 @@ void APIManager::joinGroup(User &given_user, QString &group_name){
     m_networkManager.get(request);
 
 }
-void APIManager::joinChannel(User &given_user, QString &channel_name){
+void APIManager::joinChannel(QString &channel_name){
     QString apiURL = "http://api.barafardayebehtar.ml:8080/joinchannel";
     QUrl url(apiURL);
     QUrlQuery query;
@@ -175,7 +181,7 @@ void APIManager::joinChannel(User &given_user, QString &channel_name){
     QNetworkRequest request(url);
     m_networkManager.get(request);
 }
-void APIManager::sendMessageUser(User &given_user, QString &dst, QString &body){
+void APIManager::sendMessageUser(QString &dst, QString &body){
     QString apiURL = "http://api.barafardayebehtar.ml:8080/sendmessageuser";
     QUrl url(apiURL);
     QUrlQuery query;
@@ -188,7 +194,7 @@ void APIManager::sendMessageUser(User &given_user, QString &dst, QString &body){
     QNetworkRequest request(url);
     m_networkManager.get(request);
 }
-void APIManager::sendMessageGroup(User &given_user, QString &dst, QString &body){
+void APIManager::sendMessageGroup(QString &dst, QString &body){
     QString apiURL = "http://api.barafardayebehtar.ml:8080/sendmessagegroup";
     QUrl url(apiURL);
     QUrlQuery query;
@@ -201,7 +207,7 @@ void APIManager::sendMessageGroup(User &given_user, QString &dst, QString &body)
     QNetworkRequest request(url);
     m_networkManager.get(request);
 }
-void APIManager::sendMessageChannel(User &given_user, QString &dst, QString &body){
+void APIManager::sendMessageChannel(QString &dst, QString &body){
     QString apiURL = "http://api.barafardayebehtar.ml:8080/sendmessagechannel";
     QUrl url(apiURL);
     QUrlQuery query;
@@ -264,72 +270,110 @@ void APIManager::RemoveCode(){
         file.remove();
     }
 }
+
+bool flag =true;
 void APIManager::check_response_code(const QString &response_code,const QString &server_message){
-    if(response_code == "200"){
-        //successfuly login icon and line edit
-          qDebug() <<"Welcome code 200"; //for test
+
+    if(response_code == "200" && server_message == "Logged in Successfully"){
+
+        while(flag){
+            flag=false;
+            getUsersList();
+
+        }
+
+        qDebug() <<"Task has been done code 200"; //for test
 
     }else if(response_code == "401"){
-        //wrong information
-        //login faild show the RETRY icon
-          qDebug() <<" code is 401 retry"; //for test
+
+        qDebug() <<" code is 401 retry"; //for test
+
     } else if(response_code == "404"){
-        //we dont have this user he should signUp first than using app
-        // show line edit "we dont have this user Signup first" and show signup icon
-          qDebug() <<" code is 404!!!"; //for test
+
+        qDebug() <<" code is 404!!!"; //for test
     }
+}
+
+void APIManager::Write_chat_folder(const QString &target_user, const QJsonObject &response){
+    QString filename = target_user +".txt";
+    QFile file(filename);
+    if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+        QTextStream stream(&file);
+
+        // Extract src, dst, and body from the response
+        QString src = response.value("block").toObject().value("src").toString();
+        QString dst = response.value("block").toObject().value("dst").toString();
+        QString body = response.value("block").toObject().value("body").toString();
+
+        // Write the extracted values to the file
+        stream << src <<" -> "<<dst <<":::"<<body<<"\n";
+
+        file.close();
+        qDebug() << "Response written to file: " << filename;
+    }
+
 }
 void APIManager::onReplyFinished(QNetworkReply* reply)
 {
     if (reply->error() == QNetworkReply::NoError) {
-          QByteArray responseData = reply->readAll();
-          QString responseString = QString::fromUtf8(responseData);
-          qDebug() << "Response is: " << responseString;
+        QByteArray responseData = reply->readAll();
+        QString responseString = QString::fromUtf8(responseData);
+        qDebug() << "Response is: " << responseString;
 
-          // Parse the JSON response
-          QJsonDocument jsonResponse = QJsonDocument::fromJson(responseData);
-          QJsonObject jsonObject = jsonResponse.object();
+        // Parse the JSON response
+        QJsonDocument jsonResponse = QJsonDocument::fromJson(responseData);
+        QJsonObject jsonObject = jsonResponse.object();
 
-          // Check if the response contains a "token" field
-          if (jsonObject.contains("token")) {
-              // Extract the token value
-              QString extractedToken = jsonObject["token"].toString();
-              saveTokenToFile(extractedToken);
-              // qDebug() << "Token is: " << extractedToken;
-          }
+        // Check if the response contains a "token" field
+        //          -------------------------------------------------------------
+        //        Matins edit please dont do anything with this my friend
 
-          // Check if the response contains a "code"
-          if (jsonObject.contains("code")) {
-              // Extract the code and message values
-              QString extractedCode = jsonObject["code"].toString();
-              QString extractedMessage = jsonObject["message"].toString();
-              saveCodeToFile(extractedCode);
-              // Checking code
-              check_response_code(extractedCode, extractedMessage);
-              RemoveCode();
-              // qDebug() << "ResponseCode is: " << extractedCode;
-          }
+        for (const QString& key : jsonObject.keys()) {
+            if (key.startsWith("block")) {
+                QJsonObject blockObject = jsonObject.value(key).toObject();
+                if (!(blockObject.contains("dst")) && blockObject.contains("src") && !(blockObject.contains("body"))) {
+                    QString src = blockObject.value("src").toString();
 
-          if (jsonObject.contains("block 4") || jsonObject.contains("src")) {
-              QFile file("UserChat.txt");
-              if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-                  QTextStream out(&file);
+                    getUsersChat(src);
 
-                  for (const QString& key : jsonObject.keys()) {
-                      if (key.startsWith("block ")) {
-                          QJsonObject blockObject = jsonObject.value(key).toObject();
-                          QString src = blockObject.value("src").toString();
-                          QString dst = blockObject.value("dst").toString();
-                          QString body = blockObject.value("body").toString();
+                }
+                if ((blockObject.contains("dst")) && blockObject.contains("src") && (blockObject.contains("body"))) {
+                    QString dst = blockObject.value("dst").toString();
+                    QString src = blockObject.value("src").toString();
+                    QString final = src+"_to_"+dst;
+                    temp_json_object = jsonObject;
+                    Write_chat_folder(final,temp_json_object);
 
-                          // qDebug() << src << "->" << dst << ":::" << body;
-                          out << src << "->" << dst << " ::: " << body;
-                      }
-                  }
-              }
-          }
+                    break;
+                }
+            }
+        }
+
+        //          -------------------------------------------------------------
+        if (jsonObject.contains("token")) {
+            // Extract the token value
+            QString extractedToken = jsonObject["token"].toString();
+            saveTokenToFile(extractedToken);
+            // qDebug() << "Token is: " << extractedToken;
+        }
+
+
+        //           Check if the response contains a "code"
+
+
+        if (jsonObject.contains("code")) {
+            // Extract the code and message values
+            QString extractedCode = jsonObject["code"].toString();
+            QString extractedMessage = jsonObject["message"].toString();
+            saveCodeToFile(extractedCode);
+            // Checking code
+            check_response_code(extractedCode, extractedMessage);
+            RemoveCode();
+            // qDebug() << "ResponseCode is: " << extractedCode;
+        }
+
     } else {
-          qDebug() << "Error: " << reply->errorString();
+        qDebug() << "Error: " << reply->errorString();
     }
 
     reply->deleteLater(); // Safely release the memory
