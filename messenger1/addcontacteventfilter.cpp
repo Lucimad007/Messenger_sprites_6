@@ -1,10 +1,14 @@
 #include "addcontacteventfilter.h"
+#include "mainwindow.h"
+#include "apimanager.h"
 #include <QLineEdit>
 #include <QPushButton>
 #include <QLabel>
 #include <QUiLoader>
 #include <QFile>
 #include <QFileInfo>
+extern MainWindow* mainWindow;
+extern APIManager apiManager;
 bool AddContactEventFilter::eventFilter(QObject* obj, QEvent* event){
     if (event->type() == QEvent::MouseButtonPress)
     {
@@ -63,8 +67,10 @@ bool AddContactEventFilter::eventFilter(QObject* obj, QEvent* event){
 void AddContactEventFilter::on_addButton_clicked(){
     //get the name here and manipulate it
     QLineEdit* nameLineEdit = myWidget->findChild<QLineEdit*>("nameLineEdit",Qt::FindChildOption::FindChildrenRecursively);
-    qDebug() << nameLineEdit->text();
-
+    QString name = nameLineEdit->text();
+    apiManager.getUsersChat(name);
+    User user(name,"","");
+    mainWindow->getApp()->addChatPrototype(user);
     nameLineEdit->setText("");
     myWidget->close();
 }
