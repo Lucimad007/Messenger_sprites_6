@@ -1,6 +1,10 @@
 #include "apimanager.h"
+#include "mainwindow.h"
 #include<QUrlQuery>
 #include "errordialog.h"
+
+extern MainWindow* mainWindow;
+extern APIManager apiManager;
 
 ErrorDialog* dialog;
 
@@ -545,6 +549,8 @@ void APIManager::check_response_code(const QString &response_code,const QString 
 
 void APIManager::onReplyFinished(QNetworkReply* reply)
 {
+    this->currentUser = mainWindow->getCurrentUser();   //pairing two users
+
     if (reply->error() == QNetworkReply::NoError) {
         QByteArray responseData = reply->readAll();
         QString responseString = QString::fromUtf8(responseData);
@@ -620,32 +626,44 @@ void APIManager::onReplyFinished(QNetworkReply* reply)
 
         if(replyJson["code"].toString() == "200"){
             if(replyJson["message"].toString() == "Signed Up Successfully"){
-
+                mainWindow->setLoginUI();
             } else if(replyJson["message"].toString() == "Logged in Successfully"){
-
-            }
-
+                mainWindow->startApp();
+            } else if(replyJson["message"].toString() == "You are already logged in!"){
+                this->logOut(currentUser);
+                this->logIn(currentUser);
             } else if(replyJson["message"].toString() == "Logged Out Successfully"){
-
+                QString token = "";
+                currentUser.setToken(token);   //token is no longer available
             } else if(replyJson["message"].toString() == "Group Created Successfully"){
-
+                Group group = mainWindow->getApp()->getPendingGroup();
+                mainWindow->getApp()->addChatPrototype(group);
             } else if(replyJson["message"].toString() == "Channel Created Successfully"){
-
+                Channel channel = mainWindow->getApp()->getPendingChannel();
+                mainWindow->getApp()->addChatPrototype(channel);
             } else if(replyJson["message"].toString() == "Successfully Joined"){  //for both channel and group
-
+                if(mainWindow->getApp()->getCurrentPending() == CHANNEL){
+                    Channel channel = mainWindow->getApp()->getPendingChannel();
+                    mainWindow->getApp()->addChatPrototype(channel);
+                } else if(mainWindow->getApp()->getCurrentPending() == GROUP){
+                    Group group = mainWindow->getApp()->getPendingGroup();
+                    mainWindow->getApp()->addChatPrototype(group);
+                }
             } else if(replyJson["message"].toString().contains("You Are in") && replyJson["message"].toString().contains("Group")){
-
+                //load group list
             } else if(replyJson["message"].toString().contains("You Are in") && replyJson["message"].toString().contains("Channel")){
-
+                //load channel list
             } else if(replyJson["message"].toString().contains("You Chat With") && replyJson["message"].toString().contains("User")){
-
+                //load user list
             } else if(replyJson["message"].toString() == "Message Sent Successfully"){    //for user/channel/group
-
+                //send a message in a chat
             } else if(replyJson["message"].toString().contains("There Are") && replyJson["message"].toString().contains("Message")){   //for user/channel/group
-
+                //receive messages of a chat
+            }
             } else {
             dialog = new ErrorDialog(nullptr,replyJson["code"].toString(),replyJson["message"].toString());
             dialog->show();
+
         }
 
         //qDebug() << "test : " << replyJson["code"].toString();
