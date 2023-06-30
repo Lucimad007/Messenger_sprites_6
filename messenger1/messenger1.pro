@@ -9,6 +9,7 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    addcontacteventfilter.cpp \
     apimanager.cpp \
     app.cpp \
     channel.cpp \
@@ -21,6 +22,7 @@ SOURCES += \
     user.cpp
 
 HEADERS += \
+    addcontacteventfilter.h \
     apimanager.h \
     app.h \
     channel.h \
@@ -33,6 +35,7 @@ HEADERS += \
 
 FORMS += \
     Login.ui \
+    addcontact.ui \
     app.ui \
     chatprototype.ui \
     createjoin.ui \

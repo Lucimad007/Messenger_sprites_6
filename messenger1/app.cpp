@@ -14,6 +14,7 @@
 #include <QRadioButton>
 #include <QCheckBox>
 #include "chatprototypeeventfilter.h"
+#include "addcontacteventfilter.h"
 #include "app.h"
 #include "message.h"
 #include "ui_app.h"
@@ -32,6 +33,8 @@ App::App(QWidget *parent) :
     chatSplitter = new QSplitter(Qt::Vertical);
     ui->chatPrototypeScroll->setWidget(splitter);
     ui->chatScrollArea->setWidget(chatSplitter);
+    AddContactEventFilter* eventFilter = new AddContactEventFilter();
+    ui->addContactView->installEventFilter(eventFilter);
 
     //setting scroll bar of chat area always bottom by default
     QScrollBar* verticalScrollBar = ui->chatScrollArea->verticalScrollBar();
@@ -46,8 +49,10 @@ App::App(QWidget *parent) :
         QFileInfo iconInfo(iconPath);
         QString iconDirectory = iconInfo.absolutePath() + "/ICons/Logo/spritesLogo.jpeg";
         QString profileDirectory = iconInfo.absolutePath() + "/ICons/avatar.ico";
+        QString addContactDirectory = iconInfo.absolutePath() + "/ICons/contact-us.ico";
         QFile spritesIcon(iconDirectory);
         QFile profileIcon(profileDirectory);
+        QFile addContactIcon(addContactDirectory);
         if(!spritesIcon.exists())
             throw("Icon Not Found.");
         QIcon *icon = new QIcon(iconDirectory);
@@ -60,6 +65,14 @@ App::App(QWidget *parent) :
         QGraphicsScene* scene = new QGraphicsScene();
         scene->addItem(pixItem);
         ui->profilePicture->setScene(scene);
+        if(!addContactIcon.exists())
+            throw("Icon Not Found.");
+        QIcon *addContact = new QIcon(addContactDirectory);
+        QPixmap pixMapContact = addContact->pixmap(ui->addContactView->width()*2/3,ui->addContactView->height()*2/3);
+        QGraphicsPixmapItem* pixItemContact = new QGraphicsPixmapItem(pixMapContact);
+        QGraphicsScene* sceneContact = new QGraphicsScene();
+        sceneContact->addItem(pixItemContact);
+        ui->addContactView->setScene(sceneContact);
     } catch(char const* error){
         qDebug() << error ;
     }

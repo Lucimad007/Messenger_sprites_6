@@ -125,6 +125,19 @@ color: rgb(255, 255, 255);</string>
       <string>Create / Join</string>
      </property>
     </widget>
+    <widget class="QGraphicsView" name="addContactView">
+     <property name="geometry">
+      <rect>
+       <x>17</x>
+       <y>90</y>
+       <width>50</width>
+       <height>50</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background:white;</string>
+     </property>
+    </widget>
    </widget>
    <widget class="QWidget" name="chatPrototypeWidget" native="true">
     <property name="geometry">

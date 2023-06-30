@@ -3,12 +3,13 @@
 #include <QApplication>
 #include "apimanager.h"
 #include "app.h"
+MainWindow* mainWindow;
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    MainWindow w;
+    mainWindow = new MainWindow();
 
-    w.show();
+    mainWindow->show();
     APIManager apiManager;
       User farhad = User("ASGHAR","9876","asgharFarhadi@gmail.com");
        User salar = User("Salar","3221","salarmanam@gmail.com");
