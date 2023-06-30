@@ -108,6 +108,36 @@ color: rgb(255, 255, 255);</string>
       <string>Options</string>
      </property>
     </widget>
+    <widget class="QPushButton" name="createJoinButton">
+     <property name="geometry">
+      <rect>
+       <x>3</x>
+       <y>56</y>
+       <width>76</width>
+       <height>24</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: qradialgradient(spread:pad, cx:0.5, cy:0.5, radius:0.5, fx:0.5, fy:0.494, stop:0 rgba(0, 0, 0, 255), stop:1 rgba(29, 177, 31, 255));
+color: rgb(255, 255, 255);</string>
+     </property>
+     <property name="text">
+      <string>Create / Join</string>
+     </property>
+    </widget>
+    <widget class="QGraphicsView" name="addContactView">
+     <property name="geometry">
+      <rect>
+       <x>17</x>
+       <y>90</y>
+       <width>50</width>
+       <height>50</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background:white;</string>
+     </property>
+    </widget>
    </widget>
    <widget class="QWidget" name="chatPrototypeWidget" native="true">
     <property name="geometry">
@@ -137,7 +167,7 @@ border-color:rgb(170, 0, 0);</string>
       <string notr="true">background-color: rgb(98, 98, 98);</string>
      </property>
     </widget>
-    <widget class="QLabel" name="label">
+    <widget class="QLabel" name="nameLabel">
      <property name="geometry">
       <rect>
        <x>80</x>
@@ -158,6 +188,27 @@ color: rgb(255, 255, 255);</string>
      </property>
      <property name="text">
       <string> . . .</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="typeLabel">
+     <property name="geometry">
+      <rect>
+       <x>410</x>
+       <y>10</y>
+       <width>60</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background:transparent;
+color: rgb(255, 255, 255);
+border:transparent;</string>
+     </property>
+     <property name="text">
+      <string>none</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
      </property>
     </widget>
    </widget>
@@ -187,7 +238,7 @@ color: rgb(255, 255, 255);</string>
      </property>
     </widget>
    </widget>
-   <widget class="QLineEdit" name="lineEdit">
+   <widget class="QLineEdit" name="messageLineEdit">
     <property name="geometry">
      <rect>
       <x>510</x>
@@ -204,7 +255,7 @@ color: rgb(0, 0, 0);</string>
      <string>type your message here ...</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton">
+   <widget class="QPushButton" name="sendButton">
     <property name="geometry">
      <rect>
       <x>920</x>

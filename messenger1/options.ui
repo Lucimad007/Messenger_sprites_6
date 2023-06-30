@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>400</width>
-    <height>560</height>
+    <height>530</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -100,27 +100,6 @@ color: rgb(255, 255, 255);</string>
     </property>
    </widget>
   </widget>
-  <widget class="QCommandLinkButton" name="changeProfilePictureButton">
-   <property name="geometry">
-    <rect>
-     <x>115</x>
-     <y>220</y>
-     <width>170</width>
-     <height>41</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">background-color: qradialgradient(spread:pad, cx:0.5, cy:0.5, radius:0.5, fx:0.5, fy:0.494, stop:0 rgba(0, 0, 0, 255), stop:1 rgba(29, 177, 31, 255));
-color: rgb(255, 255, 255);</string>
-   </property>
-   <property name="text">
-    <string>Chage Profile Picture</string>
-   </property>
-   <property name="icon">
-    <iconset>
-     <normaloff>Icons/avatar.ico</normaloff>Icons/avatar.ico</iconset>
-   </property>
-  </widget>
   <widget class="QPushButton" name="clearLocalFilesButton">
    <property name="geometry">
     <rect>
@@ -157,6 +136,36 @@ font: 11pt &quot;Limelight&quot;;</string>
    </property>
    <property name="alignment">
     <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="changeProfilePictureButton">
+   <property name="geometry">
+    <rect>
+     <x>150</x>
+     <y>230</y>
+     <width>150</width>
+     <height>40</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: qradialgradient(spread:pad, cx:0.5, cy:0.5, radius:0.5, fx:0.5, fy:0.494, stop:0 rgba(0, 0, 0, 255), stop:1 rgba(29, 177, 31, 255));
+color: rgb(255, 255, 255);</string>
+   </property>
+   <property name="text">
+    <string>Chage Profile Picture</string>
+   </property>
+  </widget>
+  <widget class="QGraphicsView" name="profilePictureView">
+   <property name="geometry">
+    <rect>
+     <x>110</x>
+     <y>230</y>
+     <width>40</width>
+     <height>40</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: qradialgradient(spread:pad, cx:0.5, cy:0.5, radius:0.5, fx:0.5, fy:0.494, stop:0 rgba(255, 255, 255, 255), stop:1 rgba(29, 177, 31, 255));</string>
    </property>
   </widget>
  </widget>
