@@ -21,10 +21,19 @@ int main(int argc, char *argv[])
     // apiManager.logIn(maxv);
     // apiManager.signUp(maxv);
     // apiManager.logOut(farhad);
-    // apiManager.logIn(farhad);
-    // apiManager.getUsersList();
+     //apiManager.logIn(farhad);
+    //apiManager.getUsersList();
     // apiManager.getGroupList();
     // apiManager.getChannelList();
+
+
+   //QString temp= "farhadg2";
+   //apiManager.Read_group_folder(temp);
+
+
+    //QString src ="ASGHAR";
+    //QString dst = "max";
+    //apiManager.Read_user_folder(src,dst);
 
     return a.exec();
 }
