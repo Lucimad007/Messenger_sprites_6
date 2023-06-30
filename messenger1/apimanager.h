@@ -14,6 +14,7 @@
 #include <QFile>
 #include <QTextStream>
 
+#include <QDir>
 
 #include "user.h"
 
@@ -51,8 +52,10 @@ public slots:
     QString readCodeFromFile();
     void RemoveCode();
     void check_response_code(const QString &code ,const QString &server_message);
-    void Write_chat_folder(const QString &target_user, const QJsonObject &temp_jobj);
 
+    void Write_chat_folder(const QString &target_user, const QJsonObject &temp_jobj);
+    void Write_group_floder(const QString &dst , const QJsonObject &temp_obj);
+    void Write_channel_floder(const QString &dst , const QJsonObject &temp_obj);
 private slots:
     void onReplyFinished(QNetworkReply *reply);
 

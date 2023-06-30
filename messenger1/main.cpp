@@ -19,31 +19,23 @@ int main(int argc, char *argv[])
 //        apiManager.signUp(maxv);
 
     //apiManager.logOut(farhad);
-//apiManager.logIn(farhad);
-       QString user = "Salar";
-       QString user2 = "max";
-       QString user3 = "matiiiiiiinTEST";
-       QString body = "Salam salar jan";
-       QString body2 = "Salam max jan";
-       QString body3 = "Salam matin jan";
+    //apiManager.logIn(farhad);
 
-//       apiManager.sendMessageUser(user2,body2);
-//       apiManager.sendMessageUser(user3,body3);
-//       apiManager.sendMessageUser(user2,body2);
-//       apiManager.sendMessageUser(user3,body3);
-//       apiManager.sendMessageUser(user2,body2);
-//       apiManager.sendMessageUser(user3,body3);
-//       apiManager.sendMessageUser(user2,body2);
-//       apiManager.sendMessageUser(user3,body3);
-//       apiManager.sendMessageUser(user2,body2);
-//       apiManager.sendMessageUser(user3,body3);
-//       apiManager.sendMessageUser(user2,body2);
-//       apiManager.sendMessageUser(user3,body3);
- //  apiManager.logIn(farhad);
-//apiManager.logOut(farhad);
-                     //apiManager.getUsersChat(user2);
-                   //  apiManager.getUsersList();
-       apiManager.logOut(farhad);
+
+   QString group1 = "farhadg";
+//       QString body1 ="hello to this new group";
+//              QString body2 ="hello to this new group2";
+//                     QString body3 ="hello to this new group3";
+
+//              QString group2 ="farhadg2";
+//    apiManager.sendMessageGroup(group2,body1);
+//    apiManager.sendMessageGroup(group2,body2);
+//    apiManager.sendMessageGroup(group2,body3);
+//       apiManager.getGroupList();
+//apiManager.getUsersList();
+apiManager.getGroupList();
+//apiManager.getChannelList();
+
  //--------------------------------------------------
 
     return a.exec();

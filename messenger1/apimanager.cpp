@@ -2,6 +2,7 @@
 #include<QUrlQuery>
 QJsonObject temp_json_object;
 QString main_user_chat;
+QString where_flag;
 APIManager::APIManager(QObject *parent) : QObject(parent)
 {
     connect(&m_networkManager,&QNetworkAccessManager::finished,this,&APIManager::onReplyFinished);
@@ -115,6 +116,7 @@ void APIManager::getChannelList(){
 }
 void APIManager::getUsersChat(QString &dst){
     main_user_chat = dst;
+    where_flag = "user";
     QString apiURL = "http://api.barafardayebehtar.ml:8080/getuserchats";
     QUrl url(apiURL);
     QUrlQuery query;
@@ -131,6 +133,7 @@ void APIManager::getUsersChat(QString &dst){
 
 }
 void APIManager::getGroupChat(QString &dst){
+    where_flag="group";
     QString apiURL = "http://api.barafardayebehtar.ml:8080/getgroupchats";
     QUrl url(apiURL);
     QUrlQuery query;
@@ -143,6 +146,7 @@ void APIManager::getGroupChat(QString &dst){
     m_networkManager.get(request);
 }
 void APIManager::getChannelChat(QString &dst){
+    where_flag ="channel";
     QString apiURL = "http://api.barafardayebehtar.ml:8080/getchannelchats";
     QUrl url(apiURL);
     QUrlQuery query;
@@ -270,7 +274,79 @@ void APIManager::RemoveCode(){
         file.remove();
     }
 }
+void APIManager::Write_chat_folder(const QString &target_user, const QJsonObject &response){
+    QString filename = target_user +".txt";
+    QFile file(filename);
+    if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+        QTextStream stream(&file);
 
+
+        for(const QString &key : response.keys()){
+            if(key.startsWith("block")){
+                QJsonObject blockObject = response.value(key).toObject();
+                QString src = blockObject.value("src").toString();
+                QString dst = blockObject.value("dst").toString();
+                QString body = blockObject.value("body").toString();
+
+                stream << src << " -> " <<dst <<" ::: " <<body<<"\n";
+            }
+        }
+
+        file.close();
+        qDebug() << "Response written to file: " << filename <<"\n";
+    }
+
+}
+void APIManager::Write_group_floder(const QString &dst, const QJsonObject &response){
+    QString userDirectory = QDir::currentPath() + "/GROUP";
+    QDir().mkpath(userDirectory);
+    QString filename = dst+".txt";
+    // Create the file inside the USER directory
+    QString filePath = userDirectory + "/" + filename;
+    QFile file(filePath);
+    if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+        QTextStream stream(&file);
+
+
+        for(const QString &key : response.keys()){
+            if(key.startsWith("block")){
+                QJsonObject blockObject = response.value(key).toObject();
+                QString src = blockObject.value("src").toString();
+                QString body = blockObject.value("body").toString();
+
+                stream << src <<" ::: " <<body<<"\n";
+            }
+        }
+
+        file.close();
+        qDebug() << "Response written to file: " << filePath <<"\n";
+    }
+}
+void APIManager::Write_channel_floder(const QString &dst, const QJsonObject &response){
+    QString userDirectory = QDir::currentPath() + "/CHANNEL";
+    QDir().mkpath(userDirectory);
+    QString filename = dst+".txt";
+    // Create the file inside the USER directory
+    QString filePath = userDirectory + "/" + filename;
+    QFile file(filePath);
+    if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+        QTextStream stream(&file);
+
+
+        for(const QString &key : response.keys()){
+            if(key.startsWith("block")){
+                QJsonObject blockObject = response.value(key).toObject();
+                QString src = blockObject.value("src").toString();
+                QString body = blockObject.value("body").toString();
+
+                stream << src <<" ::: " <<body<<"\n";
+            }
+        }
+
+        file.close();
+        qDebug() << "Response written to file: " << filePath<<"\n";
+    }
+}
 bool flag =true;
 void APIManager::check_response_code(const QString &response_code,const QString &server_message){
 
@@ -292,30 +368,6 @@ void APIManager::check_response_code(const QString &response_code,const QString 
 
         qDebug() <<" code is 404!!!"; //for test
     }
-}
-
-void APIManager::Write_chat_folder(const QString &target_user, const QJsonObject &response){
-    QString filename = target_user +".txt";
-    QFile file(filename);
-    if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-        QTextStream stream(&file);
-
-
-        for(const QString &key : response.keys()){
-            if(key.startsWith("block")){
-                QJsonObject blockObject = response.value(key).toObject();
-                QString src = blockObject.value("src").toString();
-                QString dst = blockObject.value("dst").toString();
-                QString body = blockObject.value("body").toString();
-
-                stream << src << " -> " <<dst <<" ::: " <<body<<"\n";
-            }
-        }
-
-        file.close();
-        qDebug() << "Response written to file: " << filename;
-    }
-
 }
 void APIManager::onReplyFinished(QNetworkReply* reply)
 {
@@ -341,14 +393,32 @@ void APIManager::onReplyFinished(QNetworkReply* reply)
                     getUsersChat(src);
 
                 }
+
                 if ((blockObject.contains("dst")) && blockObject.contains("src") && (blockObject.contains("body"))) {
                     QString dst = blockObject.value("dst").toString();
                     QString src = blockObject.value("src").toString();
                     QString final = src+"_to_"+dst;
                     temp_json_object = jsonObject;
-                    Write_chat_folder(final,temp_json_object);
+
+                    if(where_flag == "user"){
+                       Write_chat_folder(final,temp_json_object);
+                    }
+                    else if(where_flag=="group"){
+                       Write_group_floder(dst,temp_json_object);
+                    }
+                    else if(where_flag=="channel"){
+                       Write_channel_floder(dst,temp_json_object);
+                    }
 
                     break;
+                }
+                if(blockObject.contains("group_name") && !(blockObject.contains("dst"))){
+                   QString group_name = blockObject.value("group_name").toString();
+                    getGroupChat(group_name);
+                }
+                if(blockObject.contains("channel_name") && !(blockObject.contains("dst"))){
+                    QString channel_name = blockObject.value("channel_name").toString();
+                    getChannelChat(channel_name);
                 }
             }
         }
