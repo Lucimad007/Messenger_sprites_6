@@ -300,13 +300,17 @@ void APIManager::Write_chat_folder(const QString &target_user, const QJsonObject
     if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
         QTextStream stream(&file);
 
-        // Extract src, dst, and body from the response
-        QString src = response.value("block").toObject().value("src").toString();
-        QString dst = response.value("block").toObject().value("dst").toString();
-        QString body = response.value("block").toObject().value("body").toString();
 
-        // Write the extracted values to the file
-        stream << src <<" -> "<<dst <<":::"<<body<<"\n";
+        for(const QString &key : response.keys()){
+            if(key.startsWith("block")){
+                QJsonObject blockObject = response.value(key).toObject();
+                QString src = blockObject.value("src").toString();
+                QString dst = blockObject.value("dst").toString();
+                QString body = blockObject.value("body").toString();
+
+                stream << src << " -> " <<dst <<" ::: " <<body<<"\n";
+            }
+        }
 
         file.close();
         qDebug() << "Response written to file: " << filename;
