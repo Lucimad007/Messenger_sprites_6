@@ -274,13 +274,16 @@ void APIManager::RemoveCode(){
         file.remove();
     }
 }
-void APIManager::Write_chat_folder(const QString &target_user, const QJsonObject &response){
-    QString filename = target_user +".txt";
-    QFile file(filename);
+void APIManager::Write_chat_folder(const QString &dssst, const QJsonObject &response){
+
+    QString userDirectory = QDir::currentPath() + "/USER";
+    QDir().mkpath(userDirectory);
+    QString filename = dssst+".txt";
+    // Create the file inside the USER directory
+    QString filePath = userDirectory + "/" + filename;
+    QFile file(filePath);
     if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
         QTextStream stream(&file);
-
-
         for(const QString &key : response.keys()){
             if(key.startsWith("block")){
                 QJsonObject blockObject = response.value(key).toObject();
@@ -293,7 +296,7 @@ void APIManager::Write_chat_folder(const QString &target_user, const QJsonObject
         }
 
         file.close();
-        qDebug() << "Response written to file: " << filename <<"\n";
+        qDebug() << "Response written to file: " << filePath <<"\n";
     }
 
 }
@@ -379,71 +382,57 @@ void APIManager::onReplyFinished(QNetworkReply* reply)
         // Parse the JSON response
         QJsonDocument jsonResponse = QJsonDocument::fromJson(responseData);
         QJsonObject jsonObject = jsonResponse.object();
-
-        // Check if the response contains a "token" field
-        //          -------------------------------------------------------------
-        //        Matins edit please dont do anything with this my friend
+//-----------------------------------------------------------------------------------------------------
+        // Matins edit
 
         for (const QString& key : jsonObject.keys()) {
             if (key.startsWith("block")) {
                 QJsonObject blockObject = jsonObject.value(key).toObject();
-                if (!(blockObject.contains("dst")) && blockObject.contains("src") && !(blockObject.contains("body"))) {
-                    QString src = blockObject.value("src").toString();
-
-                    getUsersChat(src);
-
-                }
 
                 if ((blockObject.contains("dst")) && blockObject.contains("src") && (blockObject.contains("body"))) {
                     QString dst = blockObject.value("dst").toString();
                     QString src = blockObject.value("src").toString();
-                    QString final = src+"_to_"+dst;
+                    QString final = src + "_to_" + dst;
                     temp_json_object = jsonObject;
 
-                    if(where_flag == "user"){
-                       Write_chat_folder(final,temp_json_object);
+                    if (where_flag == "user") {
+                        Write_chat_folder(final, temp_json_object);
                     }
-                    else if(where_flag=="group"){
-                       Write_group_floder(dst,temp_json_object);
+                    else if (where_flag == "group") {
+                        Write_group_floder(dst, temp_json_object);
                     }
-                    else if(where_flag=="channel"){
-                       Write_channel_floder(dst,temp_json_object);
+                    else if (where_flag == "channel") {
+                        Write_channel_floder(dst, temp_json_object);
                     }
 
                     break;
                 }
-                if(blockObject.contains("group_name") && !(blockObject.contains("dst"))){
-                   QString group_name = blockObject.value("group_name").toString();
+                if (!(blockObject.contains("dst")) && blockObject.contains("src") && !(blockObject.contains("body"))) {
+                    QString src = blockObject.value("src").toString();
+                    getUsersChat(src);
+                }
+                if (blockObject.contains("group_name") && !(blockObject.contains("dst"))) {
+                    QString group_name = blockObject.value("group_name").toString();
                     getGroupChat(group_name);
                 }
-                if(blockObject.contains("channel_name") && !(blockObject.contains("dst"))){
+                if (blockObject.contains("channel_name") && !(blockObject.contains("dst"))) {
                     QString channel_name = blockObject.value("channel_name").toString();
                     getChannelChat(channel_name);
                 }
             }
         }
-
-        //          -------------------------------------------------------------
+//-----------------------------------------------------------------------------------------------------
         if (jsonObject.contains("token")) {
-            // Extract the token value
             QString extractedToken = jsonObject["token"].toString();
             saveTokenToFile(extractedToken);
-            // qDebug() << "Token is: " << extractedToken;
         }
 
-
-        //           Check if the response contains a "code"
-
-
         if (jsonObject.contains("code")) {
-            // Extract the code and message values
             QString extractedCode = jsonObject["code"].toString();
             QString extractedMessage = jsonObject["message"].toString();
             saveCodeToFile(extractedCode);
-            // Checking code
             check_response_code(extractedCode, extractedMessage);
             RemoveCode();
-            // qDebug() << "ResponseCode is: " << extractedCode;
         }
 
     } else {
