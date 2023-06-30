@@ -281,79 +281,244 @@ void APIManager::RemoveCode(){
 }
 void APIManager::Write_chat_folder(const QString &dssst, const QJsonObject &response){
 
+    QJsonDocument jsonDocument(response);
+    QByteArray jsonData = jsonDocument.toJson();
+
     QString userDirectory = QDir::currentPath() + "/USER";
     QDir().mkpath(userDirectory);
     QString filename = dssst+".txt";
     // Create the file inside the USER directory
     QString filePath = userDirectory + "/" + filename;
     QFile file(filePath);
+
     if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-        QTextStream stream(&file);
-        for(const QString &key : response.keys()){
-            if(key.startsWith("block")){
-                QJsonObject blockObject = response.value(key).toObject();
-                QString src = blockObject.value("src").toString();
-                QString dst = blockObject.value("dst").toString();
-                QString body = blockObject.value("body").toString();
+        // Write the JSON data to the file
+        file.write(jsonData);
 
-                stream << src << " -> " <<dst <<" ::: " <<body<<"\n";
-            }
-        }
-
+        // Close the file
         file.close();
-        qDebug() << "Response written to file: " << filePath <<"\n";
+
+        qDebug() << "JSON data saved to file: " << filePath <<"\n";
+    } else {
+        qDebug() << "Failed to save JSON data to file: " << filename;
     }
+//    if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+//        QTextStream stream(&file);
+//        for(const QString &key : response.keys()){
+//            if(key.startsWith("block")){
+//                QJsonObject blockObject = response.value(key).toObject();
+//                QString src = blockObject.value("src").toString();
+//                QString dst = blockObject.value("dst").toString();
+//                QString body = blockObject.value("body").toString();
+
+//                stream << src << " -> " <<dst <<" ::: " <<body<<"\n";
+//            }
+//        }
+
+     //   file.close();
+       // qDebug() << "Response written to file: " << filePath <<"\n";
+   // }
 
 }
 void APIManager::Write_group_floder(const QString &dst, const QJsonObject &response){
+    QJsonDocument jsonDocument(response);
+    QByteArray jsonData = jsonDocument.toJson();
+
     QString userDirectory = QDir::currentPath() + "/GROUP";
     QDir().mkpath(userDirectory);
     QString filename = dst+".txt";
     // Create the file inside the USER directory
     QString filePath = userDirectory + "/" + filename;
     QFile file(filePath);
+
     if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-        QTextStream stream(&file);
+        // Write the JSON data to the file
+        file.write(jsonData);
 
-
-        for(const QString &key : response.keys()){
-            if(key.startsWith("block")){
-                QJsonObject blockObject = response.value(key).toObject();
-                QString src = blockObject.value("src").toString();
-                QString body = blockObject.value("body").toString();
-
-                stream << src <<" ::: " <<body<<"\n";
-            }
-        }
-
+        // Close the file
         file.close();
-        qDebug() << "Response written to file: " << filePath <<"\n";
+
+        qDebug() << "JSON data saved to file: " << filePath <<"\n";
+    } else {
+        qDebug() << "Failed to save JSON data to file: " << filename;
     }
+//    QString userDirectory = QDir::currentPath() + "/GROUP";
+//    QDir().mkpath(userDirectory);
+//    QString filename = dst+".txt";
+//    // Create the file inside the USER directory
+//    QString filePath = userDirectory + "/" + filename;
+//    QFile file(filePath);
+//    if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+//        QTextStream stream(&file);
+
+
+//        for(const QString &key : response.keys()){
+//            if(key.startsWith("block")){
+//                QJsonObject blockObject = response.value(key).toObject();
+//                QString src = blockObject.value("src").toString();
+//                QString body = blockObject.value("body").toString();
+
+//                stream << src <<" ::: " <<body<<"\n";
+//            }
+//        }
+
+//        file.close();
+//        qDebug() << "Response written to file: " << filePath <<"\n";
+//    }
 }
 void APIManager::Write_channel_floder(const QString &dst, const QJsonObject &response){
+    QJsonDocument jsonDocument(response);
+    QByteArray jsonData = jsonDocument.toJson();
+
     QString userDirectory = QDir::currentPath() + "/CHANNEL";
     QDir().mkpath(userDirectory);
     QString filename = dst+".txt";
     // Create the file inside the USER directory
     QString filePath = userDirectory + "/" + filename;
     QFile file(filePath);
+
     if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-        QTextStream stream(&file);
+        // Write the JSON data to the file
+        file.write(jsonData);
 
-
-        for(const QString &key : response.keys()){
-            if(key.startsWith("block")){
-                QJsonObject blockObject = response.value(key).toObject();
-                QString src = blockObject.value("src").toString();
-                QString body = blockObject.value("body").toString();
-
-                stream << src <<" ::: " <<body<<"\n";
-            }
-        }
-
+        // Close the file
         file.close();
-        qDebug() << "Response written to file: " << filePath<<"\n";
+
+        qDebug() << "JSON data saved to file: " << filePath <<"\n";
+    } else {
+        qDebug() << "Failed to save JSON data to file: " << filename;
     }
+
+//    QString userDirectory = QDir::currentPath() + "/CHANNEL";
+//    QDir().mkpath(userDirectory);
+//    QString filename = dst+".txt";
+//    // Create the file inside the USER directory
+//    QString filePath = userDirectory + "/" + filename;
+//    QFile file(filePath);
+//    if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+//        QTextStream stream(&file);
+
+
+//        for(const QString &key : response.keys()){
+//            if(key.startsWith("block")){
+//                QJsonObject blockObject = response.value(key).toObject();
+//                QString src = blockObject.value("src").toString();
+//                QString body = blockObject.value("body").toString();
+
+//                stream << src <<" ::: " <<body<<"\n";
+//            }
+//        }
+
+//        file.close();
+//        qDebug() << "Response written to file: " << filePath<<"\n";
+//    }
+}
+void APIManager::get_list_of(const QString type, const QJsonObject &response){
+    QJsonDocument jsonDocument(response);
+    QByteArray jsonData = jsonDocument.toJson();
+
+    QString userDirectory = QDir::currentPath() + "/LIST";
+    QDir().mkpath(userDirectory);
+    QString filename = type+".txt";
+    // Create the file inside the USER directory
+    QString filePath = userDirectory + "/" + filename;
+    QFile file(filePath);
+
+    if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+        // Write the JSON data to the file
+        file.write(jsonData);
+
+        // Close the file
+        file.close();
+
+        qDebug() << "JSON data saved to file: " << filePath <<"\n";
+    } else {
+        qDebug() << "Failed to save JSON data to file: " << filename;
+    }
+}
+QJsonObject APIManager::Read_group_folder(const QString &dst){
+    QString filename = "GROUP/" + dst + ".txt";
+    QFile file(filename);
+
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        qDebug() << "Failed to open file: " << filename;
+        return QJsonObject();
+    }
+
+    QByteArray fileData = file.readAll();
+    file.close();
+
+    QJsonParseError parseError;
+    QJsonDocument jsonDocument = QJsonDocument::fromJson(fileData, &parseError);
+
+    if (parseError.error != QJsonParseError::NoError) {
+        qDebug() << "Error while parsing JSON: " << parseError.errorString();
+        return QJsonObject(); // Return an empty JSON object
+    }
+
+
+    if (!jsonDocument.isObject()) {
+        qDebug() << "JSON data is not an object.";
+        return QJsonObject(); // Return an empty JSON object if parsing results in a non-object
+    }
+    //qDebug()<<jsonDocument.object();
+    return jsonDocument.object();
+}
+QJsonObject APIManager::Read_channel_folder(const QString &dst){
+    QString filename = "CHANNEL/" + dst + ".txt";
+    QFile file(filename);
+
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        qDebug() << "Failed to open file: " << filename;
+        return QJsonObject();
+    }
+
+    QByteArray fileData = file.readAll();
+    file.close();
+
+    QJsonParseError parseError;
+    QJsonDocument jsonDocument = QJsonDocument::fromJson(fileData, &parseError);
+
+    if (parseError.error != QJsonParseError::NoError) {
+        qDebug() << "Error while parsing JSON: " << parseError.errorString();
+        return QJsonObject(); // Return an empty JSON object
+    }
+
+
+    if (!jsonDocument.isObject()) {
+        qDebug() << "JSON data is not an object.";
+        return QJsonObject(); // Return an empty JSON object if parsing results in a non-object
+    }
+    //qDebug()<<jsonDocument.object();
+    return jsonDocument.object();
+}
+QJsonObject APIManager::Read_user_folder(const QString &src, const QString &dst){
+    QString filename = "USER/" + src+"_to_"+dst + ".txt";
+    QFile file(filename);
+
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        qDebug() << "Failed to open file: " << filename;
+        return QJsonObject();
+    }
+
+    QByteArray fileData = file.readAll();
+    file.close();
+
+    QJsonParseError parseError;
+    QJsonDocument jsonDocument = QJsonDocument::fromJson(fileData, &parseError);
+
+    if (parseError.error != QJsonParseError::NoError) {
+        qDebug() << "Error while parsing JSON: " << parseError.errorString();
+        return QJsonObject(); // Return an empty JSON object
+    }
+
+
+    if (!jsonDocument.isObject()) {
+        qDebug() << "JSON data is not an object.";
+        return QJsonObject(); // Return an empty JSON object if parsing results in a non-object
+    }
+    //qDebug()<<jsonDocument.object();
+    return jsonDocument.object();
 }
 bool flag =true;
 void APIManager::check_response_code(const QString &response_code,const QString &server_message){
@@ -377,6 +542,7 @@ void APIManager::check_response_code(const QString &response_code,const QString 
         qDebug() <<" code is 404!!!"; //for test
     }
 }
+
 void APIManager::onReplyFinished(QNetworkReply* reply)
 {
     if (reply->error() == QNetworkReply::NoError) {
@@ -413,14 +579,20 @@ void APIManager::onReplyFinished(QNetworkReply* reply)
                     break;
                 }
                 if (!(blockObject.contains("dst")) && blockObject.contains("src") && !(blockObject.contains("body"))) {
+                    QString type = "users";
+                    get_list_of(type,jsonObject);
                     QString src = blockObject.value("src").toString();
                     getUsersChat(src);
                 }
                 if (blockObject.contains("group_name") && !(blockObject.contains("dst"))) {
+                    QString type = "groups";
+                    get_list_of(type,jsonObject);
                     QString group_name = blockObject.value("group_name").toString();
                     getGroupChat(group_name);
                 }
                 if (blockObject.contains("channel_name") && !(blockObject.contains("dst"))) {
+                    QString type = "channels";
+                    get_list_of(type,jsonObject);
                     QString channel_name = blockObject.value("channel_name").toString();
                     getChannelChat(channel_name);
                 }

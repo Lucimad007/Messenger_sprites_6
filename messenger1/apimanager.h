@@ -56,6 +56,13 @@ public slots:
     void Write_chat_folder(const QString &target_user, const QJsonObject &temp_jobj);
     void Write_group_floder(const QString &dst , const QJsonObject &temp_obj);
     void Write_channel_floder(const QString &dst , const QJsonObject &temp_obj);
+
+    QJsonObject Read_group_folder(const QString &dst);
+    QJsonObject Read_channel_folder(const QString &dst);
+    QJsonObject Read_user_folder(const QString &src,const QString &dst);
+
+
+    void get_list_of(const QString type,const QJsonObject &response); //the functin that stores list of USERS GROUPS and CHANNELS
 private slots:
     void onReplyFinished(QNetworkReply *reply);
 
