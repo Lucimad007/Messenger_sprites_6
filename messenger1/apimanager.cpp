@@ -1,6 +1,7 @@
 #include "apimanager.h"
 #include<QUrlQuery>
-
+QJsonObject temp_json_object;
+QString main_user_chat;
 APIManager::APIManager(QObject *parent) : QObject(parent)
 {
     connect(&m_networkManager,&QNetworkAccessManager::finished,this,&APIManager::onReplyFinished);
@@ -113,6 +114,7 @@ void APIManager::getChannelList(){
     m_networkManager.get(request);
 }
 void APIManager::getUsersChat(QString &dst){
+    main_user_chat = dst;
     QString apiURL = "http://api.barafardayebehtar.ml:8080/getuserchats";
     QUrl url(apiURL);
     QUrlQuery query;
@@ -121,8 +123,12 @@ void APIManager::getUsersChat(QString &dst){
     query.addQueryItem("dst",dst);
     url.setQuery(query);
 
+
+
     QNetworkRequest request(url);
     m_networkManager.get(request);
+
+
 }
 void APIManager::getGroupChat(QString &dst){
     QString apiURL = "http://api.barafardayebehtar.ml:8080/getgroupchats";
@@ -264,47 +270,7 @@ void APIManager::RemoveCode(){
         file.remove();
     }
 }
-void APIManager::history_Chat(QJsonObject& jsonObject) {
-    for (const QString& key : jsonObject.keys()) {
-        if (key.startsWith("block")) {
-            QJsonObject blockObject = jsonObject.value(key).toObject();
-            if (blockObject.contains("src")) {
-                QString src = blockObject.value("src").toString();
-                chat_history_filename = src + "_chat.txt";
-                getUsersChat(src);
-                QFile file(chat_history_filename);
-                if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-                    file.close();
-                    qDebug() << "File created: " << chat_history_filename;
 
-                } else {
-                    qDebug() << "Failed to create file to write out chats " << chat_history_filename;
-                }
-            }
-        }
-    }
-}
-void APIManager::write_history_Chat(QJsonObject &jsonObject){
-    if (jsonObject.contains("block 4")) {
-                      QFile file(chat_history_filename);
-                      if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-                          QTextStream out(&file);
-
-                          for (const QString& key : jsonObject.keys()) {
-                              if (key.startsWith("block ")) {
-                                  QJsonObject blockObject = jsonObject.value(key).toObject();
-                                  QString src = blockObject.value("src").toString();
-                                  QString dst = blockObject.value("dst").toString();
-                                  QString body = blockObject.value("body").toString();
-
-                                  //qDebug() << src << "->" << dst << ":::" << body;
-
-                                   out << src << "->" << dst << " ::: " << body << "\n";
-                              }
-                          }
-                      }
-                  }
-}
 bool flag =true;
 void APIManager::check_response_code(const QString &response_code,const QString &server_message){
 
@@ -320,72 +286,94 @@ void APIManager::check_response_code(const QString &response_code,const QString 
 
     }else if(response_code == "401"){
 
-          qDebug() <<" code is 401 retry"; //for test
+        qDebug() <<" code is 401 retry"; //for test
 
     } else if(response_code == "404"){
 
-          qDebug() <<" code is 404!!!"; //for test
+        qDebug() <<" code is 404!!!"; //for test
     }
+}
+
+void APIManager::Write_chat_folder(const QString &target_user, const QJsonObject &response){
+    QString filename = target_user +".txt";
+    QFile file(filename);
+    if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+        QTextStream stream(&file);
+
+        // Extract src, dst, and body from the response
+        QString src = response.value("block").toObject().value("src").toString();
+        QString dst = response.value("block").toObject().value("dst").toString();
+        QString body = response.value("block").toObject().value("body").toString();
+
+        // Write the extracted values to the file
+        stream << src <<" -> "<<dst <<":::"<<body<<"\n";
+
+        file.close();
+        qDebug() << "Response written to file: " << filename;
+    }
+
 }
 void APIManager::onReplyFinished(QNetworkReply* reply)
 {
     if (reply->error() == QNetworkReply::NoError) {
-          QByteArray responseData = reply->readAll();
-          QString responseString = QString::fromUtf8(responseData);
-          qDebug() << "Response is: " << responseString;
+        QByteArray responseData = reply->readAll();
+        QString responseString = QString::fromUtf8(responseData);
+        qDebug() << "Response is: " << responseString;
 
-          // Parse the JSON response
-          QJsonDocument jsonResponse = QJsonDocument::fromJson(responseData);
-          QJsonObject jsonObject = jsonResponse.object();
+        // Parse the JSON response
+        QJsonDocument jsonResponse = QJsonDocument::fromJson(responseData);
+        QJsonObject jsonObject = jsonResponse.object();
 
-          // Check if the response contains a "token" field
-//          -------------------------------------------------------------
-          //        Matins edit please dont do anything with this my friend
-          bool srcExistsInBlock = false;
-          bool write_flag = false;
-          for (const QString& key : jsonObject.keys()) {
+        // Check if the response contains a "token" field
+        //          -------------------------------------------------------------
+        //        Matins edit please dont do anything with this my friend
+
+        for (const QString& key : jsonObject.keys()) {
             if (key.startsWith("block")) {
                 QJsonObject blockObject = jsonObject.value(key).toObject();
-                if (!(blockObject.contains("dst")) && blockObject.contains("src") &&  !(blockObject.contains("body"))) {
-                    srcExistsInBlock = true;
-                    break;
-                }else if(blockObject.contains("src") && blockObject.contains("dst") && blockObject.contains("body")){
-                    write_flag = true;
+                if (!(blockObject.contains("dst")) && blockObject.contains("src") && !(blockObject.contains("body"))) {
+                    QString src = blockObject.value("src").toString();
+
+                    getUsersChat(src);
+
+                }
+                if ((blockObject.contains("dst")) && blockObject.contains("src") && (blockObject.contains("body"))) {
+                    QString dst = blockObject.value("dst").toString();
+                    QString src = blockObject.value("src").toString();
+                    QString final = src+"_to_"+dst;
+                    temp_json_object = jsonObject;
+                    Write_chat_folder(final,temp_json_object);
+
                     break;
                 }
             }
-          }
-          if(srcExistsInBlock){
-            history_Chat(jsonObject);
-          }
-          else if(write_flag){
-            write_history_Chat(jsonObject);
-          }
-//          -------------------------------------------------------------
-           if (jsonObject.contains("token")) {
-              // Extract the token value
-              QString extractedToken = jsonObject["token"].toString();
-              saveTokenToFile(extractedToken);
-              // qDebug() << "Token is: " << extractedToken;
-          }
+        }
+
+        //          -------------------------------------------------------------
+        if (jsonObject.contains("token")) {
+            // Extract the token value
+            QString extractedToken = jsonObject["token"].toString();
+            saveTokenToFile(extractedToken);
+            // qDebug() << "Token is: " << extractedToken;
+        }
 
 
-//           Check if the response contains a "code"
+        //           Check if the response contains a "code"
 
 
-          if (jsonObject.contains("code")) {
-              // Extract the code and message values
-              QString extractedCode = jsonObject["code"].toString();
-              QString extractedMessage = jsonObject["message"].toString();
-              saveCodeToFile(extractedCode);
-              // Checking code
-              check_response_code(extractedCode, extractedMessage);
-              RemoveCode();
-              // qDebug() << "ResponseCode is: " << extractedCode;
-          }
+        if (jsonObject.contains("code")) {
+            // Extract the code and message values
+            QString extractedCode = jsonObject["code"].toString();
+            QString extractedMessage = jsonObject["message"].toString();
+            saveCodeToFile(extractedCode);
+            // Checking code
+            check_response_code(extractedCode, extractedMessage);
+            RemoveCode();
+            // qDebug() << "ResponseCode is: " << extractedCode;
+        }
 
     } else {
-          qDebug() << "Error: " << reply->errorString();
+        qDebug() << "Error: " << reply->errorString();
     }
 
     reply->deleteLater(); // Safely release the memory

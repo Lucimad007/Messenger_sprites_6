@@ -9,6 +9,7 @@
 
 #include <QJsonDocument>
 #include <QJsonObject>
+#include <QJsonArray>
 
 #include <QFile>
 #include <QTextStream>
@@ -50,14 +51,9 @@ public slots:
     QString readCodeFromFile();
     void RemoveCode();
     void check_response_code(const QString &code ,const QString &server_message);
-
-    //void history_Group(User &ui_given_user);
-
-    //void history_Channel(User &ui_given_user);
+    void Write_chat_folder(const QString &target_user, const QJsonObject &temp_jobj);
 
 private slots:
-    void history_Chat(QJsonObject &jsonObject);
-    void write_history_Chat(QJsonObject &jsonObject);
     void onReplyFinished(QNetworkReply *reply);
 
 private:

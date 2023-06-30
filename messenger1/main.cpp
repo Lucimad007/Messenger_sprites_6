@@ -24,8 +24,8 @@ int main(int argc, char *argv[])
        QString user2 = "max";
        QString user3 = "matiiiiiiinTEST";
        QString body = "Salam salar jan";
-              QString body2 = "Salam max jan";
-                     QString body3 = "Salam matin jan";
+       QString body2 = "Salam max jan";
+       QString body3 = "Salam matin jan";
 
 //       apiManager.sendMessageUser(user2,body2);
 //       apiManager.sendMessageUser(user3,body3);
@@ -42,7 +42,8 @@ int main(int argc, char *argv[])
  //  apiManager.logIn(farhad);
 //apiManager.logOut(farhad);
                      //apiManager.getUsersChat(user2);
-                     apiManager.getUsersList();
+                   //  apiManager.getUsersList();
+       apiManager.logOut(farhad);
  //--------------------------------------------------
 
     return a.exec();
