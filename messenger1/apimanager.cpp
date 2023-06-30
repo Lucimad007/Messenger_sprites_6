@@ -446,20 +446,20 @@ void APIManager::onReplyFinished(QNetworkReply* reply)
         QJsonDocument jsonDocument = QJsonDocument::fromJson(responseData);
         QJsonObject replyJson = jsonDocument.object();
 
-        if(replyJson["code"] == "200"){
-            if(replyJson["message"] == "Signed Up Successfully"){
+        if(replyJson["code"].toString() == "200"){
+            if(replyJson["message"].toString() == "Signed Up Successfully"){
 
-            } else if(replyJson["message"] == "Logged in Successfully"){
+            } else if(replyJson["message"].toString() == "Logged in Successfully"){
 
             }
 
-            } else if(replyJson["message"] == "Logged Out Successfully"){
+            } else if(replyJson["message"].toString() == "Logged Out Successfully"){
 
-            } else if(replyJson["message"] == "Group Created Successfully"){
+            } else if(replyJson["message"].toString() == "Group Created Successfully"){
 
-            } else if(replyJson["message"] == "Channel Created Successfully"){
+            } else if(replyJson["message"].toString() == "Channel Created Successfully"){
 
-            } else if(replyJson["message"] == "Successfully Joined"){  //for both channel and group
+            } else if(replyJson["message"].toString() == "Successfully Joined"){  //for both channel and group
 
             } else if(replyJson["message"].toString().contains("You Are in") && replyJson["message"].toString().contains("Group")){
 
@@ -467,7 +467,7 @@ void APIManager::onReplyFinished(QNetworkReply* reply)
 
             } else if(replyJson["message"].toString().contains("You Chat With") && replyJson["message"].toString().contains("User")){
 
-            } else if(replyJson["message"] == "Message Sent Successfully"){    //for user/channel/group
+            } else if(replyJson["message"].toString() == "Message Sent Successfully"){    //for user/channel/group
 
             } else if(replyJson["message"].toString().contains("There Are") && replyJson["message"].toString().contains("Message")){   //for user/channel/group
 
