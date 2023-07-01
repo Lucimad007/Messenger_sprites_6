@@ -28,8 +28,8 @@ int main(int argc, char *argv[])
 
 
 
-  // apiManager.logOut(farhad);
-apiManager.logIn(farhad);
+    // apiManager.logOut(farhad);
+   // apiManager.logIn(farhad);
 
    //QString temp= "farhadg2";
    //apiManager.Read_group_folder(temp);
@@ -39,5 +39,7 @@ apiManager.logIn(farhad);
     //QString dst = "max";
     //apiManager.Read_user_folder(src,dst);
 
+
+    apiManager.get_list_of_users();
     return a.exec();
 }
