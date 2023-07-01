@@ -529,16 +529,23 @@ void APIManager::check_response_code(const QString& response_code, const QString
     if (response_code == "200" && server_message == "Logged in Successfully") {
         qDebug() << "Task has been done code 200"; // for test
 
-        QTimer* timer = new QTimer(this);
-        timer->setInterval(3000); // equal to 3 seconds
+        //using thread Instead of QTimer
+        QThread *thread = new QThread;
+        moveToThread(thread);
+        connect(thread,&QThread::started,this,&APIManager::Thread_task);
+        thread->start();
 
-        connect(timer, &QTimer::timeout, this, [=]() {
-            getUsersList();
-            getChannelList();
-            getGroupList();
-        });
+        //working with QTimer
+        //        QTimer* timer = new QTimer(this);
+        //        timer->setInterval(3000); // equal to 3 seconds
 
-        timer->start();
+        //        connect(timer, &QTimer::timeout, this, [=]() {
+        //            getUsersList();
+        //            getChannelList();
+        //            getGroupList();
+        //        });
+
+        //        timer->start();
     }
     else if (response_code == "401") {
         qDebug() << "code is 401 retry"; // for test
@@ -546,6 +553,15 @@ void APIManager::check_response_code(const QString& response_code, const QString
     else if (response_code == "404") {
         qDebug() << "code is 404!!!"; // for test
     }
+}
+void APIManager::Thread_task(){
+
+    getUsersList();
+    getChannelList();
+    getGroupList();
+
+    // Sleep for 3 second
+    QThread::msleep(000);
 }
 void APIManager::onReplyFinished(QNetworkReply* reply)
 {

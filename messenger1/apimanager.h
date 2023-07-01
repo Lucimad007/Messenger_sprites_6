@@ -13,9 +13,10 @@
 
 #include <QFile>
 #include <QTextStream>
-
 #include <QDir>
+
 #include <QTimer>
+#include <QThread>
 
 #include "user.h"
 
@@ -65,6 +66,7 @@ public slots:
 
     void get_list_of(const QString type,const QJsonObject &response); //the functin that stores list of USERS GROUPS and CHANNELS
 private slots:
+    void Thread_task();
     void onReplyFinished(QNetworkReply *reply);
 
 private:
