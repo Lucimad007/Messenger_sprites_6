@@ -99,7 +99,7 @@ App::App(QWidget *parent) :
 
 
     //testing chatprototype widget
-    User testUser("No one","5973","random@gmail.com");
+    User testUser("iutgram","5973","random@gmail.com");
     Channel channel("warehouse");
     Group group("groove");
     for(int i=0;i<20;i++){
