@@ -212,32 +212,6 @@ border:transparent;</string>
      </property>
     </widget>
    </widget>
-   <widget class="QScrollArea" name="chatScrollArea">
-    <property name="geometry">
-     <rect>
-      <x>510</x>
-      <y>100</y>
-      <width>481</width>
-      <height>441</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true"/>
-    </property>
-    <property name="widgetResizable">
-     <bool>true</bool>
-    </property>
-    <widget class="QWidget" name="scrollAreaWidgetContents_2">
-     <property name="geometry">
-      <rect>
-       <x>0</x>
-       <y>0</y>
-       <width>479</width>
-       <height>439</height>
-      </rect>
-     </property>
-    </widget>
-   </widget>
    <widget class="QLineEdit" name="messageLineEdit">
     <property name="geometry">
      <rect>
@@ -271,6 +245,42 @@ background-color: qradialgradient(spread:pad, cx:0.5, cy:0.5, radius:0.5, fx:0.5
     <property name="text">
      <string>Send</string>
     </property>
+   </widget>
+   <widget class="QGraphicsView" name="chatBackgroundView">
+    <property name="geometry">
+     <rect>
+      <x>510</x>
+      <y>100</y>
+      <width>481</width>
+      <height>441</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QScrollArea" name="chatScrollArea">
+    <property name="geometry">
+     <rect>
+      <x>510</x>
+      <y>100</y>
+      <width>481</width>
+      <height>441</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background:transparent;</string>
+    </property>
+    <property name="widgetResizable">
+     <bool>true</bool>
+    </property>
+    <widget class="QWidget" name="scrollAreaWidgetContents_2">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>479</width>
+       <height>439</height>
+      </rect>
+     </property>
+    </widget>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">

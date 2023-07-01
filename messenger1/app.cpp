@@ -56,9 +56,11 @@ App::App(QWidget *parent) :
         QString iconDirectory = iconInfo.absolutePath() + "/ICons/Logo/spritesLogo.jpeg";
         QString profileDirectory = iconInfo.absolutePath() + "/ICons/avatar.ico";
         QString addContactDirectory = iconInfo.absolutePath() + "/ICons/contact-us.ico";
+        QString chatBackgroundDirectory = iconInfo.absolutePath() + "/ICons/backgrounds/chat-background.jpg";
         QFile spritesIcon(iconDirectory);
         QFile profileIcon(profileDirectory);
         QFile addContactIcon(addContactDirectory);
+        QFile chatBackgroundIcon(chatBackgroundDirectory);
         if(!spritesIcon.exists())
             throw("Icon Not Found.");
         QIcon *icon = new QIcon(iconDirectory);
@@ -79,6 +81,16 @@ App::App(QWidget *parent) :
         QGraphicsScene* sceneContact = new QGraphicsScene();
         sceneContact->addItem(pixItemContact);
         ui->addContactView->setScene(sceneContact);
+        if(!chatBackgroundIcon.exists())
+            throw("Icon Not Found.");
+        QIcon *chatBackground = new QIcon(chatBackgroundDirectory);
+        QPixmap pixMapChatBackground = chatBackground->pixmap(ui->chatBackgroundView->width(),ui->chatBackgroundView->height());
+        QGraphicsPixmapItem* pixItemChatBackground = new QGraphicsPixmapItem(pixMapChatBackground);
+        QGraphicsScene* sceneChatBackground = new QGraphicsScene();
+        sceneChatBackground->addItem(pixItemChatBackground);
+        ui->chatBackgroundView->setScene(sceneChatBackground);
+        ui->chatBackgroundView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+        ui->chatBackgroundView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     } catch(char const* error){
         qDebug() << error ;
     }
@@ -626,15 +638,65 @@ void App::on_clearLocalFilesButton_clicked(){
 }
 
 void App::on_defaultThemeButton_clicked(){
-    //change theme to default
+    try{
+        QString iconPath = QString::fromLocal8Bit(__FILE__);
+        QFileInfo iconInfo(iconPath);
+        QString chatBackgroundDirectory = iconInfo.absolutePath() + "/ICons/backgrounds/chat-background.jpg";
+        QFile chatBackgroundIcon(chatBackgroundDirectory);
+        if(!chatBackgroundIcon.exists())
+            throw("Icon Not Found.");
+        QIcon *chatBackground = new QIcon(chatBackgroundDirectory);
+        QPixmap pixMapChatBackground = chatBackground->pixmap(ui->chatBackgroundView->width(),ui->chatBackgroundView->height());
+        QGraphicsPixmapItem* pixItemChatBackground = new QGraphicsPixmapItem(pixMapChatBackground);
+        QGraphicsScene* sceneChatBackground = new QGraphicsScene();
+        sceneChatBackground->addItem(pixItemChatBackground);
+        ui->chatBackgroundView->setScene(sceneChatBackground);
+        ui->chatBackgroundView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+        ui->chatBackgroundView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    } catch(const char* error) {
+        qDebug() << error;
+    }
 }
-
 void App::on_darkThemeButton_clicked(){
-    //change theme to dark
+    try{
+        QString iconPath = QString::fromLocal8Bit(__FILE__);
+        QFileInfo iconInfo(iconPath);
+        QString chatBackgroundDirectory = iconInfo.absolutePath() + "/ICons/backgrounds/dark-chat-background.jpg";
+        QFile chatBackgroundIcon(chatBackgroundDirectory);
+        if(!chatBackgroundIcon.exists())
+            throw("Icon Not Found.");
+        QIcon *chatBackground = new QIcon(chatBackgroundDirectory);
+        QPixmap pixMapChatBackground = chatBackground->pixmap(ui->chatBackgroundView->width(),ui->chatBackgroundView->height());
+        QGraphicsPixmapItem* pixItemChatBackground = new QGraphicsPixmapItem(pixMapChatBackground);
+        QGraphicsScene* sceneChatBackground = new QGraphicsScene();
+        sceneChatBackground->addItem(pixItemChatBackground);
+        ui->chatBackgroundView->setScene(sceneChatBackground);
+        ui->chatBackgroundView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+        ui->chatBackgroundView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    } catch(const char* error) {
+        qDebug() << error;
+    }
 }
 
 void App::on_lightThemeButton_clicked(){
-    //change thene to light
+    try{
+        QString iconPath = QString::fromLocal8Bit(__FILE__);
+        QFileInfo iconInfo(iconPath);
+        QString chatBackgroundDirectory = iconInfo.absolutePath() + "/ICons/backgrounds/light-chat-background.jpg";
+        QFile chatBackgroundIcon(chatBackgroundDirectory);
+        if(!chatBackgroundIcon.exists())
+            throw("Icon Not Found.");
+        QIcon *chatBackground = new QIcon(chatBackgroundDirectory);
+        QPixmap pixMapChatBackground = chatBackground->pixmap(ui->chatBackgroundView->width(),ui->chatBackgroundView->height());
+        QGraphicsPixmapItem* pixItemChatBackground = new QGraphicsPixmapItem(pixMapChatBackground);
+        QGraphicsScene* sceneChatBackground = new QGraphicsScene();
+        sceneChatBackground->addItem(pixItemChatBackground);
+        ui->chatBackgroundView->setScene(sceneChatBackground);
+        ui->chatBackgroundView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+        ui->chatBackgroundView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    } catch(const char* error) {
+        qDebug() << error;
+    }
 }
 //////////////////////////////////////////////////////
 //slots for createjoin.ui
