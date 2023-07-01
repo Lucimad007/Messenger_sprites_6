@@ -28,7 +28,7 @@ int main(int argc, char *argv[])
 
 
 
-   // apiManager.logOut(farhad);
+  // apiManager.logOut(farhad);
 apiManager.logIn(farhad);
 
    //QString temp= "farhadg2";

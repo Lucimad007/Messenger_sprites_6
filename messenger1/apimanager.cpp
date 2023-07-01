@@ -524,28 +524,37 @@ QJsonObject APIManager::Read_user_folder(const QString &src, const QString &dst)
     //qDebug()<<jsonDocument.object();
     return jsonDocument.object();
 }
+void APIManager::Thread_task(){
+
+    getUsersList();
+    getChannelList();
+    getGroupList();
+
+    // Sleep for 3 second
+    QThread::msleep(3000);
+}
 void APIManager::check_response_code(const QString& response_code, const QString& server_message)
 {
     if (response_code == "200" && server_message == "Logged in Successfully") {
         qDebug() << "Task has been done code 200"; // for test
 
-        //using thread Instead of QTimer
-        QThread *thread = new QThread;
-        moveToThread(thread);
-        connect(thread,&QThread::started,this,&APIManager::Thread_task);
-        thread->start();
+//        //using thread Instead of QTimer
+//        QThread *thread = new QThread;
+//        moveToThread(thread);
+//        connect(thread,&QThread::started,this,&APIManager::Thread_task);
+//        thread->start();
 
-        //working with QTimer
-        //        QTimer* timer = new QTimer(this);
-        //        timer->setInterval(3000); // equal to 3 seconds
+            //working with QTimer
+                QTimer* timer = new QTimer(this);
+                timer->setInterval(3000); // equal to 3 seconds
 
-        //        connect(timer, &QTimer::timeout, this, [=]() {
-        //            getUsersList();
-        //            getChannelList();
-        //            getGroupList();
-        //        });
+                connect(timer, &QTimer::timeout, this, [=]() {
+                    getUsersList();
+                    getChannelList();
+                    getGroupList();
+                });
 
-        //        timer->start();
+                timer->start();
     }
     else if (response_code == "401") {
         qDebug() << "code is 401 retry"; // for test
@@ -554,15 +563,7 @@ void APIManager::check_response_code(const QString& response_code, const QString
         qDebug() << "code is 404!!!"; // for test
     }
 }
-void APIManager::Thread_task(){
 
-    getUsersList();
-    getChannelList();
-    getGroupList();
-
-    // Sleep for 3 second
-    QThread::msleep(000);
-}
 void APIManager::onReplyFinished(QNetworkReply* reply)
 {
     this->currentUser = mainWindow->getCurrentUser();   //pairing two users
