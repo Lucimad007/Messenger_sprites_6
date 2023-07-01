@@ -440,6 +440,97 @@ void APIManager::get_list_of(const QString type, const QJsonObject &response){
         qDebug() << "Failed to save JSON data to file: " << filename;
     }
 }
+QJsonObject APIManager::get_list_of_channels(){
+
+    QString userDirectory = QDir::currentPath() + "/LIST";
+    QDir().mkpath(userDirectory);
+    QString filename = "channels.txt";
+    QString filePath = userDirectory + "/" + filename;
+    QFile file(filePath);
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        qDebug() << "Failed to open file: " << filename;
+        return QJsonObject();
+    }
+
+    QByteArray fileData = file.readAll();
+    file.close();
+
+    QJsonParseError parseError;
+    QJsonDocument jsonDocument = QJsonDocument::fromJson(fileData, &parseError);
+
+    if (parseError.error != QJsonParseError::NoError) {
+        qDebug() << "Error while parsing JSON: " << parseError.errorString();
+        return QJsonObject(); // Return an empty JSON object
+    }
+
+
+    if (!jsonDocument.isObject()) {
+        qDebug() << "JSON data is not an object.";
+        return QJsonObject(); // Return an empty JSON object if parsing results in a non-object
+    }
+    qDebug()<<jsonDocument.object();
+    return jsonDocument.object();
+}
+QJsonObject APIManager::get_list_of_group(){
+    QString userDirectory = QDir::currentPath() + "/LIST";
+    QDir().mkpath(userDirectory);
+    QString filename = "groups.txt";
+    QString filePath = userDirectory + "/" + filename;
+    QFile file(filePath);
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        qDebug() << "Failed to open file: " << filename;
+        return QJsonObject();
+    }
+
+    QByteArray fileData = file.readAll();
+    file.close();
+
+    QJsonParseError parseError;
+    QJsonDocument jsonDocument = QJsonDocument::fromJson(fileData, &parseError);
+
+    if (parseError.error != QJsonParseError::NoError) {
+        qDebug() << "Error while parsing JSON: " << parseError.errorString();
+        return QJsonObject(); // Return an empty JSON object
+    }
+
+
+    if (!jsonDocument.isObject()) {
+        qDebug() << "JSON data is not an object.";
+        return QJsonObject(); // Return an empty JSON object if parsing results in a non-object
+    }
+    qDebug()<<jsonDocument.object();
+    return jsonDocument.object();
+}
+QJsonObject APIManager::get_list_of_users(){
+    QString userDirectory = QDir::currentPath() + "/LIST";
+    QDir().mkpath(userDirectory);
+    QString filename = "users.txt";
+    QString filePath = userDirectory + "/" + filename;
+    QFile file(filePath);
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        qDebug() << "Failed to open file: " << filename;
+        return QJsonObject();
+    }
+
+    QByteArray fileData = file.readAll();
+    file.close();
+
+    QJsonParseError parseError;
+    QJsonDocument jsonDocument = QJsonDocument::fromJson(fileData, &parseError);
+
+    if (parseError.error != QJsonParseError::NoError) {
+        qDebug() << "Error while parsing JSON: " << parseError.errorString();
+        return QJsonObject(); // Return an empty JSON object
+    }
+
+
+    if (!jsonDocument.isObject()) {
+        qDebug() << "JSON data is not an object.";
+        return QJsonObject(); // Return an empty JSON object if parsing results in a non-object
+    }
+    qDebug()<<jsonDocument.object();
+    return jsonDocument.object();
+}
 QJsonObject APIManager::Read_group_folder(const QString &dst){
     QString filename = "GROUP/" + dst + ".txt";
     QFile file(filename);

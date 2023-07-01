@@ -63,8 +63,11 @@ public slots:
     QJsonObject Read_channel_folder(const QString &dst);
     QJsonObject Read_user_folder(const QString &src,const QString &dst);
 
-
     void get_list_of(const QString type,const QJsonObject &response); //the functin that stores list of USERS GROUPS and CHANNELS
+
+    QJsonObject get_list_of_users();
+    QJsonObject get_list_of_channels();
+    QJsonObject get_list_of_group();
 private slots:
     void Thread_task();
     void onReplyFinished(QNetworkReply *reply);
