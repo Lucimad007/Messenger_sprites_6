@@ -9,7 +9,7 @@
 #include "group.h"
 #include "message.h"
 
-enum CurrentPending {GROUP, CHANNEL};
+enum CurrentPending {GROUP, CHANNEL};       //for joining/creating channel/group
 
 namespace Ui {
 class App;
@@ -24,6 +24,7 @@ public:
     Group getPendingGroup();
     Channel getPendingChannel();
     CurrentPending getCurrentPending();
+    Message getPendingMessage();
     void addChatPrototype(User& user);
     void addChatPrototype(Channel& channel);
     void addChatPrototype(Group& group);
@@ -71,9 +72,10 @@ private:
     QWidget* profileWidget = nullptr;   //initializing it as nullptr prevents app from unexpected crashes
     QWidget* optionsWidget = nullptr;   //initializing it as nullptr prevents app from unexpected crashes
     QWidget* createjoinWidget = nullptr;//initializing it as nullptr prevents app from unexpected crashes
-    CurrentPending currentPending;
+    CurrentPending currentPending;   //for joining/creating channel/group
     Group pendingGroup;
     Channel pendingChannel;
+    Message pendingMessage;
 };
 
 #endif // APP_H

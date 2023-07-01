@@ -26,7 +26,8 @@ extern APIManager apiManager;
 
 App::App(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::App)
+    ui(new Ui::App),
+    pendingMessage(mainWindow->getCurrentUser(),"")
 {
     ui->setupUi(this);
     //ui->chatPrototypeWidget->setVisible(false);
@@ -100,8 +101,8 @@ App::App(QWidget *parent) :
 
     //testing chatprototype widget
     User testUser("iutgram","5973","random@gmail.com");
-    Channel channel("warehouse");
-    Group group("groove");
+    Channel channel("iutgram");
+    Group group("iutgram");
     for(int i=0;i<20;i++){
         if(i%3==0)
             addChatPrototype(testUser);
@@ -128,6 +129,10 @@ Channel App::getPendingChannel(){
 
 CurrentPending App::getCurrentPending(){
     return currentPending;
+}
+
+Message App::getPendingMessage(){
+    return pendingMessage;
 }
 
 void App::addChatPrototype(User& user){
@@ -575,10 +580,18 @@ void App::on_createJoinButton_clicked()
 void App::on_sendButton_clicked()
 {
     //replace it by correct current user later
-    User tempUser("Mohammad","12351","zone@gmail.com");
     QString text = ui->messageLineEdit->text();
-    Message message(tempUser,text);
-    addMessage(message);
+    pendingMessage = Message(mainWindow->getCurrentUser(),text);
+    QLabel* shownNameLabel = mainWindow->getApp()->findChild<QLabel*>("shownNameLabel",Qt::FindChildrenRecursively);
+    QLabel* shownTypeLabel = mainWindow->getApp()->findChild<QLabel*>("shownTypeLabel",Qt::FindChildrenRecursively);
+    QString dstName = shownNameLabel->text();
+    if(shownTypeLabel->text() == "user"){
+        apiManager.sendMessageUser(dstName,text);
+    } else if(shownTypeLabel->text() == "channel"){
+        apiManager.sendMessageChannel(dstName,text);
+    } else if(shownTypeLabel->text() == "group"){
+        apiManager.sendMessageGroup(dstName,text);
+    }
     ui->messageLineEdit->setText("");
 }
 

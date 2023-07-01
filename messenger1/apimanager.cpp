@@ -656,7 +656,8 @@ void APIManager::onReplyFinished(QNetworkReply* reply)
             } else if(replyJson["message"].toString().contains("You Chat With") && replyJson["message"].toString().contains("User")){
                 //load user list
             } else if(replyJson["message"].toString() == "Message Sent Successfully"){    //for user/channel/group
-                //send a message in a chat
+                Message message = mainWindow->getApp()->getPendingMessage();
+                mainWindow->getApp()->addMessage(message);
             } else if(replyJson["message"].toString().contains("There Are") && replyJson["message"].toString().contains("Message")){   //for user/channel/group
                 //receive messages of a chat
             }
