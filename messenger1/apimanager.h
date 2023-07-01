@@ -15,6 +15,7 @@
 #include <QTextStream>
 
 #include <QDir>
+#include <QTimer>
 
 #include "user.h"
 

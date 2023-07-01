@@ -524,29 +524,29 @@ QJsonObject APIManager::Read_user_folder(const QString &src, const QString &dst)
     //qDebug()<<jsonDocument.object();
     return jsonDocument.object();
 }
-bool flag =true;
-void APIManager::check_response_code(const QString &response_code,const QString &server_message){
+void APIManager::check_response_code(const QString& response_code, const QString& server_message)
+{
+    if (response_code == "200" && server_message == "Logged in Successfully") {
+        qDebug() << "Task has been done code 200"; // for test
 
-    if(response_code == "200" && server_message == "Logged in Successfully"){
+        QTimer* timer = new QTimer(this);
+        timer->setInterval(3000); // equal to 3 seconds
 
-        while(flag){
-            flag=false;
+        connect(timer, &QTimer::timeout, this, [=]() {
             getUsersList();
+            getChannelList();
+            getGroupList();
+        });
 
-        }
-
-        qDebug() <<"Task has been done code 200"; //for test
-
-    }else if(response_code == "401"){
-
-        qDebug() <<" code is 401 retry"; //for test
-
-    } else if(response_code == "404"){
-
-        qDebug() <<" code is 404!!!"; //for test
+        timer->start();
+    }
+    else if (response_code == "401") {
+        qDebug() << "code is 401 retry"; // for test
+    }
+    else if (response_code == "404") {
+        qDebug() << "code is 404!!!"; // for test
     }
 }
-
 void APIManager::onReplyFinished(QNetworkReply* reply)
 {
     this->currentUser = mainWindow->getCurrentUser();   //pairing two users
@@ -560,7 +560,7 @@ void APIManager::onReplyFinished(QNetworkReply* reply)
         QJsonDocument jsonResponse = QJsonDocument::fromJson(responseData);
         QJsonObject jsonObject = jsonResponse.object();
 //-----------------------------------------------------------------------------------------------------
-        // Matins edit
+        // working with file for offline mode
 
         for (const QString& key : jsonObject.keys()) {
             if (key.startsWith("block")) {
