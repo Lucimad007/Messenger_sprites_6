@@ -672,48 +672,48 @@ void APIManager::onReplyFinished(QNetworkReply* reply)
 //-----------------------------------------------------------------------------------------------------
         // working with file for offline mode
 
-        for (const QString& key : jsonObject.keys()) {
-            if (key.startsWith("block")) {
-                QJsonObject blockObject = jsonObject.value(key).toObject();
+//        for (const QString& key : jsonObject.keys()) {
+//            if (key.startsWith("block")) {
+//                QJsonObject blockObject = jsonObject.value(key).toObject();
 
-                if ((blockObject.contains("dst")) && blockObject.contains("src") && (blockObject.contains("body"))) {
-                    QString dst = blockObject.value("dst").toString();
-                    QString src = blockObject.value("src").toString();
-                    QString final = src + "_to_" + dst;
-                    temp_json_object = jsonObject;
+//                if ((blockObject.contains("dst")) && blockObject.contains("src") && (blockObject.contains("body"))) {
+//                    QString dst = blockObject.value("dst").toString();
+//                    QString src = blockObject.value("src").toString();
+//                    QString final = src + "_to_" + dst;
+//                    temp_json_object = jsonObject;
 
-                    if (where_flag == "user") {
-                        Write_chat_folder(final, temp_json_object);
-                    }
-                    else if (where_flag == "group") {
-                        Write_group_floder(dst, temp_json_object);
-                    }
-                    else if (where_flag == "channel") {
-                        Write_channel_floder(dst, temp_json_object);
-                    }
+//                    if (where_flag == "user") {
+//                        Write_chat_folder(final, temp_json_object);
+//                    }
+//                    else if (where_flag == "group") {
+//                        Write_group_floder(dst, temp_json_object);
+//                    }
+//                    else if (where_flag == "channel") {
+//                        Write_channel_floder(dst, temp_json_object);
+//                    }
 
-                    break;
-                }
-                if (!(blockObject.contains("dst")) && blockObject.contains("src") && !(blockObject.contains("body"))) {
-                    QString type = "users";
-                    get_list_of(type,jsonObject);
-                    QString src = blockObject.value("src").toString();
-                    getUsersChat(src);
-                }
-                if (blockObject.contains("group_name") && !(blockObject.contains("dst"))) {
-                    QString type = "groups";
-                    get_list_of(type,jsonObject);
-                    QString group_name = blockObject.value("group_name").toString();
-                    getGroupChat(group_name);
-                }
-                if (blockObject.contains("channel_name") && !(blockObject.contains("dst"))) {
-                    QString type = "channels";
-                    get_list_of(type,jsonObject);
-                    QString channel_name = blockObject.value("channel_name").toString();
-                    getChannelChat(channel_name);
-                }
-            }
-        }
+//                    break;
+//                }
+//                if (!(blockObject.contains("dst")) && blockObject.contains("src") && !(blockObject.contains("body"))) {
+//                    QString type = "users";
+//                    get_list_of(type,jsonObject);
+//                    QString src = blockObject.value("src").toString();
+//                    getUsersChat(src);
+//                }
+//                if (blockObject.contains("group_name") && !(blockObject.contains("dst"))) {
+//                    QString type = "groups";
+//                    get_list_of(type,jsonObject);
+//                    QString group_name = blockObject.value("group_name").toString();
+//                    getGroupChat(group_name);
+//                }
+//                if (blockObject.contains("channel_name") && !(blockObject.contains("dst"))) {
+//                    QString type = "channels";
+//                    get_list_of(type,jsonObject);
+//                    QString channel_name = blockObject.value("channel_name").toString();
+//                    getChannelChat(channel_name);
+//                }
+//            }
+//        }
 //-----------------------------------------------------------------------------------------------------
         if (jsonObject.contains("token")) {
             QString extractedToken = jsonObject["token"].toString();
@@ -764,6 +764,8 @@ void APIManager::onReplyFinished(QNetworkReply* reply)
                 }
             } else if(replyJson["message"].toString().contains("You Are in") && replyJson["message"].toString().contains("Group")){
                 QJsonObject json = get_list_of_group();
+                QString type = "groups";
+                get_list_of(type,jsonObject);
                 qDebug() << replyJson <<  mainWindow->extractNumber(replyJson["message"].toString());
                 for (auto it = replyJson.begin(); it != replyJson.end(); ++it) {
                         if (it.key().startsWith("block")) {
@@ -776,6 +778,8 @@ void APIManager::onReplyFinished(QNetworkReply* reply)
                     }
             } else if(replyJson["message"].toString().contains("You Are in") && replyJson["message"].toString().contains("Channel")){
                 QJsonObject json = get_list_of_channels();
+                QString type = "channels";
+                get_list_of(type,jsonObject);
                 qDebug() << replyJson <<  mainWindow->extractNumber(replyJson["message"].toString());
                 for (auto it = replyJson.begin(); it != replyJson.end(); ++it) {
                         if (it.key().startsWith("block")) {
@@ -788,11 +792,14 @@ void APIManager::onReplyFinished(QNetworkReply* reply)
                     }
             } else if(replyJson["message"].toString().contains("You Have Chat") && replyJson["message"].toString().contains("Users")){
                 QJsonObject json = get_list_of_users();
+                QString type = "users";
+                get_list_of(type,jsonObject);
                 qDebug() << replyJson <<  mainWindow->extractNumber(replyJson["message"].toString());
                 for (auto it = replyJson.begin(); it != replyJson.end(); ++it) {
                         if (it.key().startsWith("block")) {
                             QJsonObject blockObject = it.value().toObject();
                             QString src = blockObject.value("src").toString();
+                            QString dst = blockObject.value("dst").toString();
                             User user(src,"","");
                             mainWindow->getApp()->addChatPrototype(user);
                             qDebug() << "Body:" << src;
@@ -806,17 +813,27 @@ void APIManager::onReplyFinished(QNetworkReply* reply)
                 mainWindow->getApp()->addMessage(message);
             } else if(replyJson["message"].toString().contains("There Are") && replyJson["message"].toString().contains("Message")){   //for user/channel/group
                 qDebug() << replyJson <<  mainWindow->extractNumber(replyJson["message"].toString());
+                QString src,dst;
                 for (auto it = replyJson.begin(); it != replyJson.end(); ++it) {
                         if (it.key().startsWith("block")) {
                             QJsonObject blockObject = it.value().toObject();
                             QString body = blockObject.value("body").toString();
-                            QString src = blockObject.value("src").toString();
+                            src = blockObject.value("src").toString();
+                            dst = blockObject.value("dst").toString();
                             User user(src,"","");   //it doesnt mather wether it is group or channel or user
                             Message message(user,body);
                             mainWindow->getApp()->addMessage(message);
                             qDebug() << "Body:" << body;
                         }
                     }
+
+            QString final = src + "_to_" + dst;
+            if(where_flag == "channel")
+                 Write_channel_floder(dst,replyJson);
+            if(where_flag == "user")
+                Write_chat_folder(final,replyJson);
+            if(where_flag == "group")
+                Write_group_floder(dst,replyJson);
             }
             } else {
             dialog = new ErrorDialog(nullptr,replyJson["code"].toString(),replyJson["message"].toString());
