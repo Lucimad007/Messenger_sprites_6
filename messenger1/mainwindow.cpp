@@ -20,6 +20,23 @@ MainWindow::MainWindow(QWidget *parent)
     this->setWindowFlags(Qt::MSWindowsFixedSizeDialogHint);     //making window not resizeable
 }
 
+QString MainWindow::extractNumber(const QString& inputString)
+{
+    qDebug() << inputString;
+    QRegularExpression re("-\\d+-");
+    QRegularExpressionMatch match = re.match(inputString);
+
+    if (match.hasMatch()) {
+        QString matchedString = match.captured(0);
+        // Remove the hyphens from the matched string
+        matchedString.remove('-');
+        return matchedString;
+    }
+
+    // Return an empty string if no match is found
+    return QString();
+}
+
 App* MainWindow::getApp(){
     return app;
 }

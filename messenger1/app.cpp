@@ -99,24 +99,24 @@ App::App(QWidget *parent) :
     }
 
 
-    //testing chatprototype widget
-    User testUser("iutgram","5973","random@gmail.com");
-    Channel channel("iutgram");
-    Group group("iutgram");
-    for(int i=0;i<20;i++){
-        if(i%3==0)
-            addChatPrototype(testUser);
-        else if(i%3 == 1)
-            addChatPrototype(channel);
-        else if(i%3 == 2)
-            addChatPrototype(group);
-    }
+//    //testing chatprototype widget
+//    User testUser("iutgram","5973","random@gmail.com");
+//    Channel channel("iutgram");
+//    Group group("iutgram");
+//    for(int i=0;i<20;i++){
+//        if(i%3==0)
+//            addChatPrototype(testUser);
+//        else if(i%3 == 1)
+//            addChatPrototype(channel);
+//        else if(i%3 == 2)
+//            addChatPrototype(group);
+//    }
 
-    //testing message widget
-    User user("Ali","1234","ali@gmail.com");
-    Message test(user,"This is a test");
-    for(int i=0;i<20;i++)
-        addMessage(test);
+//    //testing message widget
+//    User user("Ali","1234","ali@gmail.com");
+//    Message test(user,"This is a test");
+//    for(int i=0;i<20;i++)
+//        addMessage(test);
 }
 
 Group App::getPendingGroup(){

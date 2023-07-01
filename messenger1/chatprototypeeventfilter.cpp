@@ -4,22 +4,7 @@
 #include <QLabel>
 extern MainWindow* mainWindow;
 extern APIManager apiManager;
-QString extractNumber(const QString& inputString)
-{
-    qDebug() << inputString;
-    QRegularExpression re("-\\d+-");
-    QRegularExpressionMatch match = re.match(inputString);
 
-    if (match.hasMatch()) {
-        QString matchedString = match.captured(0);
-        // Remove the hyphens from the matched string
-        matchedString.remove('-');
-        return matchedString;
-    }
-
-    // Return an empty string if no match is found
-    return QString();
-}
 bool ChatPrototypeEventFilter::eventFilter(QObject* obj, QEvent* event){
     if (event->type() == QEvent::MouseButtonPress)
     {
@@ -36,21 +21,31 @@ bool ChatPrototypeEventFilter::eventFilter(QObject* obj, QEvent* event){
             shownTypeLabel->setText(typeLabel->text());
             mainWindow->getApp()->clearChatArea();
 
-            //loading messages
+            QString type = typeLabel->text();
             QString dstName = shownNameLabel->text();
-            QJsonObject json = apiManager.Read_user_folder(mainWindow->getCurrentUser().getUsername(),dstName);
-            qDebug() << json <<  extractNumber(json["message"].toString());
-            for (auto it = json.begin(); it != json.end(); ++it) {
-                    if (it.key().startsWith("block")) {
-                        QJsonObject blockObject = it.value().toObject();
-                        QString body = blockObject.value("body").toString();
-                        QString src = blockObject.value("src").toString();
-                        User user(src,"","");   //it doesnt mather wether it is group or channel or user
-                        Message message(user,body);
-                        mainWindow->getApp()->addMessage(message);
-                        qDebug() << "Body:" << body;
-                    }
-                }
+            if(type == "user"){
+                apiManager.getUsersChat(dstName);
+            } else if(type == "channel"){
+                apiManager.getChannelChat(dstName);
+            } else if(type == "group"){
+                apiManager.getGroupChat(dstName);
+            }
+
+            //loading messages
+//            QString dstName = shownNameLabel->text();
+//            QJsonObject json = apiManager.getus(mainWindow->getCurrentUser().getUsername(),dstName);
+//            qDebug() << json <<  mainWindow->extractNumber(json["message"].toString());
+//            for (auto it = json.begin(); it != json.end(); ++it) {
+//                    if (it.key().startsWith("block")) {
+//                        QJsonObject blockObject = it.value().toObject();
+//                        QString body = blockObject.value("body").toString();
+//                        QString src = blockObject.value("src").toString();
+//                        User user(src,"","");   //it doesnt mather wether it is group or channel or user
+//                        Message message(user,body);
+//                        mainWindow->getApp()->addMessage(message);
+//                        qDebug() << "Body:" << body;
+//                    }
+//                }
             // You can also access the widget using obj, if needed
             // For example:
             // QWidget* widget = qobject_cast<QWidget*>(obj);

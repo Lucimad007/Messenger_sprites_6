@@ -17,6 +17,7 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     User getCurrentUser();
+    QString extractNumber(const QString& inputString);
     App* getApp();
     void setLoginUI();
     void setRegisterUI();

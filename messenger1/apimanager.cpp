@@ -2,7 +2,9 @@
 #include "mainwindow.h"
 #include<QUrlQuery>
 #include "errordialog.h"
+#include "qapplication.h"
 
+extern QApplication* a;
 extern MainWindow* mainWindow;
 extern APIManager apiManager;
 
@@ -626,33 +628,33 @@ void APIManager::Thread_task(){
 }
 void APIManager::check_response_code(const QString& response_code, const QString& server_message)
 {
-    if (response_code == "200" && server_message == "Logged in Successfully") {
-        qDebug() << "Task has been done code 200"; // for test
+//    if (response_code == "200" && server_message == "Logged in Successfully") {
+//        qDebug() << "Task has been done code 200"; // for test
 
-//        //using thread Instead of QTimer
-//        QThread *thread = new QThread;
-//        moveToThread(thread);
-//        connect(thread,&QThread::started,this,&APIManager::Thread_task);
-//        thread->start();
+////        //using thread Instead of QTimer
+////        QThread *thread = new QThread;
+////        moveToThread(thread);
+////        connect(thread,&QThread::started,this,&APIManager::Thread_task);
+////        thread->start();
 
-            //working with QTimer
-                QTimer* timer = new QTimer(this);
-                timer->setInterval(3000); // equal to 3 seconds
+//            //working with QTimer
+//                QTimer* timer = new QTimer(this);
+//                timer->setInterval(3000); // equal to 3 seconds
 
-                connect(timer, &QTimer::timeout, this, [=]() {
-                    getUsersList();
-                    getChannelList();
-                    getGroupList();
-                });
+//                connect(timer, &QTimer::timeout, this, [=]() {
+//                    getUsersList();
+//                    getChannelList();
+//                    getGroupList();
+//                });
 
-                timer->start();
-    }
-    else if (response_code == "401") {
-        qDebug() << "code is 401 retry"; // for test
-    }
-    else if (response_code == "404") {
-        qDebug() << "code is 404!!!"; // for test
-    }
+//                timer->start();
+//    }
+//    else if (response_code == "401") {
+//        qDebug() << "code is 401 retry"; // for test
+//    }
+//    else if (response_code == "404") {
+//        qDebug() << "code is 404!!!"; // for test
+//    }
 }
 
 void APIManager::onReplyFinished(QNetworkReply* reply)
@@ -737,6 +739,9 @@ void APIManager::onReplyFinished(QNetworkReply* reply)
                 mainWindow->setLoginUI();
             } else if(replyJson["message"].toString() == "Logged in Successfully"){
                 mainWindow->startApp();
+                getUsersList();
+                getGroupList();
+                getChannelList();
             } else if(replyJson["message"].toString() == "You are already logged in!"){
                 this->logOut(currentUser);
                 this->logIn(currentUser);
@@ -758,16 +763,60 @@ void APIManager::onReplyFinished(QNetworkReply* reply)
                     mainWindow->getApp()->addChatPrototype(group);
                 }
             } else if(replyJson["message"].toString().contains("You Are in") && replyJson["message"].toString().contains("Group")){
-                //load group list
+                QJsonObject json = get_list_of_group();
+                qDebug() << replyJson <<  mainWindow->extractNumber(replyJson["message"].toString());
+                for (auto it = replyJson.begin(); it != replyJson.end(); ++it) {
+                        if (it.key().startsWith("block")) {
+                            QJsonObject blockObject = it.value().toObject();
+                            QString src = blockObject.value("group_name").toString();
+                            Group group(src);
+                            mainWindow->getApp()->addChatPrototype(group);
+                            qDebug() << "Body:" << src;
+                        }
+                    }
             } else if(replyJson["message"].toString().contains("You Are in") && replyJson["message"].toString().contains("Channel")){
-                //load channel list
-            } else if(replyJson["message"].toString().contains("You Chat With") && replyJson["message"].toString().contains("User")){
-                //load user list
-            } else if(replyJson["message"].toString() == "Message Sent Successfully"){    //for user/channel/group
+                QJsonObject json = get_list_of_channels();
+                qDebug() << replyJson <<  mainWindow->extractNumber(replyJson["message"].toString());
+                for (auto it = replyJson.begin(); it != replyJson.end(); ++it) {
+                        if (it.key().startsWith("block")) {
+                            QJsonObject blockObject = it.value().toObject();
+                            QString src = blockObject.value("channel_name").toString();
+                            Channel channel(src);
+                            mainWindow->getApp()->addChatPrototype(channel);
+                            qDebug() << "Body:" << src;
+                        }
+                    }
+            } else if(replyJson["message"].toString().contains("You Have Chat") && replyJson["message"].toString().contains("Users")){
+                QJsonObject json = get_list_of_users();
+                qDebug() << replyJson <<  mainWindow->extractNumber(replyJson["message"].toString());
+                for (auto it = replyJson.begin(); it != replyJson.end(); ++it) {
+                        if (it.key().startsWith("block")) {
+                            QJsonObject blockObject = it.value().toObject();
+                            QString src = blockObject.value("src").toString();
+                            User user(src,"","");
+                            mainWindow->getApp()->addChatPrototype(user);
+                            qDebug() << "Body:" << src;
+                        }
+                    }
+            } else if(replyJson["message"].toString() == "Message Sent Successfully"){    //for user/group
+                Message message = mainWindow->getApp()->getPendingMessage();
+                mainWindow->getApp()->addMessage(message);
+            } else if(replyJson["message"].toString() == "Message Successfully Sent") {     //for channel
                 Message message = mainWindow->getApp()->getPendingMessage();
                 mainWindow->getApp()->addMessage(message);
             } else if(replyJson["message"].toString().contains("There Are") && replyJson["message"].toString().contains("Message")){   //for user/channel/group
-                //receive messages of a chat
+                qDebug() << replyJson <<  mainWindow->extractNumber(replyJson["message"].toString());
+                for (auto it = replyJson.begin(); it != replyJson.end(); ++it) {
+                        if (it.key().startsWith("block")) {
+                            QJsonObject blockObject = it.value().toObject();
+                            QString body = blockObject.value("body").toString();
+                            QString src = blockObject.value("src").toString();
+                            User user(src,"","");   //it doesnt mather wether it is group or channel or user
+                            Message message(user,body);
+                            mainWindow->getApp()->addMessage(message);
+                            qDebug() << "Body:" << body;
+                        }
+                    }
             }
             } else {
             dialog = new ErrorDialog(nullptr,replyJson["code"].toString(),replyJson["message"].toString());
