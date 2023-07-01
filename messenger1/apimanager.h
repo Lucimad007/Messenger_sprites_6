@@ -68,6 +68,9 @@ public slots:
     QJsonObject get_list_of_users();
     QJsonObject get_list_of_channels();
     QJsonObject get_list_of_group();
+
+    void Delete_All_Files();
+
 private slots:
     void Thread_task();
     void onReplyFinished(QNetworkReply *reply);

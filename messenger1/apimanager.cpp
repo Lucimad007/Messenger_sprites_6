@@ -54,7 +54,7 @@ void APIManager::logOut(User &given_user){
     query.addQueryItem("username",given_user.getUsername());
     query.addQueryItem("password",given_user.getPassword());
     url.setQuery(query);
-
+    Delete_All_Files();  //to remove every Files we have saved in our project directory
     //send Get
     QNetworkRequest request(url);
     m_networkManager.get(request);
@@ -616,6 +616,20 @@ QJsonObject APIManager::Read_user_folder(const QString &src, const QString &dst)
     }
     //qDebug()<<jsonDocument.object();
     return jsonDocument.object();
+}
+void APIManager::Delete_All_Files(){
+    QString baseDirectory = QDir::currentPath(); // this will give us where we are in the project
+
+
+    QString usersDirectory = baseDirectory + "/USER";
+    QString channelDirectory = baseDirectory + "/CHANNEL";
+    QString listDirectory = baseDirectory + "/LIST";
+    QString groupDirectory = baseDirectory + "/GROUP";
+    QDir(usersDirectory).removeRecursively();
+    QDir(channelDirectory).removeRecursively();
+    QDir(listDirectory).removeRecursively();
+    QDir(groupDirectory).removeRecursively();
+    qDebug() <<"Removed all files "<<"\n";
 }
 void APIManager::Thread_task(){
 
