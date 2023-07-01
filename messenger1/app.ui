@@ -167,7 +167,7 @@ border-color:rgb(170, 0, 0);</string>
       <string notr="true">background-color: rgb(98, 98, 98);</string>
      </property>
     </widget>
-    <widget class="QLabel" name="nameLabel">
+    <widget class="QLabel" name="shownNameLabel">
      <property name="geometry">
       <rect>
        <x>80</x>
@@ -190,7 +190,7 @@ color: rgb(255, 255, 255);</string>
       <string> . . .</string>
      </property>
     </widget>
-    <widget class="QLabel" name="typeLabel">
+    <widget class="QLabel" name="shownTypeLabel">
      <property name="geometry">
       <rect>
        <x>410</x>
