@@ -778,6 +778,7 @@ void APIManager::onReplyFinished(QNetworkReply* reply)
                 }
             } else if(replyJson["message"].toString().contains("You Are in") && replyJson["message"].toString().contains("Group")){
                 QJsonObject json = get_list_of_group();
+                mainWindow->getApp()->setNumberOfGroups(mainWindow->extractNumber(replyJson["message"].toString()));
                 QString type = "groups";
                 get_list_of(type,jsonObject);
                 qDebug() << replyJson <<  mainWindow->extractNumber(replyJson["message"].toString());
@@ -792,6 +793,7 @@ void APIManager::onReplyFinished(QNetworkReply* reply)
                     }
             } else if(replyJson["message"].toString().contains("You Are in") && replyJson["message"].toString().contains("Channel")){
                 QJsonObject json = get_list_of_channels();
+                mainWindow->getApp()->setNumberOfChannels(mainWindow->extractNumber(replyJson["message"].toString()));
                 QString type = "channels";
                 get_list_of(type,jsonObject);
                 qDebug() << replyJson <<  mainWindow->extractNumber(replyJson["message"].toString());

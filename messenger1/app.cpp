@@ -152,6 +152,13 @@ Message App::getPendingMessage(){
     return pendingMessage;
 }
 
+void App::setNumberOfChannels(QString number){
+    this->numberOfChannels = number;
+}
+void App::setNumberOfGroups(QString number){
+    this->numberOfGroups = number;
+}
+
 void App::addChatPrototype(User& user){
     QGraphicsView* profilePicture;
     QUiLoader loader;
@@ -383,6 +390,12 @@ void App::on_profileButton_clicked()
             QGraphicsView* profilePicture = profileWidget->findChild<QGraphicsView*>("profilePicture",Qt::FindChildrenRecursively);
             profilePicture->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
             profilePicture->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+            QLabel* channelNumber = profileWidget->findChild<QLabel*>("numberOfChannels",Qt::FindChildrenRecursively);
+            channelNumber->setText(numberOfChannels);
+            QLabel* groupNumber = profileWidget->findChild<QLabel*>("numberOfGroups",Qt::FindChildrenRecursively);
+            groupNumber->setText(numberOfGroups);
+            QLabel* username = profileWidget->findChild<QLabel*>("username",Qt::FindChildrenRecursively);
+            username->setText(mainWindow->getCurrentUser().getUsername());
             QCheckBox* internetCheckBox = profileWidget->findChild<QCheckBox*>("internetCheckBox",Qt::FindChildrenRecursively);
             connect(internetCheckBox, &QCheckBox::stateChanged, [=](int state) {
                 if (state == Qt::Checked)

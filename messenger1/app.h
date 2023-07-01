@@ -25,6 +25,8 @@ public:
     Channel getPendingChannel();
     CurrentPending getCurrentPending();
     Message getPendingMessage();
+    void setNumberOfChannels(QString number);
+    void setNumberOfGroups(QString number);
     void addChatPrototype(User& user);
     void addChatPrototype(Channel& channel);
     void addChatPrototype(Group& group);
@@ -77,6 +79,8 @@ private:
     Channel pendingChannel;
     Message pendingMessage;
     QString profilePath;
+    QString numberOfChannels = "";
+    QString numberOfGroups = "";
 };
 
 #endif // APP_H
