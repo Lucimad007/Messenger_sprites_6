@@ -28,6 +28,7 @@ public:
     void addChatPrototype(Channel& channel);
     void addChatPrototype(Group& group);
     void addMessage(Message& message);
+    void clearChatArea();
     ~App();
 
 private slots:

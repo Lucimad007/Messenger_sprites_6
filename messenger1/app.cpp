@@ -324,6 +324,12 @@ void App::addMessage(Message& message){
 
 }
 
+void App::clearChatArea(){
+    chatSplitter->deleteLater();
+    chatSplitter = new QSplitter(Qt::Vertical);
+    ui->chatScrollArea->setWidget(chatSplitter);
+}
+
 App::~App()
 {
     delete ui;
