@@ -76,6 +76,7 @@ private:
     Group pendingGroup;
     Channel pendingChannel;
     Message pendingMessage;
+    QString profilePath;
 };
 
 #endif // APP_H

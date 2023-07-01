@@ -13,6 +13,7 @@
 #include <QScrollBar>
 #include <QRadioButton>
 #include <QCheckBox>
+#include <QFileDialog>
 #include "mainwindow.h"
 #include "apimanager.h"
 #include "chatprototypeeventfilter.h"
@@ -41,6 +42,10 @@ App::App(QWidget *parent) :
     ui->chatScrollArea->setWidget(chatSplitter);
     AddContactEventFilter* eventFilter = new AddContactEventFilter();
     ui->addContactView->installEventFilter(eventFilter);
+    //setting path of default profile picture
+    QString iconPath = QString::fromLocal8Bit(__FILE__);
+    QFileInfo iconInfo(iconPath);
+    profilePath = iconInfo.absolutePath() + "/ICons/avatar.ico";
 
     //setting scroll bar of chat area always bottom by default
     QScrollBar* verticalScrollBar = ui->chatScrollArea->verticalScrollBar();
@@ -49,7 +54,7 @@ App::App(QWidget *parent) :
         verticalScrollBar->setValue(max);});
 
 
-    //setting primary icons
+    //setting primary icons and background
     try{
         QString iconPath = QString::fromLocal8Bit(__FILE__);
         QFileInfo iconInfo(iconPath);
@@ -376,6 +381,8 @@ void App::on_profileButton_clicked()
 
             //loading profile picture
             QGraphicsView* profilePicture = profileWidget->findChild<QGraphicsView*>("profilePicture",Qt::FindChildrenRecursively);
+            profilePicture->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+            profilePicture->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
             QCheckBox* internetCheckBox = profileWidget->findChild<QCheckBox*>("internetCheckBox",Qt::FindChildrenRecursively);
             connect(internetCheckBox, &QCheckBox::stateChanged, [=](int state) {
                 if (state == Qt::Checked)
@@ -388,9 +395,7 @@ void App::on_profileButton_clicked()
             try{
                 if(!profilePicture->isWidgetType())
                     throw("Error while finding widget");
-                QString iconPath = QString::fromLocal8Bit(__FILE__);
-                QFileInfo iconInfo(iconPath);
-                QString iconDirectory = iconInfo.absolutePath() + "/ICons/avatar.ico";
+                QString iconDirectory = profilePath;
                 QFile temp(iconDirectory);
                 if(!temp.exists())
                     throw("Icon Not Found.");
@@ -630,11 +635,16 @@ void App::on_logoutButton_clicked(){
 //slots for options.ui
 
 void App::on_changeProfilePictureButton_clicked(){
-    //change the profle here
+    QString fileName = QFileDialog::getOpenFileName(this,"open file",QDir::homePath(),"All Files (*.*)");
+    if(!fileName.isEmpty()){
+        profilePath = fileName;
+    } else {
+        qDebug() << "Invalid file path.";
+    }
 }
 
 void App::on_clearLocalFilesButton_clicked(){
-    //delete local files of user
+    apiManager.Delete_All_Files();
 }
 
 void App::on_defaultThemeButton_clicked(){
