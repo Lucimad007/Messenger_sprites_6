@@ -21,17 +21,25 @@ class App : public QMainWindow
 
 public:
     explicit App(QWidget *parent = nullptr);
+    QString getCurrentType();
     Group getPendingGroup();
     Channel getPendingChannel();
     CurrentPending getCurrentPending();
     Message getPendingMessage();
     void setNumberOfChannels(QString number);
+    QString getNumberOfChannels();
     void setNumberOfGroups(QString number);
+    QString getNumberOfGroups();
+    void setNumberOfUsers(QString number);
+    QString getNumberOfUsers();
+    int getNumberOfMessages();
+    QString getShownName();
     void addChatPrototype(User& user);
     void addChatPrototype(Channel& channel);
     void addChatPrototype(Group& group);
     void addMessage(Message& message);
     void clearChatArea();
+    void clearChatPrototypes();
     ~App();
 
 private slots:
@@ -79,8 +87,10 @@ private:
     Channel pendingChannel;
     Message pendingMessage;
     QString profilePath;
-    QString numberOfChannels = "";
-    QString numberOfGroups = "";
+    QString numberOfChannels = "0";     //it is necessary to be initialized like this
+    QString numberOfGroups = "0";
+    QString numberOfUsers = "0";
+    int numberOfMessages;
 };
 
 #endif // APP_H

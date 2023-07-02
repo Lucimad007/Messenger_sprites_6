@@ -642,8 +642,8 @@ void APIManager::Thread_task(){
 }
 void APIManager::check_response_code(const QString& response_code, const QString& server_message)
 {
-//    if (response_code == "200" && server_message == "Logged in Successfully") {
-//        qDebug() << "Task has been done code 200"; // for test
+    if (response_code == "200" && server_message == "Logged in Successfully") {
+        qDebug() << "Task has been done code 200"; // for test
 
 ////        //using thread Instead of QTimer
 ////        QThread *thread = new QThread;
@@ -651,24 +651,32 @@ void APIManager::check_response_code(const QString& response_code, const QString
 ////        connect(thread,&QThread::started,this,&APIManager::Thread_task);
 ////        thread->start();
 
-//            //working with QTimer
-//                QTimer* timer = new QTimer(this);
-//                timer->setInterval(3000); // equal to 3 seconds
+            //working with QTimer
+                QTimer* timer = new QTimer(this);
+                timer->setInterval(3000); // equal to 3 seconds
 
-//                connect(timer, &QTimer::timeout, this, [=]() {
-//                    getUsersList();
-//                    getChannelList();
-//                    getGroupList();
-//                });
+                connect(timer, &QTimer::timeout, this, [=]() {
+                    QString type = mainWindow->getApp()->getCurrentType();
+                    QString dst = mainWindow->getApp()->getShownName();
+                    if(type == "user")
+                        getUsersChat(dst);
+                    else if(type == "channel")
+                        getChannelChat(dst);
+                    else if(type == "group")
+                         getGroupChat(dst);
+                    getUsersList();
+                    getChannelList();
+                    getGroupList();
+                });
 
-//                timer->start();
-//    }
-//    else if (response_code == "401") {
-//        qDebug() << "code is 401 retry"; // for test
-//    }
-//    else if (response_code == "404") {
-//        qDebug() << "code is 404!!!"; // for test
-//    }
+                timer->start();
+    }
+    else if (response_code == "401") {
+        qDebug() << "code is 401 retry"; // for test
+    }
+    else if (response_code == "404") {
+        qDebug() << "code is 404!!!"; // for test
+    }
 }
 
 void APIManager::onReplyFinished(QNetworkReply* reply)
@@ -778,11 +786,11 @@ void APIManager::onReplyFinished(QNetworkReply* reply)
                 }
             } else if(replyJson["message"].toString().contains("You Are in") && replyJson["message"].toString().contains("Group")){
                 QJsonObject json = get_list_of_group();
-                mainWindow->getApp()->setNumberOfGroups(mainWindow->extractNumber(replyJson["message"].toString()));
+                int diffrenece = mainWindow->extractNumber(replyJson["message"].toString()).toInt() - mainWindow->getApp()->getNumberOfGroups().toInt();
                 QString type = "groups";
                 get_list_of(type,jsonObject);
                 qDebug() << replyJson <<  mainWindow->extractNumber(replyJson["message"].toString());
-                for (auto it = replyJson.begin(); it != replyJson.end(); ++it) {
+                for (auto it = replyJson.end() - diffrenece; it != replyJson.end(); ++it) {
                         if (it.key().startsWith("block")) {
                             QJsonObject blockObject = it.value().toObject();
                             QString src = blockObject.value("group_name").toString();
@@ -791,13 +799,14 @@ void APIManager::onReplyFinished(QNetworkReply* reply)
                             qDebug() << "Body:" << src;
                         }
                     }
+                mainWindow->getApp()->setNumberOfGroups(mainWindow->extractNumber(replyJson["message"].toString()));
             } else if(replyJson["message"].toString().contains("You Are in") && replyJson["message"].toString().contains("Channel")){
                 QJsonObject json = get_list_of_channels();
-                mainWindow->getApp()->setNumberOfChannels(mainWindow->extractNumber(replyJson["message"].toString()));
+                int diffrenece = mainWindow->extractNumber(replyJson["message"].toString()).toInt() - mainWindow->getApp()->getNumberOfChannels().toInt();
                 QString type = "channels";
                 get_list_of(type,jsonObject);
                 qDebug() << replyJson <<  mainWindow->extractNumber(replyJson["message"].toString());
-                for (auto it = replyJson.begin(); it != replyJson.end(); ++it) {
+                for (auto it = replyJson.end() - diffrenece + diffrenece; it != replyJson.end(); ++it) {
                         if (it.key().startsWith("block")) {
                             QJsonObject blockObject = it.value().toObject();
                             QString src = blockObject.value("channel_name").toString();
@@ -806,12 +815,14 @@ void APIManager::onReplyFinished(QNetworkReply* reply)
                             qDebug() << "Body:" << src;
                         }
                     }
+                mainWindow->getApp()->setNumberOfChannels(mainWindow->extractNumber(replyJson["message"].toString()));
             } else if(replyJson["message"].toString().contains("You Have Chat") && replyJson["message"].toString().contains("Users")){
                 QJsonObject json = get_list_of_users();
+                int diffrenece = mainWindow->extractNumber(replyJson["message"].toString()).toInt() - mainWindow->getApp()->getNumberOfUsers().toInt();
                 QString type = "users";
                 get_list_of(type,jsonObject);
                 qDebug() << replyJson <<  mainWindow->extractNumber(replyJson["message"].toString());
-                for (auto it = replyJson.begin(); it != replyJson.end(); ++it) {
+                for (auto it = replyJson.end() - diffrenece; it != replyJson.end(); ++it) {
                         if (it.key().startsWith("block")) {
                             QJsonObject blockObject = it.value().toObject();
                             QString src = blockObject.value("src").toString();
@@ -821,6 +832,7 @@ void APIManager::onReplyFinished(QNetworkReply* reply)
                             qDebug() << "Body:" << src;
                         }
                     }
+               mainWindow->getApp()->setNumberOfUsers(mainWindow->extractNumber(replyJson["message"].toString()));
             } else if(replyJson["message"].toString() == "Message Sent Successfully"){    //for user/group
                 Message message = mainWindow->getApp()->getPendingMessage();
                 mainWindow->getApp()->addMessage(message);
@@ -829,8 +841,9 @@ void APIManager::onReplyFinished(QNetworkReply* reply)
                 mainWindow->getApp()->addMessage(message);
             } else if(replyJson["message"].toString().contains("There Are") && replyJson["message"].toString().contains("Message")){   //for user/channel/group
                 qDebug() << replyJson <<  mainWindow->extractNumber(replyJson["message"].toString());
+                int diffrenece = mainWindow->extractNumber(replyJson["message"].toString()).toInt() - mainWindow->getApp()->getNumberOfMessages();
                 QString src,dst;
-                for (auto it = replyJson.begin(); it != replyJson.end(); ++it) {
+                for (auto it = replyJson.end() - diffrenece; it != replyJson.end(); ++it) {
                         if (it.key().startsWith("block")) {
                             QJsonObject blockObject = it.value().toObject();
                             QString body = blockObject.value("body").toString();
@@ -843,14 +856,14 @@ void APIManager::onReplyFinished(QNetworkReply* reply)
                         }
                     }
 
-            QString final = src + "_to_" + dst;
-            if(where_flag == "channel")
-                 Write_channel_floder(dst,replyJson);
-            if(where_flag == "user")
-                Write_chat_folder(final,replyJson);
-            if(where_flag == "group")
-                Write_group_floder(dst,replyJson);
-            }
+                QString final = src + "_to_" + dst;
+                if(where_flag == "channel")
+                     Write_channel_floder(dst,replyJson);
+                else if(where_flag == "user")
+                    Write_chat_folder(final,replyJson);
+                else if(where_flag == "group")
+                    Write_group_floder(dst,replyJson);
+                }
             } else {
             dialog = new ErrorDialog(nullptr,replyJson["code"].toString(),replyJson["message"].toString());
             dialog->show();
@@ -863,6 +876,7 @@ void APIManager::onReplyFinished(QNetworkReply* reply)
 
     } else {
         qDebug() << "Error: " << reply->errorString();
+        qDebug()<<"this is a test";
     }
 
     reply->deleteLater(); // Safely release the memory

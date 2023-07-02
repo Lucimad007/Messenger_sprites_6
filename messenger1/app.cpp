@@ -136,6 +136,10 @@ App::App(QWidget *parent) :
 //        addMessage(test);
 }
 
+QString App::getCurrentType(){
+    return ui->shownTypeLabel->text();
+}
+
 Group App::getPendingGroup(){
     return pendingGroup;
 }
@@ -155,8 +159,32 @@ Message App::getPendingMessage(){
 void App::setNumberOfChannels(QString number){
     this->numberOfChannels = number;
 }
+
+QString App::getNumberOfChannels(){
+    return numberOfChannels;
+}
 void App::setNumberOfGroups(QString number){
     this->numberOfGroups = number;
+}
+
+QString App::getNumberOfGroups(){
+    return numberOfGroups;
+}
+
+void App::setNumberOfUsers(QString number){
+    this->numberOfUsers = number;
+}
+
+QString App::getNumberOfUsers(){
+    return numberOfUsers;
+}
+
+int App::getNumberOfMessages(){
+    return chatSplitter->count();
+}
+
+QString App::getShownName(){
+    return ui->shownNameLabel->text();
 }
 
 void App::addChatPrototype(User& user){
@@ -359,8 +387,19 @@ void App::clearChatArea(){
     ui->chatScrollArea->setWidget(chatSplitter);
 }
 
+void App::clearChatPrototypes(){
+    splitter->deleteLater();
+    splitter = new QSplitter(Qt::Vertical);
+    ui->chatPrototypeScroll->setWidget(splitter);
+}
+
 App::~App()
 {
+    delete chatSplitter;
+    delete splitter;
+    delete createjoinWidget;
+    delete profileWidget;
+    delete optionsWidget;
     delete ui;
 }
 

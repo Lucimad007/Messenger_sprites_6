@@ -222,5 +222,6 @@ void MainWindow::on_backBtn_clicked()
 
 MainWindow::~MainWindow()
 {
+    delete app;
     delete ui;
 }
