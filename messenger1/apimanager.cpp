@@ -636,19 +636,11 @@ void APIManager::Delete_All_Files(){
     QDir(groupDirectory).removeRecursively();
     qDebug() <<"Removed all files "<<"\n";
 }
-bool APIManager::check_internet_connection(){
-    QNetworkAccessManager manager;
-    QNetworkRequest request(QUrl("https://www.varzesh3.com/"));  //to check connectivity
-
-    QNetworkReply* reply = manager.get(request);
-    QEventLoop loop;
-    QObject::connect(reply, &QNetworkReply::finished, &loop, &QEventLoop::quit);
-    loop.exec();
-
-    bool isConnected = (reply->error() == QNetworkReply::NoError);
-    reply->deleteLater();
-
-    return isConnected;
+bool APIManager::getIsOnline(){
+    return isOnline;
+}
+void APIManager::setIsOnline(bool online){
+    isOnline = online;
 }
 void APIManager::Thread_task(){
 //        getUsersList();
@@ -673,7 +665,7 @@ void APIManager::check_response_code(const QString& response_code, const QString
                 timer = new QTimer(this);
                 timer->setInterval(3000); // equal to 3 seconds
 
-                connect(timer, &QTimer::timeout, this, [=]() {
+                connect(timer, &QTimer::timeout, this, [&]() {
                     QString type = mainWindow->getApp()->getCurrentType();
                     QString dst = mainWindow->getApp()->getShownName();
                     if(type == "user")
@@ -681,10 +673,11 @@ void APIManager::check_response_code(const QString& response_code, const QString
                     else if(type == "channel")
                         getChannelChat(dst);
                     else if(type == "group")
-                         getGroupChat(dst);
+                        getGroupChat(dst);
                     getUsersList();
                     getChannelList();
                     getGroupList();
+
                 });
 
                 timer->start();
@@ -699,10 +692,16 @@ void APIManager::check_response_code(const QString& response_code, const QString
 
 void APIManager::onReplyFinished(QNetworkReply* reply)
 {
-
-    this->currentUser = mainWindow->getCurrentUser();   //pairing two users
-
     if (reply->error() == QNetworkReply::NoError) {
+        isOnline = true;
+        if(mainWindow->getApp() != nullptr){
+            if(mainWindow->getApp()->getConnectionLabel() != nullptr)
+                mainWindow->getApp()->getConnectionLabel()->setText("connected");
+            if(mainWindow->getApp()->getConnectionCheckBox() != nullptr){
+                mainWindow->getApp()->getConnectionCheckBox()->setChecked(true);
+            }
+        }
+            this->currentUser = mainWindow->getCurrentUser();   //pairing two users
         QByteArray responseData = reply->readAll();
         QString responseString = QString::fromUtf8(responseData);
         qDebug() << "Response is: " << responseString;
@@ -896,8 +895,16 @@ void APIManager::onReplyFinished(QNetworkReply* reply)
        ///////////////////////////////////////////////////////////////
 
     } else {
+        if(mainWindow->getApp() != nullptr){
+            if(mainWindow->getApp()->getConnectionLabel() != nullptr)
+                mainWindow->getApp()->getConnectionLabel()->setText("disconnected");
+            if(mainWindow->getApp()->getConnectionCheckBox() != nullptr){
+                mainWindow->getApp()->getConnectionCheckBox()->setChecked(false);
+            }
+        }
         qDebug() << "Error: " << reply->errorString();
         qDebug()<<"this is a test";
+        isOnline = false;
     }
 
     reply->deleteLater(); // Safely release the memory

@@ -36,7 +36,7 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
-    App* app;
+    App* app = nullptr;
     User currentUser;
 };
 #endif // MAINWINDOW_H

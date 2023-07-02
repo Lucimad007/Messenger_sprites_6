@@ -12,6 +12,8 @@
 #include <QFile>
 #include <QDir>
 #include <QPixmap>
+#include <QLabel>
+#include <QCheckBox>
 
 enum CurrentPending {GROUP, CHANNEL};       //for joining/creating channel/group
 
@@ -46,7 +48,12 @@ public:
     void addChatPrototype(Group& group);
     void addMessage(Message& message);
     void clearChatArea();
-    void clearChatPrototypes();
+    void clearChatPrototypes();    
+    void save_profile_path(QString &path);
+    QString load_profile_path();
+    void delete_profile();
+    QLabel* getConnectionLabel();
+    QCheckBox* getConnectionCheckBox();
     ~App();
 
 private slots:
@@ -82,9 +89,6 @@ private slots:
 
     void on_joinChannelButton_clicked();
 
-    void save_profile_path(QString &path);
-    QString load_profile_path();
-    void delete_profile();
 private:
     Ui::App *ui;
     QSplitter* splitter;
@@ -101,6 +105,8 @@ private:
     QString numberOfGroups = "0";
     QString numberOfUsers = "0";
     int numberOfMessages;
+    QLabel* connectionStatusLabel = nullptr;
+    QCheckBox* connectionCheckBox = nullptr;
 };
 
 #endif // APP_H

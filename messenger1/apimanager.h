@@ -71,8 +71,8 @@ public slots:
     QJsonObject get_list_of_group();
 
     void Delete_All_Files();
-
-    bool check_internet_connection();   //True when connected and False when disconnected;
+    bool getIsOnline();
+    void setIsOnline(bool online);
 
 private slots:
     void Thread_task();
@@ -82,6 +82,7 @@ private:
     QNetworkAccessManager m_networkManager;
     User currentUser;
     QTimer* timer;
+    bool isOnline;
 };
 
 #endif // APIMANAGER_H

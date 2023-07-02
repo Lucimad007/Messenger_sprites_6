@@ -27,8 +27,6 @@ int main(int argc, char *argv[])
     // apiManager.getGroupList();
     // apiManager.getChannelList();
 
-    qDebug() <<apiManager.check_internet_connection();
-
     //apiManager.logOut(farhad);
    // apiManager.logIn(farhad);
 

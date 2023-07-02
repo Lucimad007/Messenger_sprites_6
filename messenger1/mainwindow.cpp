@@ -149,6 +149,7 @@ void MainWindow::startApp(){
 void MainWindow::closeApp(){
     app->hide();
     app->close();
+    app = nullptr;
 }
 
 void MainWindow::on_loginBtn_clicked()

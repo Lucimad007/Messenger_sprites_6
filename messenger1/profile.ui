@@ -179,7 +179,7 @@ color: rgb(255, 255, 255);</string>
     <rect>
      <x>200</x>
      <y>240</y>
-     <width>49</width>
+     <width>91</width>
      <height>16</height>
     </rect>
    </property>
@@ -211,7 +211,7 @@ color: rgb(255, 255, 255);</string>
     <string>Internet</string>
    </property>
    <property name="checked">
-    <bool>false</bool>
+    <bool>true</bool>
    </property>
    <property name="tristate">
     <bool>false</bool>

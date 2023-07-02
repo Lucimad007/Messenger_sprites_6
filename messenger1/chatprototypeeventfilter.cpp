@@ -22,14 +22,17 @@ bool ChatPrototypeEventFilter::eventFilter(QObject* obj, QEvent* event){
             mainWindow->getApp()->clearChatArea();
 
 
-            QString type = typeLabel->text();
-            QString dstName = shownNameLabel->text();
-            if(type == "user"){
-                apiManager.getUsersChat(dstName);
-            } else if(type == "channel"){
-                apiManager.getChannelChat(dstName);
-            } else if(type == "group"){
-                apiManager.getGroupChat(dstName);
+            //if connected
+            if(apiManager.getIsOnline()){
+                QString type = typeLabel->text();
+                QString dstName = shownNameLabel->text();
+                if(type == "user"){
+                    apiManager.getUsersChat(dstName);
+                } else if(type == "channel"){
+                    apiManager.getChannelChat(dstName);
+                } else if(type == "group"){
+                    apiManager.getGroupChat(dstName);
+                }
             }
             //loading messages
 //            QString dstName = shownNameLabel->text();

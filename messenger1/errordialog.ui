@@ -19,9 +19,9 @@
   <widget class="QLabel" name="messageLabel">
    <property name="geometry">
     <rect>
-     <x>90</x>
+     <x>30</x>
      <y>15</y>
-     <width>170</width>
+     <width>291</width>
      <height>61</height>
     </rect>
    </property>

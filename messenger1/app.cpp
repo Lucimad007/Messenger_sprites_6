@@ -203,6 +203,14 @@ void App::setShownType(QString name){
     ui->shownTypeLabel->setText(name);
 }
 
+QLabel* App::getConnectionLabel(){
+    return connectionStatusLabel;
+}
+
+QCheckBox* App::getConnectionCheckBox(){
+    return connectionCheckBox;
+}
+
 void App::addChatPrototype(User& user){
     QGraphicsView* profilePicture;
     QUiLoader loader;
@@ -451,8 +459,14 @@ void App::on_profileButton_clicked()
             groupNumber->setText(numberOfGroups);
             QLabel* username = profileWidget->findChild<QLabel*>("username",Qt::FindChildrenRecursively);
             username->setText(mainWindow->getCurrentUser().getUsername());
-            QCheckBox* internetCheckBox = profileWidget->findChild<QCheckBox*>("internetCheckBox",Qt::FindChildrenRecursively);
-            connect(internetCheckBox, &QCheckBox::stateChanged, [=](int state) {
+            connectionStatusLabel = profileWidget->findChild<QLabel*>("connectionStatus",Qt::FindChildrenRecursively);
+            if(apiManager.getIsOnline())
+                connectionStatusLabel->setText("connected");
+            else
+                connectionStatusLabel->setText("disconnected");
+            connectionCheckBox = profileWidget->findChild<QCheckBox*>("internetCheckBox",Qt::FindChildrenRecursively);
+            connectionCheckBox->setChecked(apiManager.getIsOnline());
+            connect(connectionCheckBox, &QCheckBox::stateChanged, [=](int state) {
                 if (state == Qt::Checked)
                     on_internetCheckBox_checked();
                  else
@@ -491,6 +505,7 @@ void App::on_profileButton_clicked()
             qDebug() << error;
         }
     }  else if(profileWidget != nullptr){
+        connectionStatusLabel = nullptr;
         ui->profileButton->setText("Profile");
         profileWidget->setGeometry(this->width(), 0, profileWidget->width(), profileWidget->height());
         profileWidget->setParent(this);
@@ -684,11 +699,17 @@ void App::on_sendButton_clicked()
 //slots for profile.
 
 void App::on_internetCheckBox_checked(){
-    //change connection here
+    apiManager.setIsOnline(true);
+    apiManager.getTimer()->start();
+    if(connectionStatusLabel != nullptr)
+        connectionStatusLabel->setText("connected");
 }
 
 void App::on_internetCheckBox_unchecked(){
-    //change connection here
+    apiManager.setIsOnline(false);
+    apiManager.getTimer()->stop();
+    if(connectionStatusLabel != nullptr)
+        connectionStatusLabel->setText("disconnected");
 }
 
 void App::on_logoutButton_clicked(){
