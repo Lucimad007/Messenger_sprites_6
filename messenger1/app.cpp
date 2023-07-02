@@ -43,9 +43,13 @@ App::App(QWidget *parent) :
     AddContactEventFilter* eventFilter = new AddContactEventFilter();
     ui->addContactView->installEventFilter(eventFilter);
     //setting path of default profile picture
-    QString iconPath = QString::fromLocal8Bit(__FILE__);
-    QFileInfo iconInfo(iconPath);
-    profilePath = iconInfo.absolutePath() + "/ICons/avatar.ico";
+    if(load_profile_path() == ""){
+        QString iconPath = QString::fromLocal8Bit(__FILE__);
+        QFileInfo iconInfo(iconPath);
+        profilePath = iconInfo.absolutePath() + "/ICons/avatar.ico";
+    } else {
+        profilePath = load_profile_path();
+    }
 
     //setting scroll bar of chat area always bottom by default
     QScrollBar* verticalScrollBar = ui->chatScrollArea->verticalScrollBar();
@@ -691,6 +695,7 @@ void App::on_changeProfilePictureButton_clicked(){
     QString fileName = QFileDialog::getOpenFileName(this,"open file",QDir::homePath(),"All Files (*.*)");
     if(!fileName.isEmpty()){
         profilePath = fileName;
+        save_profile_path(profilePath);
     } else {
         qDebug() << "Invalid file path.";
     }
@@ -698,6 +703,11 @@ void App::on_changeProfilePictureButton_clicked(){
 
 void App::on_clearLocalFilesButton_clicked(){
     apiManager.Delete_All_Files();
+    QString iconPath = QString::fromLocal8Bit(__FILE__);
+    QFileInfo iconInfo(iconPath);
+    profilePath = iconInfo.absolutePath() + "/ICons/avatar.ico";
+    QString empty = "";
+    save_profile_path(empty);
 }
 
 void App::on_defaultThemeButton_clicked(){
