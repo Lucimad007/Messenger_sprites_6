@@ -13,7 +13,7 @@ protected:
     bool eventFilter(QObject* obj, QEvent* event) override;
 
 private slots:
-    void on_addButton_clicked();
+    void on_findButton_clicked();
 private:
     QWidget *myWidget = nullptr;
 };

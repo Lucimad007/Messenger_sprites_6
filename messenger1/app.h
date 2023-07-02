@@ -38,6 +38,9 @@ public:
     QString getNumberOfUsers();
     int getNumberOfMessages();
     QString getShownName();
+    void setShownName(QString name);
+    QString getShownType();
+    void setShownType(QString name);
     void addChatPrototype(User& user);
     void addChatPrototype(Channel& channel);
     void addChatPrototype(Group& group);

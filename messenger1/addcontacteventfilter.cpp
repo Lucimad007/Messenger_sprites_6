@@ -36,8 +36,8 @@ bool AddContactEventFilter::eventFilter(QObject* obj, QEvent* event){
                 myWidget->setFixedSize(myWidget->width(),myWidget->height());
                 file.close();
 
-                QPushButton* addButton = myWidget->findChild<QPushButton*>("addButton",Qt::FindChildOption::FindChildrenRecursively);
-                connect(addButton,&QPushButton::clicked,this,&AddContactEventFilter::on_addButton_clicked);
+                QPushButton* findButton = myWidget->findChild<QPushButton*>("findButton",Qt::FindChildOption::FindChildrenRecursively);
+                connect(findButton,&QPushButton::clicked,this,&AddContactEventFilter::on_findButton_clicked);
             }catch(QString error){
                 qDebug() << error;
             }
@@ -64,13 +64,15 @@ bool AddContactEventFilter::eventFilter(QObject* obj, QEvent* event){
     return QObject::eventFilter(obj, event);
 }
 
-void AddContactEventFilter::on_addButton_clicked(){
+void AddContactEventFilter::on_findButton_clicked(){
     //get the name here and manipulate it
     QLineEdit* nameLineEdit = myWidget->findChild<QLineEdit*>("nameLineEdit",Qt::FindChildOption::FindChildrenRecursively);
     QString name = nameLineEdit->text();
     apiManager.getUsersChat(name);
     User user(name,"","");
-    mainWindow->getApp()->addChatPrototype(user);
+    mainWindow->getApp()->setShownName(name);
+    mainWindow->getApp()->setShownType("user");
+    mainWindow->getApp()->clearChatArea();
     nameLineEdit->setText("");
     myWidget->close();
 }

@@ -191,6 +191,18 @@ QString App::getShownName(){
     return ui->shownNameLabel->text();
 }
 
+void App::setShownName(QString name){
+    ui->shownNameLabel->setText(name);
+}
+
+QString App::getShownType(){
+    return ui->shownTypeLabel->text();
+}
+
+void App::setShownType(QString name){
+    ui->shownTypeLabel->setText(name);
+}
+
 void App::addChatPrototype(User& user){
     QGraphicsView* profilePicture;
     QUiLoader loader;

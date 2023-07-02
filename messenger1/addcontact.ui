@@ -16,7 +16,7 @@
   <property name="styleSheet">
    <string notr="true">background-color: qlineargradient(spread:pad, x1:0.564746, y1:0.159, x2:0.582, y2:1, stop:0.118644 rgba(0, 0, 0, 255), stop:1 rgba(50, 160, 255, 255));</string>
   </property>
-  <widget class="QPushButton" name="addButton">
+  <widget class="QPushButton" name="findButton">
    <property name="geometry">
     <rect>
      <x>60</x>
@@ -30,7 +30,7 @@
 color: rgb(255, 255, 255);</string>
    </property>
    <property name="text">
-    <string>ADD</string>
+    <string>FIND</string>
    </property>
   </widget>
   <widget class="QLineEdit" name="nameLineEdit">
