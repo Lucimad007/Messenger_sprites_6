@@ -9,6 +9,10 @@
 #include "group.h"
 #include "message.h"
 
+#include <QFile>
+#include <QDir>
+#include <QPixmap>
+
 enum CurrentPending {GROUP, CHANNEL};       //for joining/creating channel/group
 
 namespace Ui {
@@ -75,6 +79,8 @@ private slots:
 
     void on_joinChannelButton_clicked();
 
+    void save_profile_path(QString &path);
+    QPixmap load_profile_path();
 private:
     Ui::App *ui;
     QSplitter* splitter;

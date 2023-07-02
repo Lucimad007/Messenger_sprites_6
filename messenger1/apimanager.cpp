@@ -630,11 +630,27 @@ void APIManager::Delete_All_Files(){
     QString channelDirectory = baseDirectory + "/CHANNEL";
     QString listDirectory = baseDirectory + "/LIST";
     QString groupDirectory = baseDirectory + "/GROUP";
+    QString profileDirectory = baseDirectory + "/PROFILE";
     QDir(usersDirectory).removeRecursively();
     QDir(channelDirectory).removeRecursively();
     QDir(listDirectory).removeRecursively();
     QDir(groupDirectory).removeRecursively();
+    QDir(profileDirectory).removeRecursively();
     qDebug() <<"Removed all files "<<"\n";
+}
+bool APIManager::check_internet_connection(){
+    QNetworkAccessManager manager;
+    QNetworkRequest request(QUrl("https://www.varzesh3.com/"));  //to check connectivity
+
+    QNetworkReply* reply = manager.get(request);
+    QEventLoop loop;
+    QObject::connect(reply, &QNetworkReply::finished, &loop, &QEventLoop::quit);
+    loop.exec();
+
+    bool isConnected = (reply->error() == QNetworkReply::NoError);
+    reply->deleteLater();
+
+    return isConnected;
 }
 void APIManager::Thread_task(){
 //        getUsersList();
