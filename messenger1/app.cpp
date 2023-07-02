@@ -677,6 +677,7 @@ void App::on_internetCheckBox_unchecked(){
 
 void App::on_logoutButton_clicked(){
     User user = mainWindow->getCurrentUser();
+    apiManager.getTimer()->stop();
     apiManager.logOut(user);
     this->close();
     mainWindow->show();

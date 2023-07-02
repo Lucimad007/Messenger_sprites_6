@@ -21,6 +21,7 @@ bool ChatPrototypeEventFilter::eventFilter(QObject* obj, QEvent* event){
             shownTypeLabel->setText(typeLabel->text());
             mainWindow->getApp()->clearChatArea();
 
+
             QString type = typeLabel->text();
             QString dstName = shownNameLabel->text();
             if(type == "user"){
@@ -30,7 +31,6 @@ bool ChatPrototypeEventFilter::eventFilter(QObject* obj, QEvent* event){
             } else if(type == "group"){
                 apiManager.getGroupChat(dstName);
             }
-
             //loading messages
 //            QString dstName = shownNameLabel->text();
 //            QJsonObject json = apiManager.getus(mainWindow->getCurrentUser().getUsername(),dstName);

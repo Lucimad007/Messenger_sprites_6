@@ -3,7 +3,6 @@
 #include<QUrlQuery>
 #include "errordialog.h"
 #include "qapplication.h"
-
 extern QApplication* a;
 extern MainWindow* mainWindow;
 extern APIManager apiManager;
@@ -17,6 +16,12 @@ QString where_flag;
 APIManager::APIManager(QObject *parent) : QObject(parent)
 {
     connect(&m_networkManager,&QNetworkAccessManager::finished,this,&APIManager::onReplyFinished);
+}
+APIManager::~APIManager(){
+    delete timer;
+}
+QTimer* APIManager::getTimer(){
+    return timer;
 }
 QString chat_history_filename ="";
 void APIManager::signUp(User &given_user){
@@ -632,27 +637,26 @@ void APIManager::Delete_All_Files(){
     qDebug() <<"Removed all files "<<"\n";
 }
 void APIManager::Thread_task(){
+//        getUsersList();
+//        getChannelList();
+//        getGroupList();
+//        // Sleep for 3 second
+//        QThread::msleep(3000);
 
-    getUsersList();
-    getChannelList();
-    getGroupList();
-
-    // Sleep for 3 second
-    QThread::msleep(3000);
 }
 void APIManager::check_response_code(const QString& response_code, const QString& server_message)
 {
     if (response_code == "200" && server_message == "Logged in Successfully") {
         qDebug() << "Task has been done code 200"; // for test
 
-////        //using thread Instead of QTimer
-////        QThread *thread = new QThread;
-////        moveToThread(thread);
-////        connect(thread,&QThread::started,this,&APIManager::Thread_task);
-////        thread->start();
+//        //using thread Instead of QTimer
+//        QThread *thread = new QThread;
+//        moveToThread(thread);
+//        connect(thread,&QThread::started,this,&APIManager::Thread_task);
+//        thread->start();
 
-            //working with QTimer
-                QTimer* timer = new QTimer(this);
+//            //working with QTimer
+                timer = new QTimer(this);
                 timer->setInterval(3000); // equal to 3 seconds
 
                 connect(timer, &QTimer::timeout, this, [=]() {
@@ -681,6 +685,7 @@ void APIManager::check_response_code(const QString& response_code, const QString
 
 void APIManager::onReplyFinished(QNetworkReply* reply)
 {
+
     this->currentUser = mainWindow->getCurrentUser();   //pairing two users
 
     if (reply->error() == QNetworkReply::NoError) {
@@ -840,6 +845,7 @@ void APIManager::onReplyFinished(QNetworkReply* reply)
                 Message message = mainWindow->getApp()->getPendingMessage();
                 mainWindow->getApp()->addMessage(message);
             } else if(replyJson["message"].toString().contains("There Are") && replyJson["message"].toString().contains("Message")){   //for user/channel/group
+                //timer->stop();
                 qDebug() << replyJson <<  mainWindow->extractNumber(replyJson["message"].toString());
                 int diffrenece = mainWindow->extractNumber(replyJson["message"].toString()).toInt() - mainWindow->getApp()->getNumberOfMessages();
                 QString src,dst;
@@ -864,6 +870,7 @@ void APIManager::onReplyFinished(QNetworkReply* reply)
                 else if(where_flag == "group")
                     Write_group_floder(dst,replyJson);
                 }
+                //timer->start();
             } else {
             dialog = new ErrorDialog(nullptr,replyJson["code"].toString(),replyJson["message"].toString());
             dialog->show();

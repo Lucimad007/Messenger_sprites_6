@@ -27,6 +27,8 @@ class APIManager : public QObject
 
 public:
     explicit APIManager(QObject *parent = nullptr);
+    QTimer* getTimer();
+    ~APIManager();
 
 public slots:
     void logIn(User &given_user);
@@ -78,6 +80,7 @@ private slots:
 private:
     QNetworkAccessManager m_networkManager;
     User currentUser;
+    QTimer* timer;
 };
 
 #endif // APIMANAGER_H
