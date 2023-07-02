@@ -751,3 +751,38 @@ void App::on_joinChannelButton_clicked(){
     nameLineEdit->setText("");
 }
 //////////////////////////////////////////////////////
+void App::save_profile_path(QString &path){
+    QString baseDirectory = QDir::currentPath();
+    QString profileDirectory = baseDirectory + "/PROFILE";
+    QDir().mkpath(profileDirectory);  //if we have to make PROFILE first
+    QFileInfo fileInfo(path);
+    QString dstPath = profileDirectory + "/" + fileInfo.fileName();
+
+    QFile::copy(path,dstPath);
+    qDebug() << "your Profile saved at: " << dstPath;
+
+}
+QPixmap App::load_profile_path(){
+    QString baseDirectory = QDir::currentPath();
+    QString profileDirectory = baseDirectory + "/PROFILE";
+
+    QDir directory(profileDirectory);
+    QStringList files = directory.entryList(QDir::Files); //if we have multiple profile images in /PROFILE
+
+    if (files.isEmpty()) {
+        qDebug() << "No profile file found in the PROFILE directory.";
+        return QPixmap();
+    }
+
+    QString filePath = profileDirectory + "/" + files.first(); // we need the first file
+    QPixmap profileImage(filePath);
+
+    if (profileImage.isNull()) {
+        qDebug() << "Failed to load profile image from file: " << filePath;
+        return QPixmap();
+    }
+
+    qDebug() << "Profile image loaded successfully from file: " << filePath;
+    return profileImage;
+}
+//////////////////////////////////////////////////////

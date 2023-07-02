@@ -625,10 +625,12 @@ void APIManager::Delete_All_Files(){
     QString channelDirectory = baseDirectory + "/CHANNEL";
     QString listDirectory = baseDirectory + "/LIST";
     QString groupDirectory = baseDirectory + "/GROUP";
+    QString profileDirectory = baseDirectory + "/PROFILE";
     QDir(usersDirectory).removeRecursively();
     QDir(channelDirectory).removeRecursively();
     QDir(listDirectory).removeRecursively();
     QDir(groupDirectory).removeRecursively();
+    QDir(profileDirectory).removeRecursively();
     qDebug() <<"Removed all files "<<"\n";
 }
 void APIManager::Thread_task(){
