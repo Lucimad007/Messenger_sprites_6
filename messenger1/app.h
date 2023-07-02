@@ -80,7 +80,8 @@ private slots:
     void on_joinChannelButton_clicked();
 
     void save_profile_path(QString &path);
-    QPixmap load_profile_path();
+    QString load_profile_path();
+    void delete_profile();
 private:
     Ui::App *ui;
     QSplitter* splitter;

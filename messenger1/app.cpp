@@ -805,37 +805,45 @@ void App::on_joinChannelButton_clicked(){
 }
 //////////////////////////////////////////////////////
 void App::save_profile_path(QString &path){
-    QString baseDirectory = QDir::currentPath();
-    QString profileDirectory = baseDirectory + "/PROFILE";
-    QDir().mkpath(profileDirectory);  //if we have to make PROFILE first
-    QFileInfo fileInfo(path);
-    QString dstPath = profileDirectory + "/" + fileInfo.fileName();
+    // Open the "PROFILE" folder
+    QString filename = "profile";
+    QString profileFolderPath = QDir::currentPath() + "/PROFILE";
+    QDir profileDir(profileFolderPath);
 
-    QFile::copy(path,dstPath);
-    qDebug() << "your Profile saved at: " << dstPath;
+    if (!profileDir.exists()) {
+        // Create the "PROFILE" folder if it doesn't exist
+        profileDir.mkpath(".");
+    }
+    QString filePath = profileFolderPath + "/"+ filename+ ".txt";
+    QFile file(filePath);
+    if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
 
+        QTextStream out(&file);
+        out << path;
+        file.close();
+        qDebug() << "Path saved in file:" << filePath;
+    }
 }
-QPixmap App::load_profile_path(){
-    QString baseDirectory = QDir::currentPath();
-    QString profileDirectory = baseDirectory + "/PROFILE";
+QString App::load_profile_path(){
+    QString profileFolderPath = QDir::currentPath() + "/PROFILE";
+    QString filePath = profileFolderPath + "/profile.txt";
 
-    QDir directory(profileDirectory);
-    QStringList files = directory.entryList(QDir::Files); //if we have multiple profile images in /PROFILE
-
-    if (files.isEmpty()) {
-        qDebug() << "No profile file found in the PROFILE directory.";
-        return QPixmap();
+    QFile file(filePath);
+    if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        QTextStream in(&file);
+        QString content = in.readAll();
+        file.close();
+        return content;
+    } else {
+        qDebug() << "Failed to open profile.txt";
+        return QString();
     }
+}
+void App::delete_profile(){
+    QString baseDirectory = QDir::currentPath(); // this will give us where we are in the project
+     QString profileDirectory = baseDirectory + "/PROFILE";
+     QDir(profileDirectory).removeRecursively();
+     qDebug() <<"Profile has been Removed"<<"\n";
 
-    QString filePath = profileDirectory + "/" + files.first(); // we need the first file
-    QPixmap profileImage(filePath);
-
-    if (profileImage.isNull()) {
-        qDebug() << "Failed to load profile image from file: " << filePath;
-        return QPixmap();
-    }
-
-    qDebug() << "Profile image loaded successfully from file: " << filePath;
-    return profileImage;
 }
 //////////////////////////////////////////////////////
