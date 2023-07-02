@@ -807,7 +807,7 @@ void APIManager::onReplyFinished(QNetworkReply* reply)
                 }
             } else if(replyJson["message"].toString().contains("You Are in") && replyJson["message"].toString().contains("Group")){
                 QJsonObject json = get_list_of_group();
-                int diffrenece = mainWindow->extractNumber(replyJson["message"].toString()).toInt() - mainWindow->getApp()->getNumberOfGroups().toInt();
+                int diffrenece = mainWindow->extractNumber(replyJson["message"].toString()).toInt() - mainWindow->getApp()->getNumberOfGroups().toInt() + 2;
                 QString type = "groups";
                 get_list_of(type,jsonObject);
                 qDebug() << replyJson <<  mainWindow->extractNumber(replyJson["message"].toString());
@@ -823,11 +823,11 @@ void APIManager::onReplyFinished(QNetworkReply* reply)
                 mainWindow->getApp()->setNumberOfGroups(mainWindow->extractNumber(replyJson["message"].toString()));
             } else if(replyJson["message"].toString().contains("You Are in") && replyJson["message"].toString().contains("Channel")){
                 QJsonObject json = get_list_of_channels();
-                int diffrenece = mainWindow->extractNumber(replyJson["message"].toString()).toInt() - mainWindow->getApp()->getNumberOfChannels().toInt();
+                int diffrenece = mainWindow->extractNumber(replyJson["message"].toString()).toInt() - mainWindow->getApp()->getNumberOfChannels().toInt() + 2;
                 QString type = "channels";
                 get_list_of(type,jsonObject);
                 qDebug() << replyJson <<  mainWindow->extractNumber(replyJson["message"].toString());
-                for (auto it = replyJson.end() - diffrenece + diffrenece; it != replyJson.end(); ++it) {
+                for (auto it = replyJson.end() - diffrenece; it != replyJson.end(); ++it) {
                         if (it.key().startsWith("block")) {
                             QJsonObject blockObject = it.value().toObject();
                             QString src = blockObject.value("channel_name").toString();
@@ -837,9 +837,9 @@ void APIManager::onReplyFinished(QNetworkReply* reply)
                         }
                     }
                 mainWindow->getApp()->setNumberOfChannels(mainWindow->extractNumber(replyJson["message"].toString()));
-            } else if(replyJson["message"].toString().contains("You Have Chat") && replyJson["message"].toString().contains("Users")){
+            } else if(replyJson["message"].toString().contains("You Have Chat") && replyJson["message"].toString().contains("User")){
                 QJsonObject json = get_list_of_users();
-                int diffrenece = mainWindow->extractNumber(replyJson["message"].toString()).toInt() - mainWindow->getApp()->getNumberOfUsers().toInt();
+                int diffrenece = mainWindow->extractNumber(replyJson["message"].toString()).toInt() - mainWindow->getApp()->getNumberOfUsers().toInt() + 2;
                 QString type = "users";
                 get_list_of(type,jsonObject);
                 qDebug() << replyJson <<  mainWindow->extractNumber(replyJson["message"].toString());
@@ -863,7 +863,7 @@ void APIManager::onReplyFinished(QNetworkReply* reply)
             } else if(replyJson["message"].toString().contains("There Are") && replyJson["message"].toString().contains("Message")){   //for user/channel/group
                 //timer->stop();
                 qDebug() << replyJson <<  mainWindow->extractNumber(replyJson["message"].toString());
-                int diffrenece = mainWindow->extractNumber(replyJson["message"].toString()).toInt() - mainWindow->getApp()->getNumberOfMessages();
+                int diffrenece = mainWindow->extractNumber(replyJson["message"].toString()).toInt() - mainWindow->getApp()->getNumberOfMessages() + 2;
                 QString src,dst;
                 for (auto it = replyJson.end() - diffrenece; it != replyJson.end(); ++it) {
                         if (it.key().startsWith("block")) {
