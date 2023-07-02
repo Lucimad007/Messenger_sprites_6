@@ -6,6 +6,7 @@
 #include <QNetworkRequest>
 #include <QNetworkReply>
 #include <QString>
+#include <QEventLoop>
 
 #include <QJsonDocument>
 #include <QJsonObject>
@@ -45,9 +46,7 @@ public slots:
     void sendMessageUser(QString &dst , QString &body);
     void sendMessageGroup(QString &dst , QString &body);
     void sendMessageChannel(QString &dst , QString &body);
-    //    //void getUsersChat(const QString &token ,const QString &dst,const QString &date); //it will overload soon
-    //    //void getGroupChat(const QString &token ,const QString &dst,const QString &date); //it will overload soon
-    //    //void getChannelChat(const QString &token ,const QString &dst,const QString &date); //it will overload soon
+
     void saveTokenToFile(const QString &token);
     QString readTokenFromFile();
     void saveCodeToFile(const QString &code);
@@ -70,6 +69,8 @@ public slots:
     QJsonObject get_list_of_group();
 
     void Delete_All_Files();
+
+    bool check_internet_connection();   //True when connected and False when disconnected;
 
 private slots:
     void Thread_task();
