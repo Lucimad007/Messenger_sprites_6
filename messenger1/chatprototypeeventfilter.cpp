@@ -2,6 +2,7 @@
 #include "mainwindow.h"
 #include "apimanager.h"
 #include <QLabel>
+#include <QMap>
 extern MainWindow* mainWindow;
 extern APIManager apiManager;
 
@@ -43,19 +44,23 @@ bool ChatPrototypeEventFilter::eventFilter(QObject* obj, QEvent* event){
                 } else if(type == "group"){
                     reply = apiManager.Read_group_folder(dstName);
                 }
+                QMap<int , QJsonObject> map;
                 QString src,dst;
                 for (auto it = reply.begin(); it != reply.end(); ++it) {
                         if (it.key().startsWith("block")) {
                             QJsonObject blockObject = it.value().toObject();
-                            QString body = blockObject.value("body").toString();
-                            src = blockObject.value("src").toString();
-                            dst = blockObject.value("dst").toString();
-                            User user(src,"","");   //it doesnt mather wether it is group or channel or user
-                            Message message(user,body);
-                            mainWindow->getApp()->addMessage(message);
-                            qDebug() << "Body:" << body;
+                            map.insert(mainWindow->extractSingleNumber(it.key()).toInt(),blockObject);
                         }
                     }
+                for(auto it = map.begin(); it!= map.end(); ++it){
+                    QJsonObject blockObject = it.value();
+                    QString body = blockObject.value("body").toString();
+                    src = blockObject.value("src").toString();
+                    dst = blockObject.value("dst").toString();
+                    User user(src,"","");   //it doesnt mather wether it is group or channel or user
+                    Message message(user,body);
+                    mainWindow->getApp()->addMessage(message);
+                }
             }
             //loading messages
 //            QString dstName = shownNameLabel->text();

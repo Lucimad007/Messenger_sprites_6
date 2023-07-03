@@ -37,6 +37,22 @@ QString MainWindow::extractNumber(const QString& inputString)
     return QString();
 }
 
+QString MainWindow::extractSingleNumber(const QString& inputString){
+    qDebug() << inputString;
+    QRegularExpression re("\\b(\\d+)\\b");
+    QRegularExpressionMatch match = re.match(inputString);
+
+    if (match.hasMatch()) {
+        QString matchedString = match.captured(0);
+        // Remove the hyphens from the matched string
+        matchedString.remove('-');
+        return matchedString;
+    }
+
+    // Return an empty string if no match is found
+    return QString();
+}
+
 App* MainWindow::getApp(){
     return app;
 }

@@ -18,6 +18,7 @@ public:
     MainWindow(QWidget *parent = nullptr);
     User getCurrentUser();
     QString extractNumber(const QString& inputString);
+    QString extractSingleNumber(const QString& inputString);
     App* getApp();
     void setLoginUI();
     void setRegisterUI();

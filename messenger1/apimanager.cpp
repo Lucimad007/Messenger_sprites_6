@@ -1,6 +1,7 @@
 #include "apimanager.h"
 #include "mainwindow.h"
-#include<QUrlQuery>
+#include <QUrlQuery>
+#include <QMap>
 #include "errordialog.h"
 #include "qapplication.h"
 extern QApplication* a;
@@ -858,22 +859,24 @@ void APIManager::onReplyFinished(QNetworkReply* reply)
                 Message message = mainWindow->getApp()->getPendingMessage();
                 mainWindow->getApp()->addMessage(message);
             } else if(replyJson["message"].toString().contains("There Are") && replyJson["message"].toString().contains("Message")){   //for user/channel/group
-                qDebug() << replyJson <<  mainWindow->extractNumber(replyJson["message"].toString());
-                int diffrenece = mainWindow->extractNumber(replyJson["message"].toString()).toInt() - mainWindow->getApp()->getNumberOfMessages() + 2;
+                QMap<int , QJsonObject> map;
+                int diffrenece = mainWindow->extractNumber(replyJson["message"].toString()).toInt() - mainWindow->getApp()->getNumberOfMessages();
                 QString src,dst;
-                for (auto it = replyJson.end() - diffrenece; it != replyJson.end(); ++it) {
+                for (auto it = replyJson.begin(); it != replyJson.end(); ++it) {
                         if (it.key().startsWith("block")) {
                             QJsonObject blockObject = it.value().toObject();
-                            QString body = blockObject.value("body").toString();
-                            src = blockObject.value("src").toString();
-                            dst = blockObject.value("dst").toString();
-                            User user(src,"","");   //it doesnt mather wether it is group or channel or user
-                            Message message(user,body);
-                            mainWindow->getApp()->addMessage(message);
-                            qDebug() << "Body:" << body;
+                            map.insert(mainWindow->extractSingleNumber(it.key()).toInt(),blockObject);
                         }
                     }
-
+                for(auto it = map.end() - diffrenece; it!= map.end(); ++it){
+                    QJsonObject blockObject = it.value();
+                    QString body = blockObject.value("body").toString();
+                    src = blockObject.value("src").toString();
+                    dst = blockObject.value("dst").toString();
+                    User user(src,"","");   //it doesnt mather wether it is group or channel or user
+                    Message message(user,body);
+                    mainWindow->getApp()->addMessage(message);
+                }
                 QString final = src + "_to_" + dst;
                 if(where_flag == "channel")
                      Write_channel_floder(dst,replyJson);
