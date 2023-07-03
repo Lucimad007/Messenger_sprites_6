@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Installer>
+    <Name>Messenger_sprites</Name>
+    <Version>1.0.0</Version>
+    <Title>Messenger_sprites Installer</Title>
+    <Publisher>Seyed Mohammad Fatemi and Matin Amin Sabouri</Publisher>
+    <StartMenuDir>Messenger_sprites</StartMenuDir>
+    <TargetDir>@HomeDir@/Messenger_sprites</TargetDir>
+</Installer>
