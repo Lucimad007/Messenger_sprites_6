@@ -3,13 +3,13 @@
 #include <QApplication>
 #include "apimanager.h"
 #include "app.h"
-QApplication* a;
+QApplication* application;
 MainWindow* mainWindow;
 APIManager apiManager;
 
 int main(int argc, char *argv[])
 {
-    a = new QApplication(argc, argv);
+    application = new QApplication(argc, argv);
     mainWindow = new MainWindow;
     mainWindow->show();
 
@@ -40,5 +40,5 @@ int main(int argc, char *argv[])
 
 
     //apiManager.get_list_of_users();
-    return a->exec();
+    return application->exec();
 }

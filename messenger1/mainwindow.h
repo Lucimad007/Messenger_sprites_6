@@ -24,6 +24,7 @@ public:
     void setRegisterUI();
     void startApp();
     void closeApp();
+    void showTokenError();
     ~MainWindow();
 
 private slots:

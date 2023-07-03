@@ -2,9 +2,10 @@
 #include "mainwindow.h"
 #include <QUrlQuery>
 #include <QMap>
+#include <QApplication>
 #include "errordialog.h"
 #include "qapplication.h"
-extern QApplication* a;
+extern QApplication* application;
 extern MainWindow* mainWindow;
 extern APIManager apiManager;
 
@@ -896,9 +897,12 @@ void APIManager::onReplyFinished(QNetworkReply* reply)
                     Write_group_floder(dst,replyJson);
                 }
             } else {
-            dialog = new ErrorDialog(nullptr,replyJson["code"].toString(),replyJson["message"].toString());
-            dialog->show();
-
+                if(replyJson["message"].toString() == "token is not Correct"){
+                    application->quit();
+                } else {
+                    dialog = new ErrorDialog(nullptr,replyJson["code"].toString(),replyJson["message"].toString());
+                    dialog->show();
+                }
         }
 
         //qDebug() << "test : " << replyJson["code"].toString();
