@@ -805,52 +805,62 @@ void APIManager::onReplyFinished(QNetworkReply* reply)
                 }
             } else if(replyJson["message"].toString().contains("You Are in") && replyJson["message"].toString().contains("Group")){
                 QJsonObject json = get_list_of_group();
-                int diffrenece = mainWindow->extractNumber(replyJson["message"].toString()).toInt() - mainWindow->getApp()->getNumberOfGroups().toInt() + 2;
+                int diffrenece = mainWindow->extractNumber(replyJson["message"].toString()).toInt() - mainWindow->getApp()->getNumberOfGroups().toInt();
                 QString type = "groups";
                 get_list_of(type,jsonObject);
-                qDebug() << replyJson <<  mainWindow->extractNumber(replyJson["message"].toString());
-                for (auto it = replyJson.end() - diffrenece; it != replyJson.end(); ++it) {
+                QMap<int , QJsonObject> map;
+                for (auto it = replyJson.begin(); it != replyJson.end(); ++it) {
                         if (it.key().startsWith("block")) {
                             QJsonObject blockObject = it.value().toObject();
-                            QString src = blockObject.value("group_name").toString();
-                            Group group(src);
-                            mainWindow->getApp()->addChatPrototype(group);
-                            qDebug() << "Body:" << src;
+                            map.insert(mainWindow->extractSingleNumber(it.key()).toInt(),blockObject);
                         }
                     }
+                for(auto it = map.end() - diffrenece; it != map.end(); ++it){
+                    QJsonObject blockObject = it.value();
+                    QString src = blockObject.value("group_name").toString();
+                    Group group(src);
+                    mainWindow->getApp()->addChatPrototype(group);
+                }
                 mainWindow->getApp()->setNumberOfGroups(mainWindow->extractNumber(replyJson["message"].toString()));
             } else if(replyJson["message"].toString().contains("You Are in") && replyJson["message"].toString().contains("Channel")){
                 QJsonObject json = get_list_of_channels();
-                int diffrenece = mainWindow->extractNumber(replyJson["message"].toString()).toInt() - mainWindow->getApp()->getNumberOfChannels().toInt() + 2;
+                int diffrenece = mainWindow->extractNumber(replyJson["message"].toString()).toInt() - mainWindow->getApp()->getNumberOfChannels().toInt();
                 QString type = "channels";
                 get_list_of(type,jsonObject);
+                QMap<int , QJsonObject> map;
                 qDebug() << replyJson <<  mainWindow->extractNumber(replyJson["message"].toString());
-                for (auto it = replyJson.end() - diffrenece; it != replyJson.end(); ++it) {
+                for (auto it = replyJson.begin(); it != replyJson.end(); ++it) {
                         if (it.key().startsWith("block")) {
                             QJsonObject blockObject = it.value().toObject();
-                            QString src = blockObject.value("channel_name").toString();
-                            Channel channel(src);
-                            mainWindow->getApp()->addChatPrototype(channel);
-                            qDebug() << "Body:" << src;
+                            map.insert(mainWindow->extractSingleNumber(it.key()).toInt(),blockObject);
                         }
                     }
+                for(auto it = map.end() - diffrenece; it != map.end(); ++it){
+                    QJsonObject blockObject = it.value();
+                    QString src = blockObject.value("channel_name").toString();
+                    Channel channel(src);
+                    mainWindow->getApp()->addChatPrototype(channel);
+                }
                 mainWindow->getApp()->setNumberOfChannels(mainWindow->extractNumber(replyJson["message"].toString()));
             } else if(replyJson["message"].toString().contains("You Have Chat") && replyJson["message"].toString().contains("User")){
                 QJsonObject json = get_list_of_users();
-                int diffrenece = mainWindow->extractNumber(replyJson["message"].toString()).toInt() - mainWindow->getApp()->getNumberOfUsers().toInt() + 2;
+                QMap<int , QJsonObject> map;
+                int diffrenece = mainWindow->extractNumber(replyJson["message"].toString()).toInt() - mainWindow->getApp()->getNumberOfUsers().toInt();
                 QString type = "users";
                 get_list_of(type,jsonObject);
-                qDebug() << replyJson <<  mainWindow->extractNumber(replyJson["message"].toString());
-                for (auto it = replyJson.end() - diffrenece; it != replyJson.end(); ++it) {
+                for (auto it = replyJson.begin(); it != replyJson.end(); ++it) {
                         if (it.key().startsWith("block")) {
                             QJsonObject blockObject = it.value().toObject();
-                            QString src = blockObject.value("src").toString();
-                            QString dst = blockObject.value("dst").toString();
-                            User user(src,"","");
-                            mainWindow->getApp()->addChatPrototype(user);
-                            qDebug() << "Body:" << src;
+                            map.insert(mainWindow->extractSingleNumber(it.key()).toInt(),blockObject);
                         }
                     }
+                for(auto it = map.end() - diffrenece; it != map.end(); ++it){
+                    QJsonObject blockObject = it.value();
+                    QString src = blockObject.value("src").toString();
+                    QString dst = blockObject.value("dst").toString();
+                    User user(src,"","");
+                    mainWindow->getApp()->addChatPrototype(user);
+                }
                mainWindow->getApp()->setNumberOfUsers(mainWindow->extractNumber(replyJson["message"].toString()));
             } else if(replyJson["message"].toString() == "Message Sent Successfully"){    //for user/group
                 Message message = mainWindow->getApp()->getPendingMessage();
