@@ -20,9 +20,8 @@ bool AddContactEventFilter::eventFilter(QObject* obj, QEvent* event){
 
             //loading addcontact.ui
             QUiLoader loader;
-            QString filePath = QString::fromLocal8Bit(__FILE__);    //__FILE__ is a macro
-            QFileInfo fileInfo(filePath);
-            QString sourceDirectory = fileInfo.absolutePath() + "/addcontact.ui";
+            QFileInfo fileInfo(QDir::currentPath());
+            QString sourceDirectory = fileInfo.dir().path() + "/messenger1/addcontact.ui";
 
             QFile file(sourceDirectory);
             try{
@@ -44,9 +43,8 @@ bool AddContactEventFilter::eventFilter(QObject* obj, QEvent* event){
 
             //setting icon for widget
             try{
-                QString iconPath = QString::fromLocal8Bit(__FILE__);
-                QFileInfo iconInfo(iconPath);
-                QString iconDirectory = iconInfo.absolutePath() + "/ICons/avatar.ico";
+                QFileInfo iconInfo(QDir::currentPath());
+                QString iconDirectory = iconInfo.absolutePath() + "/messenger1/ICons/avatar.ico";
                 QFile temp(iconDirectory);
                 if(!temp.exists())
                     throw("Icon Not Found.");

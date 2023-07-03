@@ -3,6 +3,7 @@
 #include <QString>
 #include <QGraphicsPixmapItem>
 #include <QFileInfo>
+#include <QDir>
 
 ErrorDialog::ErrorDialog(QWidget *parent, QString code, QString message) :
     QDialog(parent),
@@ -19,15 +20,14 @@ ErrorDialog::ErrorDialog(QWidget *parent, QString code, QString message) :
 
 void ErrorDialog::loadSymbol(){
     try{
-        QString iconPath = QString::fromLocal8Bit(__FILE__);
-        QFileInfo iconInfo(iconPath);
+        QFileInfo iconInfo(QDir::currentPath());
         QString iconDirectory;
         if(code == "404")
-            iconDirectory = iconInfo.absolutePath() + "/ICons/error.png";
+            iconDirectory = iconInfo.dir().path() + "/messenger1/ICons/error.png";
         if(code == "401")
-            iconDirectory = iconInfo.absolutePath() + "/ICons/error2.png";
+            iconDirectory = iconInfo.dir().path() + "/messenger1/ICons/error2.png";
         if(code == "204")
-            iconDirectory = iconInfo.absolutePath() + "/ICons/info.png";
+            iconDirectory = iconInfo.dir().path() + "/messenger1/ICons/info.png";
         QFile temp(iconDirectory);
         if(!temp.exists())
             throw("Icon Not Found.");

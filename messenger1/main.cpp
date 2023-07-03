@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "user.h"
 #include <QApplication>
+#include <QDir>
 #include "apimanager.h"
 #include "app.h"
 QApplication* application;
@@ -12,6 +13,9 @@ int main(int argc, char *argv[])
     application = new QApplication(argc, argv);
     mainWindow = new MainWindow;
     mainWindow->show();
+//    QFileInfo info = QFileInfo(QDir::currentPath());
+//    qDebug() << info.dir().path() ;
+//    return 0;
 
     User farhad("ASGHAR", "9876", "asgharFarhadi@gmail.com");
     User salar("Salar", "3221", "salarmanam@gmail.com");

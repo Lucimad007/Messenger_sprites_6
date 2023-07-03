@@ -68,9 +68,8 @@ void MainWindow::setLoginUI(){
 
     //loading new UI
     QUiLoader loader;
-    QString filePath = QString::fromLocal8Bit(__FILE__);    //__FILE__ is a macro
-    QFileInfo fileInfo(filePath);
-    QString sourceDirectory = fileInfo.absolutePath() + "/Login.ui";
+    QFileInfo fileInfo(QDir::currentPath());
+    QString sourceDirectory = fileInfo.dir().path() + "/messenger1/Login.ui";
     QFile file(sourceDirectory);
     try
     {
@@ -95,9 +94,8 @@ void MainWindow::setLoginUI(){
 
     //setting new icon
     try{
-        QString iconPath = QString::fromLocal8Bit(__FILE__);
-        QFileInfo iconInfo(iconPath);
-        QString iconDirectory = iconInfo.absolutePath() + "/ICons/login.ico";
+        QFileInfo iconInfo(QDir::currentPath());
+        QString iconDirectory = iconInfo.dir().path() + "/messenger1/ICons/login.ico";
         QFile temp(iconDirectory);
         if(!temp.exists())
             throw("Icon Not Found.");
@@ -116,9 +114,8 @@ void MainWindow::setRegisterUI(){
 
     //loading new UI
     QUiLoader loader;
-    QString filePath = QString::fromLocal8Bit(__FILE__);    //__FILE__ is a macro
-    QFileInfo fileInfo(filePath);
-    QString sourceDirectory = fileInfo.absolutePath() + "/register.ui";
+    QFileInfo fileInfo(QDir::currentPath());
+    QString sourceDirectory = fileInfo.dir().path() + "/messenger1/register.ui";
 
     QFile file(sourceDirectory);
     try{
@@ -142,9 +139,8 @@ void MainWindow::setRegisterUI(){
 
     //setting new icon
     try{
-        QString iconPath = QString::fromLocal8Bit(__FILE__);
-        QFileInfo iconInfo(iconPath);
-        QString iconDirectory = iconInfo.absolutePath() + "/ICons/register.ico";
+        QFileInfo iconInfo(QDir::currentPath());
+        QString iconDirectory = iconInfo.dir().path() + "/messenger1/ICons/register.ico";
         QFile temp(iconDirectory);
         if(!temp.exists())
             throw("Icon Not Found.");

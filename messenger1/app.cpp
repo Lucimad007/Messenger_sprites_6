@@ -14,6 +14,8 @@
 #include <QRadioButton>
 #include <QCheckBox>
 #include <QFileDialog>
+#include <QApplication>
+#include <QDir>
 #include "mainwindow.h"
 #include "apimanager.h"
 #include "chatprototypeeventfilter.h"
@@ -44,9 +46,8 @@ App::App(QWidget *parent) :
     ui->addContactView->installEventFilter(eventFilter);
     //setting path of default profile picture
     if(load_profile_path() == ""){
-        QString iconPath = QString::fromLocal8Bit(__FILE__);
-        QFileInfo iconInfo(iconPath);
-        profilePath = iconInfo.absolutePath() + "/ICons/avatar.ico";
+        QFileInfo iconInfo(QDir::currentPath());
+        profilePath = iconInfo.dir().path() + "/messenger1/ICons/avatar.ico";
     } else {
         profilePath = load_profile_path();
     }
@@ -60,12 +61,11 @@ App::App(QWidget *parent) :
 
     //setting primary icons and background
     try{
-        QString iconPath = QString::fromLocal8Bit(__FILE__);
-        QFileInfo iconInfo(iconPath);
-        QString iconDirectory = iconInfo.absolutePath() + "/ICons/Logo/spritesLogo.jpeg";
-        QString profileDirectory = iconInfo.absolutePath() + "/ICons/avatar.ico";
-        QString addContactDirectory = iconInfo.absolutePath() + "/ICons/contact-us.ico";
-        QString chatBackgroundDirectory = iconInfo.absolutePath() + "/ICons/backgrounds/chat-background.jpg";
+        QFileInfo iconInfo(QDir::currentPath());
+        QString iconDirectory = iconInfo.dir().path() + "/messenger1/ICons/Logo/spritesLogo.jpeg";
+        QString profileDirectory = iconInfo.dir().path() + "/messenger1/ICons/avatar.ico";
+        QString addContactDirectory = iconInfo.dir().path() + "/messenger1/ICons/contact-us.ico";
+        QString chatBackgroundDirectory = iconInfo.dir().path() + "/messenger1/ICons/backgrounds/chat-background.jpg";
         QFile spritesIcon(iconDirectory);
         QFile profileIcon(profileDirectory);
         QFile addContactIcon(addContactDirectory);
@@ -106,9 +106,8 @@ App::App(QWidget *parent) :
 
     //setting primary backgrounds
     try{
-        QString backgroundPath = QString::fromLocal8Bit(__FILE__);
-        QFileInfo backgroundInfo(backgroundPath);
-        QString backgroundDirectory = backgroundInfo.absolutePath() + "/ICons/backgrounds/bg4.jpeg";
+        QFileInfo backgroundInfo(QDir::currentPath());
+        QString backgroundDirectory = backgroundInfo.dir().path() + "/messenger1/ICons/backgrounds/bg4.jpeg";
         QPixmap chatBackground(backgroundDirectory);
         QPalette palette;
         QBrush brush(chatBackground);
@@ -214,9 +213,8 @@ QCheckBox* App::getConnectionCheckBox(){
 void App::addChatPrototype(User& user){
     QGraphicsView* profilePicture;
     QUiLoader loader;
-    QString filePath = QString::fromLocal8Bit(__FILE__);    //__FILE__ is a macro
-    QFileInfo fileInfo(filePath);
-    QString sourceDirectory = fileInfo.absolutePath() + "/chatprototype.ui";
+    QFileInfo fileInfo(QDir::currentPath());
+    QString sourceDirectory = fileInfo.dir().path() + "/messenger1/chatprototype.ui";
 
     QFile file(sourceDirectory);
     try{
@@ -248,9 +246,8 @@ void App::addChatPrototype(User& user){
     }
 
     try{
-        QString iconPath = QString::fromLocal8Bit(__FILE__);
-        QFileInfo iconInfo(iconPath);
-        QString iconDirectory = iconInfo.absolutePath() + "/ICons/avatar.ico";
+        QFileInfo iconInfo(QDir::currentPath());
+        QString iconDirectory = iconInfo.dir().path() + "/messenger1/ICons/avatar.ico";
         QFile temp(iconDirectory);
         if(!temp.exists())
             throw("Icon Not Found.");
@@ -269,9 +266,8 @@ void App::addChatPrototype(User& user){
 void App::addChatPrototype(Channel& channel){
     QGraphicsView* profilePicture;
     QUiLoader loader;
-    QString filePath = QString::fromLocal8Bit(__FILE__);    //__FILE__ is a macro
-    QFileInfo fileInfo(filePath);
-    QString sourceDirectory = fileInfo.absolutePath() + "/chatprototype.ui";
+    QFileInfo fileInfo(QDir::currentPath());
+    QString sourceDirectory = fileInfo.dir().path() + "/messenger1/chatprototype.ui";
 
     QFile file(sourceDirectory);
     try{
@@ -303,9 +299,8 @@ void App::addChatPrototype(Channel& channel){
     }
 
     try{
-        QString iconPath = QString::fromLocal8Bit(__FILE__);
-        QFileInfo iconInfo(iconPath);
-        QString iconDirectory = iconInfo.absolutePath() + "/ICons/avatar.ico";
+        QFileInfo iconInfo(QDir::currentPath());
+        QString iconDirectory = iconInfo.dir().path() + "/messenger1/ICons/avatar.ico";
         QFile temp(iconDirectory);
         if(!temp.exists())
             throw("Icon Not Found.");
@@ -324,10 +319,8 @@ void App::addChatPrototype(Channel& channel){
 void App::addChatPrototype(Group& group){
     QGraphicsView* profilePicture;
     QUiLoader loader;
-    QString filePath = QString::fromLocal8Bit(__FILE__);    //__FILE__ is a macro
-    QFileInfo fileInfo(filePath);
-    QString sourceDirectory = fileInfo.absolutePath() + "/chatprototype.ui";
-
+    QFileInfo fileInfo(QDir::currentPath());
+    QString sourceDirectory = fileInfo.dir().path() + "/messenger1/chatprototype.ui";
     QFile file(sourceDirectory);
     try{
         file.open(QFile::ReadOnly);
@@ -358,9 +351,8 @@ void App::addChatPrototype(Group& group){
     }
 
     try{
-        QString iconPath = QString::fromLocal8Bit(__FILE__);
-        QFileInfo iconInfo(iconPath);
-        QString iconDirectory = iconInfo.absolutePath() + "/ICons/avatar.ico";
+        QFileInfo iconInfo(QDir::currentPath());
+        QString iconDirectory = iconInfo.dir().path() + "/messenger1/ICons/avatar.ico";
         QFile temp(iconDirectory);
         if(!temp.exists())
             throw("Icon Not Found.");
@@ -378,9 +370,8 @@ void App::addChatPrototype(Group& group){
 
 void App::addMessage(Message& message){
     QUiLoader loader;
-    QString filePath = QString::fromLocal8Bit(__FILE__);    //__FILE__ is a macro
-    QFileInfo fileInfo(filePath);
-    QString sourceDirectory = fileInfo.absolutePath() + "/message.ui";
+    QFileInfo fileInfo(QDir::currentPath());
+    QString sourceDirectory = fileInfo.dir().path() + "/messenger1/message.ui";
 
     QFile file(sourceDirectory);
     try{
@@ -435,9 +426,8 @@ void App::on_profileButton_clicked()
     if(profileWidget == nullptr){
         ui->profileButton->setText("Close");
         QUiLoader loader;
-        QString filePath = QString::fromLocal8Bit(__FILE__);    //__FILE__ is a macro
-        QFileInfo fileInfo(filePath);
-        QString sourceDirectory = fileInfo.absolutePath() + "/profile.ui";
+        QFileInfo fileInfo(QDir::currentPath());
+        QString sourceDirectory = fileInfo.dir().path() + "/messenger1/profile.ui";
 
         QFile file(sourceDirectory);
         try{
@@ -533,9 +523,8 @@ void App::on_optionsButton_clicked()
     if(optionsWidget == nullptr){
         ui->optionsButton->setText("Close");
         QUiLoader loader;
-        QString filePath = QString::fromLocal8Bit(__FILE__);    //__FILE__ is a macro
-        QFileInfo fileInfo(filePath);
-        QString sourceDirectory = fileInfo.absolutePath() + "/options.ui";
+        QFileInfo fileInfo(QDir::currentPath());
+        QString sourceDirectory = fileInfo.dir().path() + "/messenger1/options.ui";
 
         QFile file(sourceDirectory);
         try{
@@ -563,10 +552,9 @@ void App::on_optionsButton_clicked()
             try{
                 if(!(logo->isWidgetType()) || !(profilePictureView->isWidgetType()))
                     throw("Error while finding widget");
-                QString iconPath = QString::fromLocal8Bit(__FILE__);
-                QFileInfo iconInfo(iconPath);
-                QString iconDirectory = iconInfo.absolutePath() + "/ICons/Logo/spritesLogo.jpeg";
-                QString avatarDirectory = iconInfo.absolutePath() + "/ICons/avatar.ico";
+                QFileInfo backgroundInfo(QDir::currentPath());
+                QString iconDirectory = fileInfo.dir().path() + "/messenger1/ICons/Logo/spritesLogo.jpeg";
+                QString avatarDirectory = fileInfo.dir().path() + "/messenger1/ICons/avatar.ico";
                 QFile iconFile(iconDirectory);
                 QFile profileFile(avatarDirectory);
 
@@ -627,9 +615,8 @@ void App::on_createJoinButton_clicked()
     if(createjoinWidget == nullptr){
         ui->createJoinButton->setText("Close");
         QUiLoader loader;
-        QString filePath = QString::fromLocal8Bit(__FILE__);    //__FILE__ is a macro
-        QFileInfo fileInfo(filePath);
-        QString sourceDirectory = fileInfo.absolutePath() + "/createjoin.ui";
+        QFileInfo fileInfo(QDir::currentPath());
+        QString sourceDirectory = fileInfo.dir().path() + "/messenger1/createjoin.ui";
 
         QFile file(sourceDirectory);
         try{
@@ -736,18 +723,16 @@ void App::on_changeProfilePictureButton_clicked(){
 
 void App::on_clearLocalFilesButton_clicked(){
     apiManager.Delete_All_Files();
-    QString iconPath = QString::fromLocal8Bit(__FILE__);
-    QFileInfo iconInfo(iconPath);
-    profilePath = iconInfo.absolutePath() + "/ICons/avatar.ico";
+    QFileInfo iconInfo(QDir::currentPath());
+    profilePath = iconInfo.dir().path() + "/messenger1/ICons/avatar.ico";
     QString empty = "";
     save_profile_path(empty);
 }
 
 void App::on_defaultThemeButton_clicked(){
     try{
-        QString iconPath = QString::fromLocal8Bit(__FILE__);
-        QFileInfo iconInfo(iconPath);
-        QString chatBackgroundDirectory = iconInfo.absolutePath() + "/ICons/backgrounds/chat-background.jpg";
+        QFileInfo iconInfo(QDir::currentPath());
+        QString chatBackgroundDirectory = iconInfo.dir().path() + "/messenger1/ICons/backgrounds/chat-background.jpg";
         QFile chatBackgroundIcon(chatBackgroundDirectory);
         if(!chatBackgroundIcon.exists())
             throw("Icon Not Found.");
@@ -765,9 +750,8 @@ void App::on_defaultThemeButton_clicked(){
 }
 void App::on_darkThemeButton_clicked(){
     try{
-        QString iconPath = QString::fromLocal8Bit(__FILE__);
-        QFileInfo iconInfo(iconPath);
-        QString chatBackgroundDirectory = iconInfo.absolutePath() + "/ICons/backgrounds/dark-chat-background.jpg";
+        QFileInfo iconInfo(QDir::currentPath());
+        QString chatBackgroundDirectory = iconInfo.dir().path() + "/messenger1/ICons/backgrounds/dark-chat-background.jpg";
         QFile chatBackgroundIcon(chatBackgroundDirectory);
         if(!chatBackgroundIcon.exists())
             throw("Icon Not Found.");
@@ -786,9 +770,8 @@ void App::on_darkThemeButton_clicked(){
 
 void App::on_lightThemeButton_clicked(){
     try{
-        QString iconPath = QString::fromLocal8Bit(__FILE__);
-        QFileInfo iconInfo(iconPath);
-        QString chatBackgroundDirectory = iconInfo.absolutePath() + "/ICons/backgrounds/light-chat-background.jpg";
+        QFileInfo iconInfo(QDir::currentPath());
+        QString chatBackgroundDirectory = iconInfo.dir().path() + "/messenger1/ICons/backgrounds/light-chat-background.jpg";
         QFile chatBackgroundIcon(chatBackgroundDirectory);
         if(!chatBackgroundIcon.exists())
             throw("Icon Not Found.");
