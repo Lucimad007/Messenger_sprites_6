@@ -793,16 +793,24 @@ void APIManager::onReplyFinished(QNetworkReply* reply)
             } else if(replyJson["message"].toString() == "Group Created Successfully"){
                 Group group = mainWindow->getApp()->getPendingGroup();
                 mainWindow->getApp()->addChatPrototype(group);
+                int number = mainWindow->getApp()->getNumberOfGroups().toInt() + 1;
+                mainWindow->getApp()->setNumberOfGroups(QString::number(number));
             } else if(replyJson["message"].toString() == "Channel Created Successfully"){
                 Channel channel = mainWindow->getApp()->getPendingChannel();
                 mainWindow->getApp()->addChatPrototype(channel);
+                int number = mainWindow->getApp()->getNumberOfChannels().toInt() + 1;
+                mainWindow->getApp()->setNumberOfChannels(QString::number(number));
             } else if(replyJson["message"].toString() == "Successfully Joined"){  //for both channel and group
                 if(mainWindow->getApp()->getCurrentPending() == CHANNEL){
                     Channel channel = mainWindow->getApp()->getPendingChannel();
                     mainWindow->getApp()->addChatPrototype(channel);
+                    int number = mainWindow->getApp()->getNumberOfChannels().toInt() + 1;
+                    mainWindow->getApp()->setNumberOfChannels(QString::number(number));
                 } else if(mainWindow->getApp()->getCurrentPending() == GROUP){
                     Group group = mainWindow->getApp()->getPendingGroup();
                     mainWindow->getApp()->addChatPrototype(group);
+                    int number = mainWindow->getApp()->getNumberOfGroups().toInt() + 1;
+                    mainWindow->getApp()->setNumberOfGroups(QString::number(number));
                 }
             } else if(replyJson["message"].toString().contains("You Are in") && replyJson["message"].toString().contains("Group")){
                 QJsonObject json = get_list_of_group();
