@@ -858,7 +858,6 @@ void APIManager::onReplyFinished(QNetworkReply* reply)
                 Message message = mainWindow->getApp()->getPendingMessage();
                 mainWindow->getApp()->addMessage(message);
             } else if(replyJson["message"].toString().contains("There Are") && replyJson["message"].toString().contains("Message")){   //for user/channel/group
-                //timer->stop();
                 qDebug() << replyJson <<  mainWindow->extractNumber(replyJson["message"].toString());
                 int diffrenece = mainWindow->extractNumber(replyJson["message"].toString()).toInt() - mainWindow->getApp()->getNumberOfMessages() + 2;
                 QString src,dst;
@@ -883,7 +882,6 @@ void APIManager::onReplyFinished(QNetworkReply* reply)
                 else if(where_flag == "group")
                     Write_group_floder(dst,replyJson);
                 }
-                //timer->start();
             } else {
             dialog = new ErrorDialog(nullptr,replyJson["code"].toString(),replyJson["message"].toString());
             dialog->show();

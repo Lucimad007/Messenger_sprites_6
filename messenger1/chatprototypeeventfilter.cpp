@@ -19,13 +19,12 @@ bool ChatPrototypeEventFilter::eventFilter(QObject* obj, QEvent* event){
             QLabel* typeLabel = obj->findChild<QLabel*>("typeLabel",Qt::FindChildrenRecursively);
             shownNameLabel->setText(prototypeNameLabel->text());
             shownTypeLabel->setText(typeLabel->text());
-            mainWindow->getApp()->clearChatArea();
-
+            QString type = typeLabel->text();
+            QString dstName = shownNameLabel->text();
+            mainWindow->getApp()->clearChatArea();   
 
             //if connected
             if(apiManager.getIsOnline()){
-                QString type = typeLabel->text();
-                QString dstName = shownNameLabel->text();
                 if(type == "user"){
                     apiManager.getUsersChat(dstName);
                 } else if(type == "channel"){
@@ -33,6 +32,30 @@ bool ChatPrototypeEventFilter::eventFilter(QObject* obj, QEvent* event){
                 } else if(type == "group"){
                     apiManager.getGroupChat(dstName);
                 }
+            } else {    //if disconnected
+                QJsonObject reply;
+                if(type == "user"){
+                    reply = apiManager.Read_user_folder(mainWindow->getCurrentUser().getUsername(),dstName);
+                    if(reply.isEmpty())
+                    reply = apiManager.Read_user_folder(dstName,mainWindow->getCurrentUser().getUsername());
+                } else if(type == "channel"){
+                    reply = apiManager.Read_channel_folder(dstName);
+                } else if(type == "group"){
+                    reply = apiManager.Read_group_folder(dstName);
+                }
+                QString src,dst;
+                for (auto it = reply.begin(); it != reply.end(); ++it) {
+                        if (it.key().startsWith("block")) {
+                            QJsonObject blockObject = it.value().toObject();
+                            QString body = blockObject.value("body").toString();
+                            src = blockObject.value("src").toString();
+                            dst = blockObject.value("dst").toString();
+                            User user(src,"","");   //it doesnt mather wether it is group or channel or user
+                            Message message(user,body);
+                            mainWindow->getApp()->addMessage(message);
+                            qDebug() << "Body:" << body;
+                        }
+                    }
             }
             //loading messages
 //            QString dstName = shownNameLabel->text();
